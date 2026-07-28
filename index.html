@@ -1,0 +1,1925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="florida">
+    <meta property="og:title" content="ADEPTUS ADMINISTRATUM :: DATASLATE TERMINUS">
+    <meta property="og:description" content="++ UNSANCTIONED ACCESS IS HERESY. THE MACHINE SPIRIT IS WATCHING. ++">
+    <meta property="og:color" content="#d8a33c">
+
+    <title>++ SEALED RECORD :: CYPHER LOCK ENGAGED ++</title>
+
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-database-compat.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=VT323&display=swap');
+
+        :root {
+            /* --- IMPERIAL PALETTE --- */
+            --terminal-color: #d8a33c;   /* Administratum gold - primary ink */
+            --bg-color: #0a0705;         /* Void black, warm */
+            --oxblood: #8c1c13;           /* Sealing wax / censure */
+            --parchment: #d9c9a3;         /* Vellum */
+            --deep-panel: rgba(12, 9, 6, 0.86);
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--terminal-color);
+            font-family: 'VT323', 'Fixedsys', monospace;
+            height: 100%;
+            overflow: hidden;
+            text-transform: uppercase;
+            user-select: none;
+        }
+
+        /* --- DATASLATE BACKPLATE ---
+           Drop your datapad image in as 'datapad_bg.png' next to this file.
+           If it is missing the gothic gradient below carries the page. */
+        #backplate {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #0a0705;
+            background-image:
+                radial-gradient(ellipse at 50% 30%, rgba(216,163,60,0.10) 0%, rgba(0,0,0,0) 60%),
+                linear-gradient(160deg, #12100c 0%, #0a0705 45%, #140b07 100%),
+                url('datapad_bg.png');
+            background-size: cover, cover, cover;
+            background-position: center, center, center;
+            background-repeat: no-repeat;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Darkening wash so the plate never fights the text */
+        #backplate::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(6, 4, 3, 0.62);
+        }
+
+        /* --- CUSTOM SCROLLBARS --- */
+        .custom-scroll::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        .custom-scroll::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.6);
+            border-left: 1px solid var(--terminal-color);
+        }
+
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: var(--terminal-color);
+        }
+
+        /* --- COGITATOR SCREEN EFFECTS --- */
+        body::before {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: radial-gradient(circle, rgba(0,0,0,0) 45%, rgba(0,0,0,0.72) 100%);
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        body::after {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.35) 50%),
+                        linear-gradient(90deg, rgba(255, 90, 0, 0.05), rgba(216, 163, 60, 0.04), rgba(0, 60, 255, 0.05));
+            z-index: 99;
+            background-size: 100% 3px, 3px 100%;
+            pointer-events: none;
+            animation: scanlineScroll 15s linear infinite;
+        }
+
+        @keyframes scanlineScroll {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 100vh; }
+        }
+
+        #master-wrapper {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            z-index: 3;
+            animation: crtJitter 7s infinite, severeGlitch 45s infinite;
+        }
+
+        @keyframes crtJitter {
+            0%, 10% { transform: translate(0,0); }
+            10.5% { transform: translate(-0.5px, 0.5px); }
+            11% { transform: translate(0.5px, -0.5px); }
+            11.5% { transform: translate(0,0); }
+            100% { transform: translate(0,0); }
+        }
+
+        @keyframes severeGlitch {
+            0%, 85% { filter: none; transform: translate(0,0); }
+            86% { filter: drop-shadow(4px 0 rgba(140,28,19,0.9)) drop-shadow(-4px 0 rgba(0,80,255,0.8)); transform: translate(1px, 0); }
+            87% { filter: drop-shadow(-4px 0 rgba(140,28,19,0.9)) drop-shadow(4px 0 rgba(0,80,255,0.8)); transform: translate(-1px, 0); }
+            88% { filter: drop-shadow(6px 0 rgba(140,28,19,1)) drop-shadow(-6px 0 rgba(0,80,255,1)); transform: translate(2px, 0); }
+            89% { filter: drop-shadow(-4px 0 rgba(140,28,19,0.9)) drop-shadow(4px 0 rgba(0,80,255,0.8)); transform: translate(-1px, 0); }
+            90% { filter: none; transform: translate(0,0); }
+            100% { filter: none; transform: translate(0,0); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            #master-wrapper { animation: none; }
+            body::after { animation: none; }
+            .addendum-box, .crimson-alert, #admin-panel-btn, #lockout-screen { animation: none !important; }
+        }
+
+        /* --- UI FURNITURE --- */
+        #sys-info {
+            position: absolute;
+            top: 1rem;
+            left: 2rem;
+            z-index: 11;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            text-shadow: 0 0 6px rgba(216,163,60,0.7);
+        }
+
+        #theme-selector {
+            position: absolute;
+            top: 1rem;
+            right: 2rem;
+            z-index: 11;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .theme-btn {
+            background: rgba(0,0,0,0.5);
+            border: 1px solid var(--terminal-color);
+            color: var(--terminal-color);
+            font-family: 'Cinzel', serif;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            padding: 4px 8px;
+            text-transform: uppercase;
+        }
+
+        .theme-btn:hover, .theme-btn:focus-visible {
+            background: var(--terminal-color);
+            color: var(--bg-color);
+            outline: none;
+        }
+
+        #music-player {
+            position: absolute;
+            bottom: 2rem;
+            left: 2rem;
+            z-index: 11;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            background: var(--deep-panel);
+            padding: 10px 15px;
+            border: 1px solid var(--terminal-color);
+            min-width: 250px;
+            box-shadow: 0 0 18px rgba(0,0,0,0.9);
+        }
+
+        #song-title {
+            font-size: 1.1rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            border-bottom: 1px dashed var(--terminal-color);
+            padding-bottom: 5px;
+        }
+
+        .music-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .music-btn {
+            background: none;
+            border: 1px solid var(--terminal-color);
+            color: var(--terminal-color);
+            font-family: inherit;
+            cursor: pointer;
+            padding: 2px 8px;
+            text-transform: uppercase;
+        }
+
+        .music-btn:hover, .music-btn:focus-visible {
+            background: var(--terminal-color);
+            color: var(--bg-color);
+            outline: none;
+        }
+
+        input[type=range] {
+            accent-color: var(--terminal-color);
+            cursor: pointer;
+        }
+
+        /* --- AUTHENTICATION (RITE OF ACCESS) --- */
+        #auth-screen {
+            display: flex;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 50;
+            background: rgba(6,4,3,0.94);
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-shadow: 0 0 6px rgba(216,163,60,0.6);
+            font-size: 1.5rem;
+        }
+
+        .auth-box {
+            border: 2px solid var(--terminal-color);
+            padding: 2rem;
+            width: 400px;
+            max-width: 88vw;
+            background: rgba(0,0,0,0.85);
+            box-shadow: 0 0 40px rgba(0,0,0,0.9), inset 0 0 30px rgba(216,163,60,0.06);
+            position: relative;
+        }
+
+        /* Corner ornaments - engraved rivet marks */
+        .auth-box::before, .auth-box::after {
+            content: "";
+            position: absolute;
+            width: 14px; height: 14px;
+            border: 1px solid var(--terminal-color);
+            opacity: 0.7;
+        }
+        .auth-box::before { top: 6px; left: 6px; border-right: none; border-bottom: none; }
+        .auth-box::after { bottom: 6px; right: 6px; border-left: none; border-top: none; }
+
+        .rite-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            letter-spacing: 4px;
+            text-align: center;
+            margin-bottom: 0.4rem;
+        }
+
+        .rite-sub {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            text-transform: none;
+            font-size: 1rem;
+            text-align: center;
+            opacity: 0.75;
+            margin-bottom: 1.8rem;
+        }
+
+        .auth-input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--terminal-color);
+            color: var(--terminal-color);
+            font-family: 'VT323', monospace;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .auth-input:focus-visible { border-bottom: 2px solid var(--terminal-color); }
+
+        .auth-btn {
+            width: 100%;
+            background: var(--terminal-color);
+            color: var(--bg-color);
+            border: none;
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+            font-size: 1.1rem;
+            letter-spacing: 3px;
+            cursor: pointer;
+            padding: 12px;
+            text-transform: uppercase;
+            margin-top: 10px;
+        }
+
+        .auth-btn:hover, .auth-btn:focus-visible {
+            background: transparent;
+            color: var(--terminal-color);
+            box-shadow: inset 0 0 0 1px var(--terminal-color);
+            outline: none;
+        }
+
+        /* --- ADMIN MODAL --- */
+        .modal {
+            display: none;
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            max-width: 800px;
+            max-height: 80vh;
+            background: var(--deep-panel);
+            border: 2px solid var(--terminal-color);
+            z-index: 250;
+            padding: 2rem;
+            overflow-y: auto;
+            text-shadow: 0 0 5px rgba(216,163,60,0.5);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        table.score-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        table.score-table th, table.score-table td {
+            border: 1px solid var(--terminal-color);
+            padding: 6px 8px;
+            text-align: left;
+            font-size: 1rem;
+            vertical-align: top;
+        }
+
+        table.score-table th {
+            font-family: 'Cinzel', serif;
+            font-size: 0.72rem;
+            letter-spacing: 2px;
+            background: rgba(216,163,60,0.10);
+            white-space: nowrap;
+        }
+
+        .admin-del-btn {
+            background: var(--oxblood);
+            color: #f2e6cf;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 1rem;
+            padding: 5px 10px;
+        }
+
+        #admin-panel-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 200;
+            background: var(--oxblood);
+            color: #f2e6cf;
+            border: 2px solid #f2e6cf;
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            padding: 10px 15px;
+            display: none;
+            animation: slowBlink 2s infinite;
+        }
+
+        /* --- PRE-BOOT / BOOT --- */
+        #pre-boot {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 40;
+            background: rgba(6,4,3,0.94);
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            text-shadow: 0 0 6px rgba(216,163,60,0.6);
+        }
+
+        #boot-sequence {
+            display: none;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            font-size: 1.3rem;
+            line-height: 1.5;
+            text-shadow: 0 0 6px rgba(216,163,60,0.5);
+        }
+
+        /* --- CYPHER LOCK (minigame) --- */
+        #terminal-container {
+            display: none;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-shadow: 0 0 6px rgba(216,163,60,0.5);
+            font-size: 1.3rem;
+            margin-top: 30px;
+        }
+
+        .header {
+            margin-bottom: 1.5rem;
+            line-height: 1.35;
+        }
+
+        .header .machine-name {
+            font-family: 'Cinzel', serif;
+            font-size: 1.05rem;
+            letter-spacing: 3px;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .attempts {
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+
+        #game-area {
+            display: flex;
+            gap: 3rem;
+        }
+
+        .column {
+            flex: 1;
+            line-height: 1.3;
+            letter-spacing: 2px;
+            white-space: pre;
+        }
+
+        .word, .bracket, .char {
+            cursor: pointer;
+            transition: 0s;
+        }
+
+        .word:hover:not(.dud), .bracket:hover, .char:hover {
+            background-color: var(--terminal-color);
+            color: var(--bg-color);
+        }
+
+        .dud {
+            opacity: 0.45;
+            pointer-events: none;
+        }
+
+        .hex-egg { cursor: pointer; }
+
+        .hex-egg:hover {
+            background-color: var(--terminal-color);
+            color: var(--bg-color);
+        }
+
+        #output-log {
+            margin-top: 2rem;
+            border-top: 1px solid var(--terminal-color);
+            padding-top: 1rem;
+            height: 120px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .log-entry { margin: 0; }
+
+        /* --- TRANSITION --- */
+        #transition-screen {
+            display: none;
+            padding: 2rem;
+            max-width: 640px;
+            margin: 15vh auto 0 auto;
+            text-shadow: 0 0 6px rgba(216,163,60,0.5);
+            font-size: 1.4rem;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .litany {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            text-transform: none;
+            font-size: 1.15rem;
+            opacity: 0.8;
+            margin-top: 1.2rem;
+        }
+
+        #progress-bar-container {
+            width: 100%;
+            border: 2px solid var(--terminal-color);
+            height: 30px;
+            margin-top: 2rem;
+            padding: 2px;
+            box-sizing: border-box;
+        }
+
+        #progress-bar {
+            width: 0%;
+            height: 100%;
+            background-color: var(--terminal-color);
+            transition: width 0.1s linear;
+        }
+
+        /* --- THE DOSSIER --- */
+        #document-container {
+            display: none;
+            padding: 2.5rem 2.5rem 120px 2.5rem;
+            max-width: 920px;
+            margin: 0 auto;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            height: 92vh;
+            overflow-y: auto;
+            user-select: text;
+            text-transform: none;
+            background: linear-gradient(180deg, rgba(10,7,5,0.90) 0%, rgba(10,7,5,0.84) 100%);
+            border-left: 1px solid rgba(216,163,60,0.35);
+            border-right: 1px solid rgba(216,163,60,0.35);
+            box-shadow: 0 0 60px rgba(0,0,0,0.85);
+        }
+
+        #document-container p {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.18rem;
+            text-align: justify;
+            margin: 0.8rem 0;
+        }
+
+        .doc-header {
+            text-align: center;
+            border-bottom: 2px solid var(--terminal-color);
+            margin-bottom: 2rem;
+            padding-bottom: 1.2rem;
+        }
+
+        .doc-header h1 {
+            font-family: 'Cinzel', serif;
+            font-weight: 900;
+            font-size: 1.6rem;
+            letter-spacing: 5px;
+            margin: 0.6rem 0 0.2rem 0;
+            text-transform: uppercase;
+        }
+
+        .doc-header .file-no {
+            font-family: 'VT323', monospace;
+            font-size: 1.15rem;
+            letter-spacing: 2px;
+            opacity: 0.85;
+        }
+
+        .doc-header .rank-line {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 1.15rem;
+            opacity: 0.8;
+            text-transform: none;
+        }
+
+        .seal-mark {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 8px auto;
+            display: block;
+        }
+
+        .seal-mark path, .seal-mark circle, .seal-mark line, .seal-mark rect {
+            stroke: var(--terminal-color);
+            fill: none;
+        }
+
+        .doc-section-title {
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+            letter-spacing: 4px;
+            font-size: 0.95rem;
+            background: var(--terminal-color);
+            color: var(--bg-color);
+            padding: 4px 14px;
+            display: inline-block;
+            margin-top: 2.2rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .terminal-img {
+            max-width: 100%;
+            height: auto;
+            border: 2px solid var(--terminal-color);
+            margin: 10px 0;
+            opacity: 0.9;
+            display: block;
+        }
+
+        .img-grid {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        /* Placeholder shown when a pict-capture file is absent */
+        .pict-missing {
+            border: 2px dashed var(--terminal-color);
+            min-width: 220px;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.95rem;
+            opacity: 0.6;
+            text-transform: uppercase;
+            box-sizing: border-box;
+        }
+
+        /* Dark Heresy characteristic blocks */
+        .special-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 1rem;
+        }
+
+        .special-stat {
+            border: 1px solid var(--terminal-color);
+            padding: 6px 14px;
+            text-align: center;
+            font-family: 'Cinzel', serif;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            min-width: 46px;
+        }
+
+        .special-stat span {
+            display: block;
+            font-family: 'VT323', monospace;
+            font-size: 1.6rem;
+            letter-spacing: 0;
+            font-weight: bold;
+        }
+
+        /* Requisition ledger */
+        .thrones-total {
+            font-family: 'Cinzel', serif;
+            letter-spacing: 3px;
+            font-size: 0.85rem;
+            border-top: 1px solid var(--terminal-color);
+            padding-top: 8px;
+            margin-top: 6px;
+            text-align: right;
+        }
+
+        /* --- SIGNATURE ELEMENT: THE PURITY SEAL --- */
+        .purity-seal {
+            position: relative;
+            border-left: 3px solid var(--oxblood);
+            background: rgba(140, 28, 19, 0.09);
+            padding: 16px 20px 16px 26px;
+            margin: 20px 0;
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 1.12rem;
+            text-transform: none;
+            text-align: justify;
+        }
+
+        .purity-seal::before {
+            content: "";
+            position: absolute;
+            left: -13px;
+            top: 18px;
+            width: 20px;
+            height: 20px;
+            background: var(--oxblood);
+            border-radius: 50% 50% 45% 55% / 55% 45% 55% 45%;
+            box-shadow: 0 0 8px rgba(140,28,19,0.8);
+        }
+
+        .seal-tag {
+            display: block;
+            font-family: 'Cinzel', serif;
+            font-style: normal;
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            opacity: 0.85;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        /* Vox log entries - the character's own voice */
+        .vox-log {
+            border-left: 2px solid rgba(216,163,60,0.4);
+            padding: 4px 0 4px 18px;
+            margin: 14px 0;
+        }
+
+        .vox-log .vox-slug {
+            display: block;
+            font-family: 'VT323', monospace;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            opacity: 0.7;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .vox-log p {
+            margin: 0.5rem 0;
+        }
+
+        .addendum-box {
+            border: 2px dashed var(--terminal-color);
+            padding: 15px;
+            margin: 18px 0;
+            animation: slowBlink 4s infinite;
+            text-align: justify;
+        }
+
+        @keyframes slowBlink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.55; }
+        }
+
+        .crimson-alert {
+            color: #c8402f !important;
+            text-shadow: 0 0 6px rgba(200,64,47,0.7) !important;
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            letter-spacing: 3px;
+            animation: fadeBlink 2.5s ease-in-out infinite;
+            font-weight: 600;
+            display: block;
+            text-align: center;
+            margin: 18px 0;
+            text-transform: uppercase;
+        }
+
+        @keyframes fadeBlink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.35; }
+        }
+
+        /* Interactive redactions */
+        .redact-block {
+            cursor: pointer;
+            color: var(--terminal-color);
+            background-color: var(--terminal-color);
+            padding: 3px 8px;
+            transition: 0.2s;
+            display: inline-block;
+            margin: 5px 0;
+            font-family: 'VT323', monospace;
+            font-size: 1.05rem;
+        }
+
+        .redact-block:hover { opacity: 0.7; }
+
+        .redact-hidden { display: none; }
+
+        .redact-revealed {
+            text-decoration: underline dashed var(--terminal-color);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            text-transform: none;
+        }
+
+        /* Scribe's transcription slip - the OOC block */
+        .scribe-slip {
+            border: 1px solid rgba(216,163,60,0.5);
+            background: rgba(216,163,60,0.05);
+            padding: 12px 18px;
+            margin-bottom: 1.5rem;
+            font-family: 'VT323', monospace;
+            font-size: 1.05rem;
+            letter-spacing: 1px;
+            columns: 2;
+            column-gap: 30px;
+        }
+
+        .scribe-slip div { break-inside: avoid; }
+
+        /* --- LOCKOUT --- */
+        #lockout-screen {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(6,4,3,0.96);
+            z-index: 70;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            font-size: 2rem;
+            text-shadow: 0 0 12px rgba(216,163,60,0.6);
+            animation: slowBlink 2s infinite;
+        }
+
+        #lockout-screen .lock-head {
+            font-family: 'Cinzel', serif;
+            font-weight: 900;
+            letter-spacing: 6px;
+            font-size: 1.7rem;
+            color: #c8402f;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 900px) {
+            #game-area { flex-direction: column; gap: 1rem; }
+            #terminal-container > div { flex-direction: column !important; gap: 1.5rem !important; }
+            #live-scoreboard { flex: 1 1 auto !important; }
+            #sys-info { position: static; padding: 1rem 1rem 0 1rem; }
+            #theme-selector { position: static; padding: 0.5rem 1rem; justify-content: flex-start; }
+            #music-player { position: static; margin: 1rem; }
+            #document-container { padding: 1.2rem 1.2rem 120px 1.2rem; height: 88vh; }
+            .scribe-slip { columns: 1; }
+            body, html { overflow: auto; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="backplate"></div>
+
+<audio id="bg-music"></audio>
+
+<div id="master-wrapper">
+
+    <div id="sys-info">
+        IMPERIAL DATE: <span id="clock-display"></span><br>
+        VOX RELAY: <span id="ip-display"></span>
+    </div>
+
+    <div id="theme-selector">
+        <button class="theme-btn" onclick="setTheme('#d8a33c'); sfxClick();">Administratum</button>
+        <button class="theme-btn" onclick="setTheme('#c1440e'); sfxClick();">Mechanicus</button>
+        <button class="theme-btn" onclick="setTheme('#c8402f'); sfxClick();">Inquisition</button>
+        <button class="theme-btn" onclick="setTheme('#5aa6c8'); sfxClick();">Navis Nobilite</button>
+        <button class="theme-btn" onclick="setTheme('#1ae23b'); sfxClick();">Cogitator</button>
+    </div>
+
+    <div id="music-player">
+        <div id="song-title">AWAITING VOX FEED...</div>
+
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px; font-size: 0.9rem;">
+            <span id="track-current-time">0:00</span>
+            <input type="range" id="track-progress" min="0" max="100" step="0.1" value="0" style="flex: 1;" title="Seek">
+            <span id="track-total-time">0:00</span>
+        </div>
+
+        <div class="music-controls">
+            <button class="music-btn" id="play-pause-btn" onclick="togglePlay()">PLAY</button>
+            <button class="music-btn" onclick="skipTrack()">SKIP</button>
+            <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5" oninput="changeVolume(this.value)" title="Volume">
+        </div>
+    </div>
+
+    <button id="admin-panel-btn" onclick="openAdminPanel()">EXPUNGE RECORDS</button>
+
+    <div id="auth-screen">
+        <div class="auth-box">
+            <div class="rite-title">Rite of Access</div>
+            <div class="rite-sub">&mdash; Speak thy name unto the machine &mdash;</div>
+            <div>DESIGNATION:</div>
+            <input type="text" id="auth-user" class="auth-input" autocomplete="off" maxlength="15">
+            <div>CYPHER:</div>
+            <input type="password" id="auth-pass" class="auth-input">
+            <button class="auth-btn" onclick="handleLogin()">Invoke</button>
+            <div id="auth-err" style="color: #c8402f; margin-top: 10px; font-size: 1rem; text-align: center;"></div>
+        </div>
+    </div>
+
+    <div id="admin-modal" class="modal custom-scroll">
+        <div class="modal-close" onclick="document.getElementById('admin-modal').style.display='none'">[X]</div>
+        <h2 style="color: #c8402f; font-family: 'Cinzel', serif; letter-spacing: 3px;">ADEPTUS OVERRIDE &mdash; RECORD EXPUNGEMENT</h2>
+        <table class="score-table">
+            <thead>
+                <tr>
+                    <th>SUPPLICANT</th>
+                    <th>ACTION</th>
+                </tr>
+            </thead>
+            <tbody id="admin-body"></tbody>
+        </table>
+    </div>
+
+    <div id="pre-boot">
+        <span class="crimson-alert" style="margin: 0;">++ ROUSING THE MACHINE SPIRIT. STAND BY. ++</span>
+    </div>
+
+    <div id="boot-sequence"></div>
+
+    <div id="lockout-screen">
+        <div class="lock-head">++ SANCTION ENFORCED ++</div>
+        <div style="font-size: 1.3rem; margin-top: 14px;">THE MACHINE SPIRIT HAS TAKEN OFFENCE</div>
+        <div style="font-size: 1.1rem; margin-top: 6px; opacity: 0.75;">SUMMON AN ENGINSEER OR WAIT OUT THE PENANCE</div>
+        <div id="lockout-timer" style="margin-top: 22px;"></div>
+    </div>
+
+    <div id="transition-screen">
+        <div style="margin-bottom: 1rem; font-family: 'Cinzel', serif; letter-spacing: 4px; font-size: 1.1rem;">CYPHER ACCEPTED &mdash; SEAL BROKEN</div>
+        <div id="transition-text">UNBINDING ARCHIVE STRATA...</div>
+        <div id="progress-bar-container"><div id="progress-bar"></div></div>
+        <div class="litany">"Blessed is the mind too small for doubt. Grant this engine sight, and let the record speak."</div>
+    </div>
+
+    <div id="terminal-container">
+        <div style="display: flex; gap: 3rem; align-items: flex-start;">
+
+            <div id="live-scoreboard" style="flex: 0 0 320px;">
+                <div style="border-bottom: 2px solid var(--terminal-color); padding-bottom: 5px; margin-bottom: 10px; font-family: 'Cinzel', serif; font-size: 0.85rem; letter-spacing: 3px;">
+                    ROLL OF SUPPLICANTS
+                </div>
+                <div style="max-height: 500px; overflow-y: auto; padding-right: 5px;" class="custom-scroll">
+                    <table class="score-table">
+                        <thead>
+                            <tr>
+                                <th>NAME</th>
+                                <th>TIME(s)</th>
+                                <th>SANCT</th>
+                                <th>PURGE</th>
+                            </tr>
+                        </thead>
+                        <tbody id="scoreboard-body"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="game-main" style="flex: 1;">
+                <div class="header">
+                    <span class="machine-name">ADEPTUS ADMINISTRATUM &mdash; SEALED ARCHIVE COGITATOR MK. VII</span>
+                    SANCTIONED PATTERN. CALIXIS SECTOR SUB-ARCHIVE.<br>
+                    <span onclick="adminBypass()" style="cursor: default;">-Vault Node 1-</span><br>
+                    SUPPLICANT: <span id="display-username"></span><br><br>
+                    CYPHER GRADE: <span style="color:#c8402f;">SANCTIONED &mdash; SEVERE</span><br>
+                    SPEAK THE TRUE WORD
+                </div>
+                <div class="attempts" id="attempts-display"></div>
+                <div id="game-area">
+                    <div class="column" id="col1"></div>
+                    <div class="column" id="col2"></div>
+                </div>
+                <div id="output-log"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="document-container" class="custom-scroll">
+
+        <div class="doc-header">
+            <svg class="seal-mark" viewBox="0 0 200 200" aria-hidden="true">
+                <circle cx="100" cy="100" r="88" stroke-width="11" stroke-dasharray="9 13"/>
+                <circle cx="100" cy="100" r="74" stroke-width="2"/>
+                <circle cx="100" cy="100" r="68" stroke-width="1" opacity="0.6"/>
+                <path d="M100 42 L100 154" stroke-width="6"/>
+                <path d="M64 70 L136 70" stroke-width="6"/>
+                <path d="M78 96 L122 96" stroke-width="4"/>
+                <path d="M100 154 L88 138 L112 138 Z" stroke-width="3"/>
+                <path d="M64 70 C 40 78, 34 100, 44 118" stroke-width="3"/>
+                <path d="M136 70 C 160 78, 166 100, 156 118" stroke-width="3"/>
+            </svg>
+            <h1>Crew Manifest &mdash; Attestation of Service</h1>
+            <div class="file-no">RECORD CLX/VAX-2517-B &nbsp;&bull;&nbsp; RIGHT OF TRADE, DYNASTY HOLDING</div>
+            <div class="rank-line">Filed under the Warrant. Abhuman intake, retained by the Lord-Captain's leave.</div>
+        </div>
+
+        <div class="scribe-slip">
+            <div>SUPPLICANT VOX-TAG: FROGFLAME</div>
+            <div>PILGRIM SIGIL: [ &mdash; ]</div>
+            <div>SLOT PETITIONED: NONE</div>
+            <div>PRIOR SERVICE ON RECORD: NO</div>
+        </div>
+
+        <div class="doc-section-title">I &mdash; Identification</div>
+        <table class="score-table">
+            <tr>
+                <th>NAME</th>
+                <td>Anura Croix</td>
+                <th>STRAIN</th>
+                <td>Abhuman [Beastfolk]</td>
+            </tr>
+            <tr>
+                <th>WORLD OF ORIGIN</th>
+                <td>Vaxanide &mdash; Vaxanhive Underhive</td>
+                <th>SECTOR</th>
+                <td>Calixis</td>
+            </tr>
+            <tr>
+                <th>SEX</th>
+                <td>Female</td>
+                <th>AGE</th>
+                <td>25 Terran standard</td>
+            </tr>
+            <tr>
+                <th>PRIOR POSTING</th>
+                <td>Scintillan Fusiliers &mdash; auxilia labour &amp; battlefield medicae</td>
+                <th>TENURE</th>
+                <td>Approx. 1 standard year, records incomplete</td>
+            </tr>
+            <tr>
+                <th colspan="4">SANCTIONED STANDING</th>
+            </tr>
+            <tr>
+                <td colspan="4">Abhuman strain recognised under Imperial sufferance. Retained for medicae utility. No writ of censure on file at time of transcription.</td>
+            </tr>
+        </table>
+
+        <div class="img-grid">
+            <img src="portrait_1.png" alt="Pict-capture, full profile" class="terminal-img" style="max-width: 400px;"
+                 onerror="markPictMissing(this, 'PICT-CAPTURE 01 ABSENT<br>DROP portrait_1.png BESIDE index.html');">
+            <img src="portrait_2.png" alt="Pict-capture, detail" class="terminal-img" style="max-width: 300px;"
+                 onerror="markPictMissing(this, 'PICT-CAPTURE 02 ABSENT<br>DROP portrait_2.png BESIDE index.html');">
+        </div>
+
+        <div class="doc-section-title">II &mdash; Physical Assessment</div>
+        <table class="score-table">
+            <tr>
+                <th>HEIGHT</th>
+                <td>6&rsquo;3&rdquo; &mdash; 6&rsquo;6&rdquo; at full leg extension</td>
+                <th>MASS</th>
+                <td>81&ndash;85 kg</td>
+            </tr>
+            <tr>
+                <th>EYES</th>
+                <td>Cloudy blue</td>
+                <th>HAIR</th>
+                <td>Light brown</td>
+            </tr>
+            <tr>
+                <th>GROOMING</th>
+                <td colspan="3">Worn in a regulation military bun, parted to sit clear of the antler bases.</td>
+            </tr>
+        </table>
+
+        <p>Thin of frame for her height. The profile is broadly humanoid save for the keratin growths rising from the skull to form a set of antlers &mdash; uncommon among beastfolk strains, though not unheard of. The lower body is digitigrade in bone structure and heavily furred, brown in colour, matching the rest of her body hair. The legs terminate in a pair of keratinous hooves rather than feet.</p>
+
+        <p>The increased muscle and tendon strength in the legs makes her exceptional over long distance at speed, and lends her a standing leap somewhat beyond an unaugmented human. The same structure makes her an abysmal climber on tall or steep terrain, a deficiency the leaping partially offsets.</p>
+
+        <div class="special-grid">
+            <div class="special-stat">WS<span>##</span></div>
+            <div class="special-stat">BS<span>##</span></div>
+            <div class="special-stat">S<span>##</span></div>
+            <div class="special-stat">T<span>##</span></div>
+            <div class="special-stat">Ag<span>##</span></div>
+            <div class="special-stat">Int<span>##</span></div>
+            <div class="special-stat">Per<span>##</span></div>
+            <div class="special-stat">WP<span>##</span></div>
+            <div class="special-stat">Fel<span>##</span></div>
+        </div>
+
+        <div class="doc-section-title">III &mdash; Requisition &amp; Wargear</div>
+        <table class="score-table">
+            <tr>
+                <th>ITEM</th>
+                <th>COST</th>
+                <th>NOTATION</th>
+            </tr>
+            <tr>
+                <td>M35 &ldquo;M-Galaxy&rdquo; Pattern Lasgun</td>
+                <td>3 Thrones</td>
+                <td>Far more familiar with the severely outdated Mars Pattern Mark II, kept in stockpile purely for cheapness. The newer universal standard, long since routine to other regiments, is a recent thing in her hands.</td>
+            </tr>
+            <tr>
+                <td>Chainmail [Modified]</td>
+                <td>2 Thrones</td>
+                <td>Thin thermal underlayer against chafe and cold, plain white undershirt and thin trousers over it. Cheaply produced chainmail leggings and hauberk above that &mdash; her only real armour. Draped over the whole, a drab red smock and worn leather shoulder pads bearing a simple unit insignia.</td>
+            </tr>
+            <tr>
+                <td>Medical Kit</td>
+                <td>3 Thrones</td>
+                <td>A wooden crate lashed to her back with makeshift straps, emblazoned with the mark of the Officio Medicae. Whether it was properly requisitioned or simply taken is not established. Her comrades did not enquire while bleeding.</td>
+            </tr>
+        </table>
+        <div class="thrones-total">TOTAL LEVY &mdash; 8 THRONES</div>
+
+        <div class="doc-section-title">IV &mdash; Service Record</div>
+
+        <div class="purity-seal">
+            <span class="seal-tag">Preamble, transcribed verbatim</span>
+            &ldquo;The Imperium offers little pity to the unknown tides of trillions or even quadrillions that reside within its borders. Even less so that reside on the fringes or god-emperor forbid outside of its reach, yet the Imperium must march ever onward &mdash; labourers, nobles, warriors, outcast alike, we&rsquo;re all born to fill a role as a cog to be fitted somewhere in the endless expansion and maintenance of Humanity and its achievements.&rdquo;
+        </div>
+
+        <p>Unfortunately so, some cog positions spare you from the horrors of the wider world and universe more than others, and no lot in life is quite equal. Thus we find ourselves on the lowest rungs of living, situated at the furthest edges of the Calixis Sector, nestled on the frontier world of Vaxanide, buried under the towering habs and manufactorum facilities of the central Hive Vaxanhive. Deep within the underhive the undesirables, the unwanted, the outcast, and the worst of society find themselves left to fester and fend for themselves in some of the worst conditions possible.</p>
+
+        <p>To be born within the underhives is almost a near guarantee of a life of suffering. Even worse so is to be born here an Abhuman &mdash; the mutated vestiges and relatives of humanity, or those unlucky enough to be so genetically modified they can&rsquo;t even be considered properly <em>human</em> anymore. No matter the circumstance of how you came to be, no matter what purpose or role you may fulfill, your life from birth is immediately viewed as less than that of a true pure human. To most of those around you, you are nothing more than slave labour, cannon-fodder, or food for rats in the gutter.</p>
+
+        <p>It&rsquo;s because of these unfortunate coinciding facts of life that after years of being on the brink of constant starvation whilst enduring mandatory hard labour from the second you&rsquo;re able to barely hold a tool in your hand, that when the opportunity for a way out of the hive appears, those who just barely meet the requirements &mdash; or are at least human-looking enough to be accepted &mdash; jump at the chance to join the Guard. None the less the pride and joy of the Sector Capital Scintilla, the famous Scintillan Fusiliers. Naively unaware that you and your body are to be nothing more than cannon-fodder for the nobles of the regiment whilst you live, and a glorified sandbag for the frontlines when you inevitably perish.</p>
+
+        <div class="vox-log">
+            <span class="vox-slug">Vox-log entry &mdash; first</span>
+            <p>&ldquo;This is the shared tale of many I knew and of myself I suppose, yet here I remain unlike them. Perhaps out of luck or pity from whatever watches over our souls &mdash; whether it be the God-Emperor or something worse &mdash; my path diverged from the rest of my lot soon after we departed from the depths of the underhive we called home. We expected change, a better quality of life. We hoped this would be a new opportunity for all of us lucky enough to join up; after all, anything was better than the depravity and danger of the underhive in our minds. Unfortunately we were naive to the horrors and real dangers that lurk beyond the walls and habs of the Hive that we were born within.&rdquo;</p>
+        </div>
+
+        <div class="vox-log">
+            <span class="vox-slug">Vox-log entry &mdash; second</span>
+            <p>&ldquo;The Calixis Sector was plagued with a monumental amount of threats that we were all too soon to be introduced to. There is always a shortage of bodies on the frontlines and someone has to fill the position. Within two weeks of our departure I watched as gutter rats and &lsquo;friends&rsquo; I grew up around who had followed suit with me were whipped into shape to be proper &lsquo;soldiers&rsquo; of the Imperium at large. This training consisted mostly only of what could be found in the surface-level pages of the Guard Primer &mdash; not far off from the poor excuse of training that our noble counterparts received, with the exception of our equipment.</p>
+            <p>While they were afforded every luxury possible and the newest of wargear, we were made to make do: cheaply forged flak, leather padding, mass-produced primitive chainmail to layer underneath your garb, reclaimed and &lsquo;reserviced&rsquo; autoweapons and patterns of lasgun from long before our time. This was the standard of &lsquo;quality&rsquo; that we received. Not even spared the luxury of being allowed to wear and brandish the colours of House Vaxanide or House Hax into battle; instead we were fitted with drab red uniforms, the only good feature being the fact that if you were splattered in your comrades&rsquo; blood or your own you didn&rsquo;t have to be bothered to wash it out &mdash; if you lived long enough to clean it, that is.&rdquo;</p>
+        </div>
+
+        <div class="vox-log">
+            <span class="vox-slug">Vox-log entry &mdash; third</span>
+            <p>&ldquo;From that point onward our service began, and we followed along with the pride of Scintilla wherever they travelled, acting mostly as assistants and labourers still, as the Fusiliers sought out whatever battles brought them the most glory for the least amount of effort. For most of us this was still a blessing compared to the work in the manufactorums day and night, yet the looming threat of death and danger was never far off even with our relatively safe regimental travels and duties within the Calixis Sector.</p>
+            <p>Even with all their money not every fight could be avoided or cherry-picked to suit their preferences. There were still sieges prolonged by enemy forces and worlds to be protected at every waking hour, and if things ever seemed out of the nobles&rsquo; favour we were the first resource to be expended &mdash; bodies to be thrown at the problem till it was softened up enough for the nobles to mop up.&rdquo;</p>
+        </div>
+
+        <div class="vox-log">
+            <span class="vox-slug">Vox-log entry &mdash; fourth</span>
+            <p>&ldquo;Push forward. It&rsquo;s all I could do as I watched those I knew and &lsquo;trained&rsquo; with be gunned down in service of the Imperium, dying in place of high-born lords and nobles who watched and took pot shots from the rear lines as we cleared a path for their victories. Of course no glory or reward could be granted to beast and lowborn except the opportunity to fight once more and trudge through another day.</p>
+            <p>Other than that, I could count the number of opportunities and pieces of knowledge joining the Guard gave me on one hand: how to avoid dying the first minute into a firefight if possible; how to know when a fight is lost before it even reaches its end; how to fortify a trench or position with whatever is on hand; how to laugh even in the most awful of circumstances, even if it&rsquo;s laughing at how I could let myself end up in a situation; and last but not least, how to read and write. Thanks and praise to the highborn of our regiment for the last one I suppose &mdash; if they weren&rsquo;t so lazy as to need assistants to handle most of their simple forms or duties for them, I would probably not be able to write any of this down or understand more than a few basic written words.&rdquo;</p>
+        </div>
+
+        <div class="vox-log">
+            <span class="vox-slug">Vox-log entry &mdash; fifth</span>
+            <p>&ldquo;And as the number of faces I remembered from my original recruitment dwindled, all I noticed is that I kept getting better at scraping by and making it out of horrible situations. I even managed to pick up the skills to pull a couple of others through with me at times. I&rsquo;m certainly no trained professional, but being in combat so long you pick up a bit of medical knowledge to keep yourself and others from bleeding out or dying in a trench or battlefield. It&rsquo;s a suitable niche for me anyhow &mdash; I suppose most pure humans refuse to touch or be touched by a beastfolk or other abhumans out of prejudice, so someone has to take care of the rest of us.&rdquo;</p>
+        </div>
+
+        <div class="addendum-box">
+            <div class="redact-block" onclick="revealRedact(this)">[ &#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608; ARCHIVE STRATUM CORRUPT &mdash; TOUCH THE RUNE TO INTERROGATE ]</div>
+            <span class="redact-hidden">
+                A gap of roughly one standard year is present in the logged records. Cause of loss undetermined. Petition a servitor for maintenance, repair and restoration of these files at a later date; the stratum has been graded non-priority for emergency restoration.
+            </span>
+        </div>
+
+        <div class="vox-log">
+            <span class="vox-slug">Vox-log resumes &mdash; final entry on file</span>
+            <p>&ldquo;They say most in the Guard are lucky to make it past their first fifteen minutes. What does that say about me making it an entire year? Lucky me, I guess, although I don&rsquo;t think it bodes very well. The Sector usually has its fair share of important people moving through it all the time, especially inquisitors, and talk of rogue traders on their way through to the unknown stars. But something&rsquo;s been off recently. We&rsquo;ve had more people than usual hanging around the regiments, like they&rsquo;re watching and observing us for some reason or another unbeknownst to us.</p>
+            <p>I had a strange person approach me myself. They didn&rsquo;t mention much more than an offer &mdash; an offer to do more than work at the feet of noblemen till I die. To do something greater. It&rsquo;s tempting, but who knows. I could be in over my head.&rdquo;</p>
+        </div>
+
+        <div class="doc-section-title">V &mdash; Medicae &amp; Disposition</div>
+        <div class="crimson-alert">++ Attending scribes: this record is to be archived and Section V amended to DECEASED upon confirmed expiry of the individual described ++</div>
+        <table class="score-table">
+            <tr>
+                <th>PHYSICAL STATE</th>
+                <td>Serviceable. Chronic underfeeding in early life, no lasting deficit noted.</td>
+                <th>MENTAL STATE</th>
+                <td>Steady. Gallows humour recorded as a coping mechanism, not as instability.</td>
+            </tr>
+            <tr>
+                <th>COMPETENCIES</th>
+                <td>Battlefield medicae (self-taught), trench and position fortification, threat assessment, sustained running, literacy &mdash; acquired late.</td>
+                <th>DEFICIENCIES</th>
+                <td>Poor climber. No formal medical schooling. Treated with open prejudice by pure-human personnel, which limits her utility outside abhuman details.</td>
+            </tr>
+            <tr>
+                <th>LOYALTY</th>
+                <td>Assessed as standard.</td>
+                <th>WARP AFFINITY</th>
+                <td>None detected. Untested by sanctioned parties.</td>
+            </tr>
+        </table>
+
+        <div class="doc-section-title">VI &mdash; Sanction &amp; Recruitment</div>
+        <div class="crimson-alert">++ Unauthorised interrogation of this section is an offence against the Warrant ++</div>
+
+        <p>
+            <span class="redact-block" onclick="revealRedact(this)">[ &#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608; TERMS OF INTAKE SEALED &mdash; TOUCH THE RUNE TO INTERROGATE ]</span>
+            <span class="redact-hidden">
+                Subject approached at regimental muster by an agent operating under dynasty authority. Offer of transfer extended and accepted. Fusilier command raised no objection to the release of abhuman auxilia. Subject boarded under the Lord-Captain&rsquo;s leave with wargear intact, including one medicae crate of contested provenance. No further enquiry into the crate is to be minuted.
+            </span>
+        </p>
+
+        <div class="purity-seal">
+            <span class="seal-tag">Scribe&rsquo;s closing annotation</span>
+            She has outlived every name she arrived with. The Administratum records this not as merit but as fact, and the distinction is left to those who read after.
+        </div>
+
+        <br>
+        <div style="text-align: center; font-family: 'Cinzel', serif; letter-spacing: 6px; font-size: 0.9rem;">++ END OF RECORD ++</div>
+        <br><br>
+    </div>
+</div>
+
+<script>
+    // --- FIREBASE SETUP ---
+    const firebaseConfig = {
+        apiKey: "AIzaSyDmUZ5mw9QPZFjlgujcJF8lK0Hg5lxeDKg",
+        authDomain: "terminal-cracker-v2077.firebaseapp.com",
+        databaseURL: "https://terminal-cracker-v2077-default-rtdb.firebaseio.com",
+        projectId: "terminal-cracker-v2077",
+        storageBucket: "terminal-cracker-v2077.firebasestorage.app",
+        messagingSenderId: "772662562385",
+        appId: "1:772662562385:web:ce27ffa901d0413b94b270"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+
+    // Separate node from the old Fallout page so the two scoreboards do not collide.
+    const DB_USERS = 'dataslateUsers';
+
+    // --- TRACK LIST CONFIGURATION ---
+    const TRACK_LIST = [
+        "JANE - THE LONG FACES.mp3",
+        "STARSET - SOMETHING WICKED.mp3",
+        "STARSET - SYMBIOTIC.mp3",
+        "STARSET - ECHO.mp3"
+    ];
+
+    // Global audio dampener to ensure the maximum volume is 40% lower universally.
+    const VOLUME_MULTIPLIER = 0.6;
+
+    // Every entry must be exactly 12 characters for the cypher grid.
+    const wordPool = [
+        "EXTERMINATUS", "INQUISITIONS", "ABOMINATIONS", "CONSECRATION", "DESECRATIONS",
+        "PROSCRIPTION", "TRANSGRESSOR", "PENITENTIARY", "SANCTIFIABLE", "BENEDICTIONS",
+        "ASTRONOMICAN", "NAVIGATORIAL", "ROGUETRADERS", "GELLERFIELDS", "VOIDSHIELDED",
+        "MACROCANNONS", "SUBSECTORIAL", "PURIFICATION", "ANNIHILATION", "CATASTROPHIC"
+    ];
+
+    const GIBBERISH_CHARS = "!@#$%^&*()_+-=[]{}|;':\",./<>?";
+    const BRACKET_PAIRS = { '(': ')', '[': ']', '{': '}', '<': '>' };
+
+    const EASTER_EGG_LORE = [
+        "Munitorum tithe returns for Vaxanide are eleven standard years overdue.",
+        "Enginseer notation: the machine spirit of Vault Node 1 refuses the third litany.",
+        "Astropathic choir reports bleed-through. Two chorister deaths logged this cycle.",
+        "Fusilier quartermaster flagged one medicae crate as unaccounted. Matter closed.",
+        "Warrant of Trade acknowledged at the Lathe approaches. Escort declined.",
+        "Abhuman auxilia intake for this quarter: four hundred and six. Survivors: nine."
+    ];
+
+    // Application State Variables
+    let attempts = 4;
+    let logs = ["> AWAITING THE TRUE WORD..."];
+    let password = "";
+    let wordsOnBoard = [];
+    let lockoutInterval;
+    let currentUser = "";
+    let runStartTime = 0;
+    let dudsUsed = 0;
+    let loreIndices = [];
+
+    // --- IMPERIAL DATING ---
+    // Renders a rough Imperial-style timestamp beside real local time.
+    setInterval(() => {
+        const now = new Date();
+        const local = now.toLocaleTimeString('en-US', { hour12: false });
+        const startOfYear = new Date(now.getFullYear(), 0, 1);
+        const yearFraction = (now - startOfYear) / (1000 * 60 * 60 * 24 * 365.25);
+        const fractionMark = Math.floor(yearFraction * 1000).toString().padStart(3, '0');
+        const yearMark = (now.getFullYear() + 39000).toString();
+        document.getElementById('clock-display').innerText =
+            "0." + fractionMark + "." + yearMark.slice(-3) + ".M41 // " + local;
+    }, 1000);
+
+    document.getElementById('ip-display').innerText =
+        "VOX-" + Math.floor(Math.random() * 9999).toString().padStart(4, '0') +
+        "/" + Math.floor(Math.random() * 255) + "-" + Math.floor(Math.random() * 255);
+
+    // --- MISSING PICT PLACEHOLDER ---
+    window.markPictMissing = function(imgEl, msg) {
+        const slot = document.createElement('div');
+        slot.className = 'pict-missing';
+        slot.innerHTML = msg;
+        imgEl.replaceWith(slot);
+    }
+
+    // --- AUDIO & MUSIC ENGINE ---
+    let audioCtx;
+    let audioInitialized = false;
+
+    // Randomize initial track on load
+    let currentTrackIdx = Math.floor(Math.random() * TRACK_LIST.length);
+    const bgMusic = document.getElementById('bg-music');
+
+    window.formatSongName = function(filename) {
+        return filename.replace('.mp3', '').replace(/_/g, ' ').toUpperCase();
+    }
+
+    window.loadTrack = function(index) {
+        bgMusic.src = TRACK_LIST[index];
+        document.getElementById('song-title').innerText = "VOX FEED: " + formatSongName(TRACK_LIST[index]);
+        if (audioInitialized) {
+            bgMusic.play();
+            document.getElementById('play-pause-btn').innerText = "PAUSE";
+        }
+    }
+
+    window.togglePlay = function() {
+        sfxClick();
+        if (bgMusic.paused) {
+            bgMusic.play();
+            document.getElementById('play-pause-btn').innerText = "PAUSE";
+        } else {
+            bgMusic.pause();
+            document.getElementById('play-pause-btn').innerText = "PLAY";
+        }
+    }
+
+    window.skipTrack = function() {
+        sfxClick();
+        currentTrackIdx = (currentTrackIdx + 1) % TRACK_LIST.length;
+        loadTrack(currentTrackIdx);
+    }
+
+    // Adjusting for the global 40% reduction
+    window.changeVolume = function(val) {
+        bgMusic.volume = val * VOLUME_MULTIPLIER;
+    }
+
+    bgMusic.addEventListener('ended', skipTrack);
+
+    // --- TIMELINE SCRUBBER LOGIC ---
+    const trackProgress = document.getElementById('track-progress');
+    const trackCurrent = document.getElementById('track-current-time');
+    const trackTotal = document.getElementById('track-total-time');
+
+    function formatTime(sec) {
+        if (isNaN(sec)) return "0:00";
+        let m = Math.floor(sec / 60);
+        let s = Math.floor(sec % 60).toString().padStart(2, '0');
+        return `${m}:${s}`;
+    }
+
+    // Update the slider automatically as the song plays
+    bgMusic.addEventListener('timeupdate', () => {
+        if (bgMusic.duration) {
+            trackProgress.value = (bgMusic.currentTime / bgMusic.duration) * 100;
+            trackCurrent.innerText = formatTime(bgMusic.currentTime);
+            trackTotal.innerText = formatTime(bgMusic.duration);
+        }
+    });
+
+    // Let the user drag the slider to change the time
+    trackProgress.addEventListener('input', () => {
+        if (bgMusic.duration) {
+            bgMusic.currentTime = (trackProgress.value / 100) * bgMusic.duration;
+        }
+    });
+
+    window.playTone = function(freq, type, duration, vol) {
+        if (!audioCtx) return;
+        const osc = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gainNode.gain.setValueAtTime(vol, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+        osc.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+    }
+
+    // Tones pitched lower than the ROBCO set - this is a heavier, older machine.
+    window.sfxHover = function() { playTone(900, 'square', 0.05, 0.01); }
+    window.sfxClick = function() { playTone(520, 'square', 0.1, 0.05); }
+    window.sfxError = function() { playTone(110, 'sawtooth', 0.5, 0.11); }
+    window.sfxSuccess = function() {
+        playTone(300, 'sine', 0.12, 0.1);
+        setTimeout(() => playTone(450, 'sine', 0.12, 0.1), 110);
+        setTimeout(() => playTone(600, 'sine', 0.35, 0.1), 220);
+    }
+
+    function startHardwareHum() {
+        if (!audioCtx) return;
+        let humOsc = audioCtx.createOscillator();
+        let humGain = audioCtx.createGain();
+        humOsc.type = 'triangle';
+        humOsc.frequency.setValueAtTime(44, audioCtx.currentTime);
+        humGain.gain.setValueAtTime(0.018, audioCtx.currentTime);
+        humOsc.connect(humGain);
+        humGain.connect(audioCtx.destination);
+        humOsc.start();
+
+        setInterval(() => {
+            if (Math.random() > 0.8) {
+                playTone(900 + Math.random() * 1600, 'square', 0.02, 0.01);
+            }
+        }, 400);
+    }
+
+    // --- AUTHENTICATION & FIREBASE STORAGE ---
+    window.handleLogin = function() {
+        const u = document.getElementById('auth-user').value.trim().toUpperCase();
+        const p = document.getElementById('auth-pass').value;
+        const err = document.getElementById('auth-err');
+
+        if (u.length < 3 || p.length < 3) {
+            err.innerText = "THE MACHINE REJECTS A NAME SO SHORT (3+ CHARS)";
+            return;
+        }
+
+        const userRef = database.ref(DB_USERS + '/' + u);
+
+        userRef.once('value').then((snapshot) => {
+            if (snapshot.exists()) {
+                const userData = snapshot.val();
+                if (userData.pass === p) {
+                    executeLoginSuccess(u);
+                } else {
+                    err.innerText = "CYPHER DOES NOT MATCH THIS DESIGNATION";
+                }
+            } else {
+                userRef.set({
+                    pass: p, bestTime: 999999, lockouts: 0, dudsUsedBest: 999
+                }).then(() => {
+                    executeLoginSuccess(u);
+                });
+            }
+        });
+    }
+
+    function executeLoginSuccess(u) {
+        currentUser = u;
+        document.getElementById('display-username').innerText = u;
+        document.getElementById('auth-screen').style.display = 'none';
+        document.getElementById('pre-boot').style.display = 'flex';
+        initiateBootSequence();
+    }
+
+    function saveRunMetrics() {
+        if (!currentUser) return;
+        let runTime = Math.floor((Date.now() - runStartTime) / 1000);
+
+        const userRef = database.ref(DB_USERS + '/' + currentUser);
+        userRef.once('value').then((snapshot) => {
+            const profile = snapshot.val();
+            if (!profile) return;
+            if (runTime < profile.bestTime || profile.bestTime === 999999) {
+                userRef.update({
+                    bestTime: runTime,
+                    dudsUsedBest: dudsUsed
+                });
+            }
+        });
+    }
+
+    function recordLockout() {
+        if (!currentUser) return;
+        const userRef = database.ref(DB_USERS + '/' + currentUser);
+        userRef.once('value').then((snapshot) => {
+            const profile = snapshot.val();
+            if (!profile) return;
+            userRef.update({ lockouts: (profile.lockouts || 0) + 1 });
+        });
+    }
+
+    // --- SCOREBOARD LOGIC (Live Updating) ---
+    database.ref(DB_USERS).on('value', (snapshot) => {
+        let db = snapshot.val() || {};
+        let arr = [];
+        for (let user in db) {
+            arr.push({ name: user, time: db[user].bestTime, lockouts: db[user].lockouts, duds: db[user].dudsUsedBest });
+        }
+
+        arr.sort((a, b) => a.time - b.time || a.lockouts - b.lockouts || a.duds - b.duds);
+
+        let html = "";
+        arr.forEach(entry => {
+            let tDisplay = entry.time === 999999 ? "N/A" : entry.time;
+            let dDisplay = entry.duds === 999 ? "N/A" : entry.duds;
+            html += `<tr><td>${entry.name}</td><td>${tDisplay}</td><td>${entry.lockouts}</td><td>${dDisplay}</td></tr>`;
+        });
+        document.getElementById('scoreboard-body').innerHTML = html;
+
+        let adminHtml = "";
+        for (let user in db) {
+            adminHtml += `<tr><td>${user}</td><td><button class="admin-del-btn" onclick="deleteUser('${user}')">EXPUNGE</button></td></tr>`;
+        }
+        document.getElementById('admin-body').innerHTML = adminHtml;
+    });
+
+    // --- INTERACTIVE REDACTIONS ---
+    window.revealRedact = function(el) {
+        sfxClick();
+        el.style.display = 'none';
+        let hiddenContent = el.nextElementSibling;
+        hiddenContent.classList.remove('redact-hidden');
+        hiddenContent.classList.add('redact-revealed');
+    }
+
+    // --- BOOT SEQUENCE LOGIC ---
+    window.initiateBootSequence = function() {
+        if (audioInitialized) return;
+
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') { audioCtx.resume(); }
+
+        bgMusic.volume = document.getElementById('volume-slider').value * VOLUME_MULTIPLIER;
+        bgMusic.play().then(() => {
+            document.getElementById('play-pause-btn').innerText = "PAUSE";
+        }).catch(e => console.log("Vox feed blocked until interaction."));
+
+        audioInitialized = true;
+        startHardwareHum();
+
+        document.getElementById('pre-boot').style.display = 'none';
+        const bootDiv = document.getElementById('boot-sequence');
+        bootDiv.style.display = 'block';
+
+        const bootLines = [
+            "SEALED ARCHIVE COGITATOR MK. VII &mdash; SANCTIONED PATTERN",
+            "PROPERTY OF THE ADEPTUS ADMINISTRATUM, CALIXIS SUB-ARCHIVE",
+            "Anointing the reading heads...",
+            "Litany of Activation... spoken.",
+            "Litany of Awakening... spoken.",
+            "Machine spirit responsive. Temperament: SULLEN.",
+            "Binding to vault strata... 4 of 4 recovered.",
+            "Purity seals verified. One seal broken, unlogged.",
+            "Cypher lock engaged. Speak the true word."
+        ];
+
+        let lineIdx = 0;
+        function printBootLine() {
+            if (lineIdx < bootLines.length) {
+                bootDiv.innerHTML += bootLines[lineIdx] + "<br>";
+                playTone(700, 'square', 0.05, 0.02);
+                lineIdx++;
+                setTimeout(printBootLine, 200 + Math.random() * 400);
+            } else {
+                setTimeout(() => {
+                    bootDiv.style.display = 'none';
+                    document.getElementById('terminal-container').style.display = 'block';
+                    runStartTime = Date.now();
+                }, 800);
+            }
+        }
+        printBootLine();
+    }
+
+    window.setTheme = function(hex) {
+        document.documentElement.style.setProperty('--terminal-color', hex);
+    }
+
+    // --- LOCKOUT LOGIC ---
+    function enforceLockout(msLeft) {
+        document.getElementById('auth-screen').style.display = 'none';
+        document.getElementById('terminal-container').style.display = 'none';
+        document.getElementById('document-container').style.display = 'none';
+        document.getElementById('transition-screen').style.display = 'none';
+        document.getElementById('pre-boot').style.display = 'none';
+        document.getElementById('lockout-screen').style.display = 'flex';
+
+        let endTime = Date.now() + msLeft;
+        clearInterval(lockoutInterval);
+        lockoutInterval = setInterval(() => {
+            let left = endTime - Date.now();
+            if (left <= 0) {
+                clearInterval(lockoutInterval);
+                location.reload();
+            } else {
+                let mins = Math.floor(left / 60000);
+                let secs = Math.floor((left % 60000) / 1000).toString().padStart(2, '0');
+                document.getElementById('lockout-timer').innerText = `PENANCE: ${mins}:${secs}`;
+            }
+        }, 1000);
+    }
+
+    function triggerFailLockout() {
+        recordLockout();
+        enforceLockout(5 * 60 * 1000);
+    }
+
+    // --- TRANSITION AND TYPEWRITER LOGIC ---
+    function typeDocument() {
+        const doc = document.getElementById('document-container');
+        doc.style.display = 'block';
+
+        const elements = Array.from(doc.children);
+        elements.forEach(el => el.style.display = 'none');
+
+        let i = 0;
+        let printSound = setInterval(() => {
+            playTone(420 + Math.random() * 180, 'square', 0.02, 0.02);
+        }, 50);
+
+        function showNext() {
+            if (i >= elements.length) {
+                clearInterval(printSound);
+                return;
+            }
+            elements[i].style.display = '';
+            i++;
+            doc.scrollTop = doc.scrollHeight;
+            setTimeout(showNext, 150);
+        }
+        showNext();
+    }
+
+    function executeTransition() {
+        saveRunMetrics();
+        document.getElementById('terminal-container').style.display = 'none';
+        document.getElementById('transition-screen').style.display = 'flex';
+
+        let progress = 0;
+        let bar = document.getElementById('progress-bar');
+        let text = document.getElementById('transition-text');
+        let decryptSound = setInterval(() => {
+            playTone(220 + Math.random() * 380, 'square', 0.03, 0.02);
+        }, 80);
+
+        let loadInterval = setInterval(() => {
+            progress += Math.random() * 12;
+            if (progress >= 100) {
+                progress = 100;
+                clearInterval(loadInterval);
+                clearInterval(decryptSound);
+                sfxSuccess();
+
+                text.innerText = "STRATA UNBOUND. THE RECORD OPENS.";
+                setTimeout(() => {
+                    document.getElementById('transition-screen').style.display = 'none';
+                    typeDocument();
+                }, 1200);
+            }
+            bar.style.width = progress + "%";
+        }, 200);
+    }
+
+    // --- CYPHER LOCK ENGINE ---
+    function updateAttempts() {
+        let blocks = "";
+        for(let i=0; i<attempts; i++) {
+            blocks += "&#9608; ";
+        }
+        document.getElementById('attempts-display').innerHTML = `${attempts} INVOCATION(S) REMAIN: ${blocks}`;
+    }
+
+    function addLog(text) {
+        logs.push(text);
+        if (logs.length > 5) {
+            logs.shift();
+        }
+        const logHtml = logs.map(l => `<div class="log-entry">${l}</div>`).join('');
+        document.getElementById('output-log').innerHTML = logHtml;
+    }
+
+    window.triggerEasterEgg = function() {
+        sfxClick();
+        let lore = EASTER_EGG_LORE[Math.floor(Math.random() * EASTER_EGG_LORE.length)];
+        addLog("> ARCHIVE FRAGMENT SURFACED:");
+        addLog(`> "${lore}"`);
+    }
+
+    function generateBoard() {
+        wordsOnBoard = wordPool.sort(() => 0.5 - Math.random()).slice(0, 15);
+        password = wordsOnBoard[Math.floor(Math.random() * wordsOnBoard.length)];
+        let slots = new Array(544).fill(null);
+
+        wordsOnBoard.forEach(word => {
+            let placed = false;
+            while(!placed) {
+                let idx = Math.floor(Math.random() * (544 - 12));
+                let row = Math.floor(idx / 16);
+                let rowEnd = Math.floor((idx + 11) / 16);
+
+                if (row === rowEnd) {
+                    let isFree = true;
+                    for(let i=0; i<12; i++) {
+                        if(slots[idx + i] !== null) isFree = false;
+                    }
+                    if(isFree) {
+                        for(let i=0; i<12; i++) {
+                            slots[idx+i] = { type: 'word', char: word[i], wordId: word };
+                        }
+                        placed = true;
+                    }
+                }
+            }
+        });
+
+        for(let i=0; i<544; i++) {
+            if(slots[i] === null) {
+                slots[i] = { type: 'gibberish', char: GIBBERISH_CHARS[Math.floor(Math.random() * GIBBERISH_CHARS.length)] };
+            }
+        }
+
+        for(let line=0; line<34; line++) {
+            let start = line * 16;
+            let gibberishStreak = [];
+
+            for(let i=start; i<start+16; i++) {
+                if(slots[i].type === 'gibberish') {
+                    gibberishStreak.push(i);
+                } else {
+                    if(gibberishStreak.length >= 3 && Math.random() > 0.4) {
+                        createBracket(slots, gibberishStreak);
+                    }
+                    gibberishStreak = [];
+                }
+            }
+            if(gibberishStreak.length >= 3 && Math.random() > 0.4) {
+                createBracket(slots, gibberishStreak);
+            }
+        }
+
+        loreIndices = [Math.floor(Math.random() * 34), Math.floor(Math.random() * 34)];
+        renderBoard(slots);
+    }
+
+    function createBracket(slots, streakArr) {
+        let bLen = Math.floor(Math.random() * (streakArr.length - 1)) + 2;
+        let openKeys = Object.keys(BRACKET_PAIRS);
+        let openChar = openKeys[Math.floor(Math.random() * openKeys.length)];
+        let closeChar = BRACKET_PAIRS[openChar];
+        let startIdx = streakArr[0];
+        let endIdx = streakArr[bLen - 1];
+        let bracketId = 'b_' + Math.random().toString(36).substr(2, 9);
+
+        slots[startIdx].char = openChar;
+        slots[startIdx].bracketRole = 'open';
+        slots[endIdx].char = closeChar;
+        slots[endIdx].bracketRole = 'close';
+
+        for(let i=startIdx; i<=endIdx; i++) {
+            slots[i].bracketId = bracketId;
+        }
+    }
+
+    window.escapeHTML = function(str) {
+        return str.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
+    function renderBoard(slots) {
+        let col1 = document.getElementById('col1');
+        let col2 = document.getElementById('col2');
+        let currentHtml = "";
+        let activeWord = null;
+        let activeBracket = null;
+
+        for(let i=0; i<544; i++) {
+            let lineIndex = Math.floor(i / 16);
+            if(i % 16 === 0) {
+                if(i !== 0) currentHtml += "<br>";
+                let hexStr = "0x" + Math.floor(Math.random() * 65535).toString(16).toUpperCase().padStart(4, '0');
+                if (loreIndices.includes(lineIndex)) {
+                    currentHtml += `<span class="hex-egg" onclick="triggerEasterEgg()">${hexStr}</span> `;
+                } else {
+                    currentHtml += `${hexStr} `;
+                }
+            }
+
+            let slot = slots[i];
+
+            if (slot.type === 'word') {
+                if(activeWord !== slot.wordId) {
+                    currentHtml += `<span class="word" data-word="${slot.wordId}" onclick="guessWord('${slot.wordId}')" onmouseenter="sfxHover()">`;
+                    activeWord = slot.wordId;
+                }
+                currentHtml += escapeHTML(slot.char);
+
+                if (i === 543 || slots[i+1]?.wordId !== activeWord) {
+                    currentHtml += `</span>`;
+                    activeWord = null;
+                }
+            } else if (slot.bracketId) {
+                if(activeBracket !== slot.bracketId) {
+                    currentHtml += `<span class="bracket" onclick="useBracket(this)" onmouseenter="sfxHover()">`;
+                    activeBracket = slot.bracketId;
+                }
+                currentHtml += escapeHTML(slot.char);
+
+                if (i === 543 || slots[i+1]?.bracketId !== activeBracket) {
+                    currentHtml += `</span>`;
+                    activeBracket = null;
+                }
+            } else {
+                currentHtml += `<span class="char" onclick="sfxClick()" onmouseenter="sfxHover()">${escapeHTML(slot.char)}</span>`;
+            }
+
+            if(i === 271) {
+                col1.innerHTML = currentHtml;
+                currentHtml = "";
+            }
+        }
+        col2.innerHTML = currentHtml;
+    }
+
+    // --- INTERACTION LOGIC ---
+    window.guessWord = function(guess) {
+        let likeness = 0;
+        for(let i=0; i<12; i++) {
+            if(guess[i] === password[i]) likeness++;
+        }
+
+        if(guess === password) {
+            sfxSuccess();
+            addLog(`> ${guess}`);
+            addLog("> THE WORD IS TRUE.");
+            addLog("> SEAL BROKEN.");
+            setTimeout(executeTransition, 1000);
+            return;
+        }
+
+        attempts--;
+        sfxError();
+        addLog(`> ${guess}`);
+        addLog(`> The machine spirit refuses.`);
+        addLog(`> Likeness=${likeness}`);
+        updateAttempts();
+
+        if (attempts <= 0) {
+            addLog("> SANCTION ENFORCED.");
+            setTimeout(triggerFailLockout, 1000);
+        }
+    }
+
+    window.useBracket = function(el) {
+        sfxClick();
+        if(el.dataset.used === 'true') return;
+
+        el.dataset.used = 'true';
+        el.style.pointerEvents = 'none';
+        dudsUsed++;
+
+        if(Math.random() < 0.20 && attempts < 4) {
+            attempts = 4;
+            updateAttempts();
+            addLog("> Machine spirit appeased. Invocations restored.");
+        } else {
+            let activeWords = Array.from(document.querySelectorAll('.word:not(.dud)'));
+            let duds = activeWords.filter(w => w.dataset.word !== password);
+
+            if(duds.length > 0) {
+                let toRemove = duds[Math.floor(Math.random() * duds.length)];
+                toRemove.innerHTML = '.'.repeat(12);
+                toRemove.classList.add('dud');
+                addLog("> False word purged.");
+            } else {
+                addLog("> No false words remain.");
+            }
+        }
+    }
+
+    // --- OVERRIDE & CONTROL PANEL ---
+    // Access passphrases (case-insensitive):
+    //   omnissiah / weiss     -> straight access, skips the cypher lock
+    //   warrant   / parasite  -> access AND unlocks the record-expungement panel
+    window.adminBypass = function() {
+        const pw = prompt("++ ADEPTUS OVERRIDE REQUIRED ++\nSPEAK THE HIGH CYPHER:");
+        if (!pw) return;
+
+        const key = pw.toLowerCase();
+
+        if (key === "omnissiah" || key === "weiss") {
+            sfxSuccess();
+            addLog("> OVERRIDE ACKNOWLEDGED.");
+            addLog("> SEAL BROKEN.");
+            setTimeout(executeTransition, 800);
+        } else if (key === "warrant" || key === "parasite") {
+            sfxSuccess();
+            addLog("> WARRANT AUTHORITY RECOGNISED.");
+            addLog("> SEAL BROKEN.");
+            document.getElementById('admin-panel-btn').style.display = 'block';
+            setTimeout(executeTransition, 800);
+        } else {
+            sfxError();
+            addLog("> THE HIGH CYPHER IS FALSE.");
+        }
+    }
+
+    window.openAdminPanel = function() {
+        document.getElementById('admin-modal').style.display = 'block';
+    }
+
+    window.deleteUser = function(userTarget) {
+        if (confirm(`++ WARNING ++\nExpunge supplicant [${userTarget}] from the archive? This cannot be undone.`)) {
+            database.ref(DB_USERS + '/' + userTarget).remove();
+        }
+    }
+
+    // Allow Enter to submit the rite of access
+    document.getElementById('auth-pass').addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') handleLogin();
+    });
+    document.getElementById('auth-user').addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') document.getElementById('auth-pass').focus();
+    });
+
+    // Start App Initialization Call
+    loadTrack(currentTrackIdx);
+    updateAttempts();
+    generateBoard();
+
+</script>
+
+<script src="vox_lyrics.js"></script>
+
+</body>
+</html>
