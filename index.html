@@ -648,19 +648,43 @@
             display: block;
         }
 
+        /* --- PICT-CAPTURE FRAMES ---
+           Both plates share one frame so the row always reads as a matched pair.
+           Source art is 500x800; --pict-ratio is the single knob to change if the
+           supplied plates are ever reproportioned. object-fit:cover means an
+           off-ratio file crops to the frame instead of stretching or letterboxing,
+           and the upward object-position keeps a head in shot when it does crop. */
         .img-grid {
+            --pict-ratio: 5 / 8;
+            --pict-width: 320px;
             display: flex;
             gap: 20px;
             justify-content: center;
+            align-items: flex-start;
             flex-wrap: wrap;
             margin-bottom: 1rem;
         }
 
-        /* Placeholder shown when a pict-capture file is absent */
+        .img-grid .terminal-img {
+            flex: 0 1 var(--pict-width);
+            width: var(--pict-width);
+            max-width: var(--pict-width);
+            height: auto;
+            aspect-ratio: var(--pict-ratio);
+            object-fit: cover;
+            object-position: center 18%;
+        }
+
+        /* Placeholder shown when a pict-capture file is absent.
+           Matches the live frame footprint so a missing plate does not
+           reflow the surviving one. */
         .pict-missing {
             border: 2px dashed var(--terminal-color);
-            min-width: 220px;
-            min-height: 300px;
+            flex: 0 1 var(--pict-width, 320px);
+            width: var(--pict-width, 320px);
+            max-width: var(--pict-width, 320px);
+            aspect-ratio: var(--pict-ratio, 5 / 8);
+            margin: 10px 0;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -898,6 +922,19 @@
             position: relative;
         }
 
+        /* Nothing renders until the memory-log censor bar is broken. The layers are
+           built at init but stay display:none, so a sealed appendix shows no taint
+           at all - not even a faint one. */
+        .warp-field,
+        #warrant-lore-section .warp-atmosphere {
+            display: none;
+        }
+
+        #warrant-lore-section.warp-armed .warp-field,
+        #warrant-lore-section.warp-armed .warp-atmosphere {
+            display: block;
+        }
+
         .warp-field {
             position: absolute;
             inset: 0;
@@ -999,7 +1036,7 @@
 
         .wf-tendril path {
             fill: none;
-            stroke: var(--t-stroke, rgba(92, 228, 112, 0.55));
+            stroke: var(--t-stroke, rgba(92, 228, 112, 0.30));
             stroke-linecap: round;
             stroke-linejoin: round;
             stroke-width: var(--t-width, 1.1);
@@ -1008,12 +1045,12 @@
             transition: stroke-dashoffset 1.8s cubic-bezier(0.33, 0, 0.2, 1),
                         stroke-width 1s ease,
                         stroke 1s ease;
-            filter: drop-shadow(0 0 4px rgba(64, 214, 88, 0.30));
+            filter: drop-shadow(0 0 3px rgba(64, 214, 88, 0.16));
         }
 
         .wf-tendril path.branch {
-            stroke-width: calc(var(--t-width, 1.1) * 0.55);
-            opacity: 0.75;
+            stroke-width: calc(var(--t-width, 1.1) * 0.50);
+            opacity: 0.50;
         }
 
         /* ---- SIGILS & GLYPHS -------------------------------------------- */
@@ -1401,6 +1438,11 @@
                 overflow-y: visible;
             }
             .scribe-slip { columns: 1; }
+            .img-grid { --pict-width: 260px; gap: 14px; }
+        }
+
+        @media (max-width: 560px) {
+            .img-grid { --pict-width: min(300px, 82vw); }
         }
     </style>
 </head>
@@ -1597,9 +1639,11 @@
         </table>
 
         <div class="img-grid">
-            <img src="portrait_1.png" alt="Pict-capture, full profile" class="terminal-img" style="max-width: 400px;"
+            <img src="portrait_1.png" alt="Pict-capture, full profile" class="terminal-img"
+                 width="500" height="800" loading="lazy"
                  onerror="markPictMissing(this, 'PICT-CAPTURE 01 ABSENT<br>DROP portrait_1.png BESIDE index.html');">
-            <img src="portrait_2.png" alt="Pict-capture, detail" class="terminal-img" style="max-width: 300px;"
+            <img src="portrait_2.png" alt="Pict-capture, detail" class="terminal-img"
+                 width="500" height="800" loading="lazy"
                  onerror="markPictMissing(this, 'PICT-CAPTURE 02 ABSENT<br>DROP portrait_2.png BESIDE index.html');">
         </div>
 
@@ -3013,7 +3057,7 @@
                 svg.style.setProperty('--t-speed', `${rnd(8, 17)}s`);
                 svg.style.animationDelay = `${-rnd(0, 12)}s`;
                 if (Math.random() < 0.32) {
-                    svg.style.setProperty('--t-stroke', 'rgba(174, 84, 208, 0.48)');
+                    svg.style.setProperty('--t-stroke', 'rgba(174, 84, 208, 0.26)');
                 }
 
                 const built = tendrilPath(w, h, dir);
@@ -3050,8 +3094,8 @@
             }
         }
 
-        buildTendrils(under, 16, { minW: 220, maxW: 520, minH: 180, maxH: 460, peak: 0.46 });
-        if (deepAtmos) buildTendrils(deepAtmos, 9, { minW: 260, maxW: 600, minH: 200, maxH: 520, peak: 0.62 });
+        buildTendrils(under, 10, { minW: 220, maxW: 520, minH: 180, maxH: 460, peak: 0.22 });
+        if (deepAtmos) buildTendrils(deepAtmos, 6, { minW: 260, maxW: 600, minH: 200, maxH: 520, peak: 0.34 });
 
         // ---------- sigil rings ---------------------------------------------
         function buildSigils(target, count, opts) {
@@ -3114,8 +3158,8 @@
             }
         }
 
-        buildSigils(under, 9, { min: 90, max: 260, peak: 0.22 });
-        if (deepAtmos) buildSigils(deepAtmos, 5, { min: 110, max: 300, peak: 0.30 });
+        buildSigils(under, 7, { min: 90, max: 260, peak: 0.15 });
+        if (deepAtmos) buildSigils(deepAtmos, 5, { min: 110, max: 300, peak: 0.22 });
 
         // ---------- glyph swarm ----------------------------------------------
         function buildGlyphs(target, count, opts) {
@@ -3138,8 +3182,8 @@
             }
         }
 
-        buildGlyphs(under, 46, { peak: 0.30 });
-        if (deepAtmos) buildGlyphs(deepAtmos, 30, { peak: 0.44 });
+        buildGlyphs(under, 40, { peak: 0.24 });
+        if (deepAtmos) buildGlyphs(deepAtmos, 28, { peak: 0.36 });
 
         // ---------- rune rows -------------------------------------------------
         function buildRunes(target, count, opts) {
@@ -3178,23 +3222,73 @@
         let fieldDepth = 0;
         let deepDepth = 0;
 
+        // Resolves the actual visible strip in viewport coordinates. Below 900px the
+        // media query hands scrolling back to the window (#document-container goes
+        // height:auto / overflow:visible), so the host box is no longer the viewport
+        // and must not be used as one.
+        function viewport() {
+            const winH = Math.max(window.innerHeight || 1, 1);
+            if (host && host.scrollHeight > host.clientHeight + 2) {
+                const hr = host.getBoundingClientRect();
+                if (hr.height > 1) return { top: hr.top, height: hr.height };
+            }
+            return { top: 0, height: winH };
+        }
+
         function progressThrough(el) {
             if (!el) return 0;
             const r = el.getBoundingClientRect();
             if (!r.height) return 0;
-            const hostRect = host ? host.getBoundingClientRect() : { top: 0, height: window.innerHeight || 1 };
-            const vh = Math.max(hostRect.height || window.innerHeight || 1, 1);
-            const top = r.top - hostRect.top;
+            const v = viewport();
+            const vh = Math.max(v.height, 1);
+            const top = r.top - v.top;
             // 0 as the block's head enters the lower third; 1 once its tail clears
             // the upper quarter. Long blocks therefore ramp very slowly.
-            const travel = Math.max(r.height - vh * 0.28, 1);
+            // Floor the travel distance at ~1 viewport. Without this a short block
+            // (the appendix while its log is still sealed) collapses the ramp and
+            // pins depth at 1.0 the moment it scrolls into view.
+            const travel = Math.max(r.height - vh * 0.28, vh);
             return clamp01((vh * 0.72 - top) / travel);
         }
 
         let lastF = -1;
         let lastD = -1;
+        let armed = false;
+
+        // The whole field is dormant until the PRIVATE MEMORY-LOG censor bar is
+        // broken. #wake-fragment lives inside that block's .redact-hidden wrapper,
+        // so a non-zero offsetHeight is a reliable, self-detecting signal that the
+        // reader has actually opened the log - no extra flags to keep in sync.
+        function isArmed() {
+            return !!(deepRoot && deepRoot.offsetHeight > 0);
+        }
+
+        function disarm() {
+            field.classList.remove('warp-armed');
+            clearTimeout(glitchTimer);
+            fieldDepth = 0;
+            deepDepth = 0;
+            lastF = -1;
+            lastD = -1;
+            ['--wf', '--wf-tint-green', '--wf-tint-purple', '--wf-grain', '--wf-vignette', '--wf-over']
+                .forEach((v) => field.style.setProperty(v, '0'));
+        }
+
+        function arm() {
+            field.classList.add('warp-armed');
+            lastF = -1;
+            lastD = -1;
+            scheduleGlitch();
+        }
 
         function updateDepth(force) {
+            const shouldArm = isArmed();
+            if (shouldArm !== armed) {
+                armed = shouldArm;
+                if (armed) arm(); else disarm();
+            }
+            if (!armed) return;
+
             fieldDepth = progressThrough(field);
             deepDepth = deepRoot && deepRoot.offsetHeight ? progressThrough(deepRoot) : 0;
 
@@ -3210,10 +3304,10 @@
             // --- field tier ---
             field.style.setProperty('--wf', f.toFixed(3));
             field.style.setProperty('--wf-tint-green', (f * 0.16).toFixed(3));
-            field.style.setProperty('--wf-tint-purple', (f * f * 0.22).toFixed(3));
-            field.style.setProperty('--wf-grain', (f * f * 0.55).toFixed(3));
-            field.style.setProperty('--wf-vignette', (Math.max(0, f - 0.25) / 0.75 * 0.55).toFixed(3));
-            field.style.setProperty('--wf-over', (Math.max(0, f - 0.18) / 0.82 * 0.85).toFixed(3));
+            field.style.setProperty('--wf-tint-purple', (f * f * 0.15).toFixed(3));
+            field.style.setProperty('--wf-grain', (f * f * 0.32).toFixed(3));
+            field.style.setProperty('--wf-vignette', (Math.max(0, f - 0.25) / 0.75 * 0.40).toFixed(3));
+            field.style.setProperty('--wf-over', (Math.max(0, f - 0.18) / 0.82 * 0.60).toFixed(3));
 
             // --- deep tier (preserves the original variable contract) ---
             if (deepRoot) {
@@ -3250,7 +3344,7 @@
                 const strength = clamp01((f - reveal) / 0.34);
                 t.style.opacity = (strength * peak).toFixed(3);
                 t.style.setProperty('--t-scale', (0.40 + strength * 0.95).toFixed(3));
-                t.style.setProperty('--t-width', (0.7 + strength * 2.2).toFixed(2));
+                t.style.setProperty('--t-width', (0.45 + strength * 0.95).toFixed(2));
                 // The strand itself extends - this is the "creeping" motion.
                 const grow = Math.pow(strength, 0.82);
                 // Lengths taken at init are unreliable while #document-container is
@@ -3311,11 +3405,13 @@
         let glitchTimer = null;
 
         function visibleParagraphs() {
-            const hostRect = host ? host.getBoundingClientRect() : { top: 0, bottom: window.innerHeight || 0 };
+            const v = viewport();
+            const vTop = v.top;
+            const vBottom = v.top + v.height;
             const all = Array.prototype.slice.call(field.querySelectorAll('.warp-stage p, .vox-log > p'));
             const vis = all.filter((p) => {
                 const r = p.getBoundingClientRect();
-                return r.bottom > hostRect.top && r.top < hostRect.bottom;
+                return r.bottom > vTop && r.top < vBottom;
             });
             return vis.length ? vis : all;
         }
@@ -3381,6 +3477,7 @@
             const drive = Math.max(fieldDepth, deepDepth);
             const delay = Math.max(650, 7200 - drive * 6000) + Math.random() * 2400;
             glitchTimer = setTimeout(() => {
+                if (!armed) return;
                 const drv = Math.max(fieldDepth, deepDepth);
                 if (drv > 0.12 && !reduceMotion) {
                     const paras = visibleParagraphs();
@@ -3444,8 +3541,10 @@
             } catch (e) { /* non-fatal */ }
         }
 
+        // Starts sealed. arm() fires the scheduler the first time updateDepth()
+        // sees the log opened, which revealRedact() -> warpRefresh() triggers.
+        disarm();
         updateDepth(true);
-        scheduleGlitch();
     }
 
     // --- OVERRIDE & CONTROL PANEL ---
