@@ -870,9 +870,275 @@
         }
 
 
-        /* --- WARP DESCENT // Warrant-only continuation ---
-           Pure CSS/DOM atmosphere: no image assets are used. Effects stay behind
-           the prose and intensify only as the reader descends through the fragment. */
+        /* ================= WARP INFESTATION FIELD =================
+           Two-tier procedural corruption for the Ghost-Cipher appendix.
+
+           TIER 1 (field)  - spans the whole of Section VII. Mist banks, creeping
+                             tendrils, glyph swarm, rune rows. Starts at essentially
+                             zero opacity at the section header.
+           TIER 2 (deep)   - the recovered continuation (#wake-fragment). Everything
+                             above, denser, plus text-level glitching.
+
+           No image assets. All layers are pointer-events:none and sit behind the
+           prose (z-index -1) except the thin glitch overlay (z-index 6). */
+
+        #warrant-lore-section {
+            isolation: isolate;
+
+            /* ---- field-tier drivers (JS writes these) ---- */
+            --wf: 0;                    /* 0..1 depth across the whole appendix */
+            --wf-tint-green: 0;
+            --wf-tint-purple: 0;
+            --wf-grain: 0;
+            --wf-over: 0;               /* opacity of the glitch overlay */
+            --wf-vignette: 0;
+        }
+
+        #warrant-lore-section > *:not(.warp-field) {
+            position: relative;
+        }
+
+        .warp-field {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .warp-field--under { z-index: -1; }
+
+        .warp-field--over {
+            z-index: 6;
+            opacity: var(--wf-over, 0);
+            mix-blend-mode: screen;
+        }
+
+        /* Slow chromatic bleed that stains the whole stratum as you descend. */
+        .wf-wash {
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(180deg,
+                    rgba(10, 32, 14, 0) 0%,
+                    rgba(12, 40, 18, var(--wf-tint-green)) 55%,
+                    rgba(34, 6, 44, var(--wf-tint-purple)) 100%);
+        }
+
+        /* Creeping darkness at the edges of the page. */
+        .wf-vignette {
+            position: absolute;
+            inset: 0;
+            opacity: var(--wf-vignette, 0);
+            background:
+                radial-gradient(120% 60% at 50% 100%, rgba(24, 4, 32, 0.62) 0%, transparent 62%),
+                linear-gradient(90deg, rgba(4, 12, 6, 0.55) 0%, transparent 14%, transparent 86%, rgba(4, 12, 6, 0.55) 100%);
+        }
+
+        /* Repeating rune-grain that infests the paper itself. */
+        .wf-grain {
+            position: absolute;
+            inset: 0;
+            opacity: var(--wf-grain, 0);
+            background-image:
+                repeating-linear-gradient(0deg,
+                    rgba(96, 232, 114, 0.055) 0px, rgba(96, 232, 114, 0.055) 1px,
+                    transparent 1px, transparent 5px),
+                repeating-linear-gradient(90deg,
+                    rgba(160, 74, 190, 0.035) 0px, rgba(160, 74, 190, 0.035) 1px,
+                    transparent 1px, transparent 9px);
+            animation: wfGrainCrawl 5.5s steps(6, end) infinite;
+        }
+
+        /* ---- MIST ------------------------------------------------------- */
+        /* Discrete banks rather than one huge blurred surface. Each carries its
+           own reveal threshold so the fog gathers unevenly as the reader falls. */
+        .wf-mist {
+            position: absolute;
+            opacity: 0;
+            border-radius: 50%;
+            background: radial-gradient(closest-side,
+                var(--m-core, rgba(58, 168, 78, 0.42)) 0%,
+                var(--m-mid, rgba(30, 92, 44, 0.16)) 42%,
+                transparent 74%);
+            filter: blur(var(--m-blur, 26px));
+            transform: translate3d(0, 0, 0) scale(var(--m-scale, 1));
+            transition: opacity 1.2s ease, transform 1.6s ease;
+            animation: wfMistDrift var(--m-speed, 26s) ease-in-out infinite alternate;
+            will-change: transform, opacity;
+        }
+
+        /* Deep-tier core fog inside the continuation box. */
+        .warp-mist {
+            position: absolute;
+            inset: -16% -12%;
+            opacity: var(--warp-mist-opacity, 0.04);
+            background:
+                radial-gradient(ellipse at 14% 24%, rgba(53, 160, 73, 0.34) 0%, rgba(27, 83, 39, 0.14) 24%, transparent 56%),
+                radial-gradient(ellipse at 86% 52%, rgba(92, 34, 112, 0.32) 0%, rgba(47, 19, 66, 0.12) 27%, transparent 58%),
+                radial-gradient(ellipse at 40% 84%, rgba(55, 198, 82, 0.26) 0%, transparent 50%),
+                radial-gradient(ellipse at 62% 12%, rgba(120, 40, 150, 0.22) 0%, transparent 46%);
+            filter: blur(20px);
+            transition: opacity 0.9s ease;
+            animation: wfMistDrift 21s ease-in-out infinite alternate;
+        }
+
+        /* ---- TENDRILS --------------------------------------------------- */
+        /* Each is its own SVG. Growth is driven by stroke-dashoffset, so the
+           strands physically crawl further across the page the deeper you read. */
+        .wf-tendril {
+            position: absolute;
+            overflow: visible;
+            opacity: 0;
+            transform-origin: var(--t-origin, 0% 0%);
+            transform: rotate(var(--t-rot, 0deg)) scale(var(--t-scale, 0.42));
+            transition: opacity 1s ease, transform 1.5s ease;
+            animation: wfTendrilSway var(--t-speed, 11s) ease-in-out infinite alternate;
+            will-change: transform, opacity;
+        }
+
+        .wf-tendril path {
+            fill: none;
+            stroke: var(--t-stroke, rgba(92, 228, 112, 0.55));
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-width: var(--t-width, 1.1);
+            stroke-dasharray: var(--t-len, 2000);
+            stroke-dashoffset: var(--t-off, 2000);
+            transition: stroke-dashoffset 1.8s cubic-bezier(0.33, 0, 0.2, 1),
+                        stroke-width 1s ease,
+                        stroke 1s ease;
+            filter: drop-shadow(0 0 4px rgba(64, 214, 88, 0.30));
+        }
+
+        .wf-tendril path.branch {
+            stroke-width: calc(var(--t-width, 1.1) * 0.55);
+            opacity: 0.75;
+        }
+
+        /* ---- SIGILS & GLYPHS -------------------------------------------- */
+        .wf-sigil {
+            position: absolute;
+            opacity: 0;
+            overflow: visible;
+            transform: translate(-50%, -50%) rotate(var(--s-rot, 0deg)) scale(var(--s-scale, 0.7));
+            transition: opacity 1.1s ease, transform 1.6s ease;
+            animation: wfSigilTurn var(--s-speed, 44s) linear infinite;
+        }
+
+        .wf-sigil circle,
+        .wf-sigil path,
+        .wf-sigil line {
+            fill: none;
+            stroke: var(--s-stroke, rgba(104, 234, 122, 0.5));
+            stroke-width: 1;
+            vector-effect: non-scaling-stroke;
+        }
+
+        .wf-glyph {
+            position: absolute;
+            color: rgba(96, 232, 114, 0);
+            font-family: 'VT323', monospace;
+            line-height: 1;
+            text-shadow: 0 0 9px rgba(79, 226, 99, 0.40);
+            transform: translate(-50%, -50%) rotate(var(--g-rot, 0deg));
+            transition: opacity 0.8s ease, color 0.8s ease, transform 1.2s ease;
+            animation: wfGlyphBreathe var(--g-speed, 6s) ease-in-out infinite alternate;
+        }
+
+        /* Long faint strings of nonsense scripture that bleed through the page. */
+        .wf-runes {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            opacity: 0;
+            color: rgba(96, 232, 114, 0.55);
+            font-family: 'VT323', monospace;
+            font-size: var(--r-size, 0.95rem);
+            letter-spacing: var(--r-space, 6px);
+            white-space: nowrap;
+            text-align: center;
+            transition: opacity 1.1s ease, letter-spacing 1.4s ease;
+            text-shadow: 0 0 7px rgba(84, 226, 104, 0.30);
+        }
+
+        /* ---- GLITCH OVERLAY --------------------------------------------- */
+        .wf-tear {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: var(--tear-h, 2px);
+            opacity: 0;
+            background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(112, 248, 138, 0.55) 22%,
+                rgba(198, 96, 226, 0.45) 58%,
+                transparent 100%);
+            box-shadow: 0 0 12px rgba(96, 236, 118, 0.40);
+        }
+
+        .wf-tear.fire { animation: wfTearFire 0.42s ease-out 1; }
+
+        .wf-scan {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            background: repeating-linear-gradient(0deg,
+                rgba(150, 255, 175, 0.10) 0px, rgba(150, 255, 175, 0.10) 1px,
+                transparent 1px, transparent 3px);
+        }
+
+        .wf-scan.fire { animation: wfScanFire 0.30s steps(4, end) 1; }
+
+        /* ---- TEXT-LEVEL CORRUPTION -------------------------------------- */
+        .warrant-stratum p.wf-shiver { animation: wfShiver 0.19s steps(3, end) 1; }
+
+        .warrant-stratum p.wf-split {
+            text-shadow:
+                -1.3px 0 0 rgba(228, 62, 62, 0.42),
+                 1.3px 0 0 rgba(72, 216, 248, 0.34),
+                 0 0 10px rgba(84, 226, 104, 0.20) !important;
+        }
+
+        .warrant-stratum p.wf-drop { animation: wfDrop 0.5s ease-out 1; }
+
+        .warp-descent.wf-jolt { animation: wfJolt 0.32s steps(4, end) 1; }
+
+        /* A stray sigil crawls onto a paragraph and sits there for a while. */
+        .wf-infested { position: relative; }
+
+        .wf-infested::after {
+            content: attr(data-infest);
+            position: absolute;
+            left: var(--inf-x, 50%);
+            top: var(--inf-y, 40%);
+            color: rgba(108, 236, 126, var(--inf-alpha, 0.16));
+            font-family: 'VT323', monospace;
+            font-size: var(--inf-size, 2.2rem);
+            line-height: 1;
+            transform: translate(-50%, -50%) rotate(var(--inf-rot, 0deg));
+            text-shadow: 0 0 12px rgba(88, 230, 108, 0.35);
+            pointer-events: none;
+            animation: wfInfestFade 0.9s ease-out 1;
+        }
+
+        /* Whisper lines gain an offset ghost copy of themselves. */
+        .warrant-stratum .whisper-line { position: relative; }
+
+        .warrant-stratum .whisper-line[data-echo]::after {
+            content: attr(data-echo);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            text-align: center;
+            color: rgba(176, 84, 208, var(--echo-alpha, 0));
+            transform: translate(var(--echo-x, 0px), var(--echo-y, 0px));
+            pointer-events: none;
+            filter: blur(var(--echo-blur, 0.4px));
+        }
+
+        /* ================= WARP DESCENT // deep tier ================= */
         .warp-descent {
             --warp-depth: 0;
             --warp-bg-green: 0.04;
@@ -888,6 +1154,7 @@
             --warp-stage-pattern-opacity: 0.08;
             --warp-stage-spacing: 4px;
             --warp-mist-opacity: 0.04;
+            --warp-lean: 0deg;
             position: relative;
             isolation: isolate;
             overflow: hidden;
@@ -947,6 +1214,9 @@
         .warp-stage {
             position: relative;
             padding: 2px 0;
+            transform: rotate(var(--warp-lean, 0deg));
+            transform-origin: 50% 0%;
+            transition: transform 1.8s ease;
         }
 
         .warp-stage::before {
@@ -983,91 +1253,85 @@
             pointer-events: none;
         }
 
-        .warp-mist {
-            position: absolute;
-            inset: -12% -10%;
-            opacity: var(--warp-mist-opacity);
-            background:
-                radial-gradient(ellipse at 14% 28%, rgba(53, 160, 73, 0.30) 0%, rgba(27, 83, 39, 0.12) 22%, transparent 54%),
-                radial-gradient(ellipse at 88% 58%, rgba(86, 32, 103, 0.28) 0%, rgba(47, 19, 66, 0.10) 25%, transparent 56%),
-                radial-gradient(ellipse at 42% 86%, rgba(55, 198, 82, 0.23) 0%, transparent 48%);
-            filter: blur(16px);
-            animation: warpMistDrift 18s ease-in-out infinite alternate;
+        /* ---- keyframes --------------------------------------------------- */
+        @keyframes wfMistDrift {
+            0%   { transform: translate3d(-3%, -1.5%, 0) scale(calc(var(--m-scale, 1) * 0.96)); }
+            100% { transform: translate3d(4%, 2.5%, 0)  scale(calc(var(--m-scale, 1) * 1.12)); }
         }
 
-        .warp-glyph {
-            position: absolute;
-            z-index: 2;
-            color: rgba(96, 232, 114, 0.0);
-            font-family: 'VT323', monospace;
-            text-shadow: 0 0 8px rgba(79, 226, 99, 0.35);
-            user-select: none;
-            transform: translate(-50%, -50%) rotate(var(--glyph-rot));
-            transition: opacity 0.6s ease, color 0.6s ease;
-            animation: warpGlyphPulse var(--glyph-speed) ease-in-out infinite alternate;
+        @keyframes wfTendrilSway {
+            0%   { margin-left: -6px; }
+            100% { margin-left: 8px; }
         }
 
-        .warp-tendril {
-            position: absolute;
-            width: 7px;
-            height: var(--tendril-length);
-            border-radius: 55% 45% 60% 40%;
-            opacity: 0;
-            background: linear-gradient(180deg,
-                rgba(66, 226, 93, 0),
-                rgba(70, 218, 92, 0.24) 18%,
-                rgba(53, 147, 75, 0.18) 60%,
-                rgba(100, 52, 128, 0));
-            filter: blur(1.1px) drop-shadow(0 0 5px rgba(59, 211, 81, 0.22));
-            transform-origin: 50% 0%;
-            transform: rotate(var(--tendril-rot)) scaleY(var(--tendril-scale));
-            transition: opacity 0.55s ease, transform 0.7s ease;
-            animation: warpTendrilSway var(--tendril-speed) ease-in-out infinite alternate;
+        @keyframes wfSigilTurn {
+            0%   { transform: translate(-50%, -50%) rotate(var(--s-rot, 0deg)) scale(var(--s-scale, 0.7)); }
+            100% { transform: translate(-50%, -50%) rotate(calc(var(--s-rot, 0deg) + 360deg)) scale(var(--s-scale, 0.7)); }
         }
 
-        .warp-shiver {
-            animation: warpTextShiver 0.16s steps(2, end) 1;
+        @keyframes wfGlyphBreathe {
+            0%   { filter: blur(0px);    opacity: var(--g-alpha, 0); }
+            100% { filter: blur(0.75px); opacity: calc(var(--g-alpha, 0) * 0.55); }
         }
 
-        .warp-static-line {
-            position: absolute;
-            left: 0;
-            width: 100%;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(94, 232, 112, 0.18), rgba(174, 83, 205, 0.13), transparent);
-            opacity: 0;
-            z-index: 2;
-            transition: opacity 0.25s ease;
-            box-shadow: 0 0 6px rgba(94, 232, 112, 0.14);
+        @keyframes wfGrainCrawl {
+            0%   { background-position: 0 0, 0 0; }
+            100% { background-position: 0 5px, 9px 0; }
         }
 
-        @keyframes warpMistDrift {
-            0% { transform: translate3d(-2%, -1%, 0) scale(1.02); }
-            100% { transform: translate3d(3%, 2%, 0) scale(1.10); }
+        @keyframes wfTearFire {
+            0%   { opacity: 0;    transform: translateX(-6%) scaleY(0.4); }
+            18%  { opacity: 0.95; transform: translateX(3%)  scaleY(2.6); }
+            46%  { opacity: 0.35; transform: translateX(-2%) scaleY(1); }
+            100% { opacity: 0;    transform: translateX(0)   scaleY(0.5); }
         }
 
-        @keyframes warpGlyphPulse {
-            0% { filter: blur(0px); }
-            100% { filter: blur(0.65px); }
+        @keyframes wfScanFire {
+            0%   { opacity: 0; }
+            35%  { opacity: 0.75; }
+            100% { opacity: 0; }
         }
 
-        @keyframes warpTendrilSway {
-            0% { margin-left: -3px; }
-            100% { margin-left: 5px; }
+        @keyframes wfShiver {
+            0%   { transform: translateX(0);      filter: none; }
+            30%  { transform: translateX(-1.1px); filter: hue-rotate(14deg); }
+            65%  { transform: translateX(1.3px);  filter: hue-rotate(-16deg); }
+            100% { transform: translateX(0);      filter: none; }
         }
 
-        @keyframes warpTextShiver {
-            0% { transform: translateX(0); filter: none; }
-            35% { transform: translateX(-0.7px); filter: hue-rotate(8deg); }
-            70% { transform: translateX(0.8px); filter: hue-rotate(-9deg); }
-            100% { transform: translateX(0); filter: none; }
+        @keyframes wfDrop {
+            0%   { transform: translateY(0)     skewX(0deg);   opacity: 1; }
+            22%  { transform: translateY(2.5px) skewX(-0.7deg); opacity: 0.55; }
+            55%  { transform: translateY(-1px)  skewX(0.5deg);  opacity: 0.85; }
+            100% { transform: translateY(0)     skewX(0deg);    opacity: 1; }
+        }
+
+        @keyframes wfJolt {
+            0%   { transform: translate(0, 0);      filter: none; }
+            25%  { transform: translate(-2.5px, 1px); filter: hue-rotate(24deg) saturate(1.5); }
+            50%  { transform: translate(2.5px, -1px); filter: hue-rotate(-26deg) contrast(1.15); }
+            75%  { transform: translate(-1px, 0);     filter: saturate(1.3); }
+            100% { transform: translate(0, 0);      filter: none; }
+        }
+
+        @keyframes wfInfestFade {
+            0%   { opacity: 0; transform: translate(-50%, -50%) rotate(var(--inf-rot, 0deg)) scale(1.6); }
+            100% { opacity: 1; transform: translate(-50%, -50%) rotate(var(--inf-rot, 0deg)) scale(1); }
         }
 
         @media (prefers-reduced-motion: reduce) {
+            .wf-mist,
             .warp-mist,
-            .warp-glyph,
-            .warp-tendril,
-            .warp-shiver {
+            .wf-tendril,
+            .wf-sigil,
+            .wf-glyph,
+            .wf-grain,
+            .wf-tear,
+            .wf-scan,
+            .wf-infested::after,
+            .warrant-stratum p.wf-shiver,
+            .warrant-stratum p.wf-drop,
+            .warp-descent.wf-jolt {
                 animation: none !important;
             }
         }
@@ -2215,6 +2479,9 @@
         let hiddenContent = el.nextElementSibling;
         hiddenContent.classList.remove('redact-hidden');
         hiddenContent.classList.add('redact-revealed');
+        // Unsealing a block can add thousands of pixels of page. The warp field
+        // has to re-measure or its depth ramp stays anchored to the old height.
+        if (window.warpRefresh) window.warpRefresh();
     }
 
     function grantWarrantArchiveAccess() {
@@ -2578,132 +2845,572 @@
     }
 
 
-    // --- WARP DESCENT ATMOSPHERE ---
-    // Gradual, readable corruption for the hidden continuation. Everything is
-    // procedural HTML/CSS so the archive does not need extra image assets.
+    // --- WARP INFESTATION FIELD ---
+    // Procedural corruption for the Ghost-Cipher appendix (Section VII).
+    //
+    // Two depth tracks are computed every frame:
+    //   fieldDepth - progress through the whole of #warrant-lore-section. Drives
+    //                the mist banks, creeping tendrils, sigils and rune rows.
+    //   deepDepth  - progress through #wake-fragment only. Drives the heavier
+    //                tinting, text glow and the glitch scheduler.
+    //
+    // NOTE: #document-container is the scrolling element, not the window, so the
+    // listeners are bound to it. Everything re-measures on warpRefresh(), which
+    // revealRedact() calls after a sealed block expands the page.
     function initWarpDescent() {
-        const root = document.getElementById('wake-fragment');
-        if (!root || root.dataset.warpInit === 'true') return;
-        root.dataset.warpInit = 'true';
+        const field = document.getElementById('warrant-lore-section');
+        if (!field) return;
 
-        const atmosphere = root.querySelector('.warp-atmosphere');
-        if (!atmosphere) return;
+        if (field.dataset.warpInit === 'true') {
+            if (window.warpRefresh) window.warpRefresh();
+            return;
+        }
+        field.dataset.warpInit = 'true';
 
+        const deepRoot = document.getElementById('wake-fragment');
+        const deepAtmos = deepRoot ? deepRoot.querySelector('.warp-atmosphere') : null;
+        const host = document.getElementById('document-container');
         const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        const glyphAlphabet = ['∴', '⟡', '⌁', '⧖', '⊕', '⋮', '⌬', '⟁', '◉', '◌', '⫶', '◇'];
-        const glyphs = [];
+
+        const SVG_NS = 'http://www.w3.org/2000/svg';
+        const GLYPHS = ['∴','⟡','⌁','⧖','⊕','⋮','⌬','⟁','◉','◌','⫶','◇','⟒','⏃','⎔','⌇','⍟','⋔','⟠','⏁','⌾','⍉'];
+        const CORRUPT = ['⌁','⟒','◌','⋮','⏃','⍉','⌇','∷','⟁','⧖','#','§','∎','⌾'];
+
+        const rnd  = (a, b) => a + Math.random() * (b - a);
+        const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+        const clamp01 = (v) => v < 0 ? 0 : (v > 1 ? 1 : v);
+        const runeString = (n) => {
+            let s = '';
+            for (let i = 0; i < n; i++) s += pick(GLYPHS);
+            return s;
+        };
+
+        // ---------- layers -------------------------------------------------
+        const under = document.createElement('div');
+        under.className = 'warp-field warp-field--under';
+        const over = document.createElement('div');
+        over.className = 'warp-field warp-field--over';
+
+        const wash = document.createElement('div');
+        wash.className = 'wf-wash';
+        const grain = document.createElement('div');
+        grain.className = 'wf-grain';
+        const vignette = document.createElement('div');
+        vignette.className = 'wf-vignette';
+        under.appendChild(wash);
+        under.appendChild(grain);
+        under.appendChild(vignette);
+
+        const scan = document.createElement('div');
+        scan.className = 'wf-scan';
+        over.appendChild(scan);
+
+        field.insertBefore(under, field.firstChild);
+        field.appendChild(over);
+
+        const mists = [];
         const tendrils = [];
-        const staticLines = [];
+        const sigils = [];
+        const glyphs = [];
+        const runeRows = [];
+        const tears = [];
 
-        for (let i = 0; i < 34; i++) {
-            const glyph = document.createElement('span');
-            glyph.className = 'warp-glyph';
-            glyph.textContent = glyphAlphabet[Math.floor(Math.random() * glyphAlphabet.length)];
-            glyph.style.left = `${3 + Math.random() * 94}%`;
-            glyph.style.top = `${5 + Math.random() * 91}%`;
-            glyph.style.fontSize = `${0.75 + Math.random() * 1.25}rem`;
-            glyph.style.setProperty('--glyph-rot', `${-28 + Math.random() * 56}deg`);
-            glyph.style.setProperty('--glyph-speed', `${3.5 + Math.random() * 5.5}s`);
-            glyph.dataset.reveal = (0.12 + Math.random() * 0.78).toFixed(3);
-            atmosphere.appendChild(glyph);
-            glyphs.push(glyph);
-        }
+        // ---------- mist banks ---------------------------------------------
+        // Reveal thresholds are biased toward each bank's own vertical position,
+        // so the fog genuinely gathers from the top down rather than all at once.
+        function buildMist(target, count, opts) {
+            for (let i = 0; i < count; i++) {
+                const m = document.createElement('div');
+                m.className = 'wf-mist';
+                const yPct = (i + rnd(0.05, 0.95)) / count * 100;
+                const w = rnd(opts.minW, opts.maxW);
+                const h = w * rnd(0.42, 0.78);
+                const purple = Math.random() < (opts.purpleChance || 0.35);
 
-        for (let i = 0; i < 12; i++) {
-            const tendril = document.createElement('span');
-            tendril.className = 'warp-tendril';
-            const fromLeft = Math.random() > 0.5;
-            tendril.style.left = fromLeft ? `${Math.random() * 9}%` : `${91 + Math.random() * 8}%`;
-            tendril.style.top = `${8 + Math.random() * 82}%`;
-            tendril.style.setProperty('--tendril-length', `${90 + Math.random() * 210}px`);
-            tendril.style.setProperty('--tendril-rot', `${fromLeft ? 12 + Math.random() * 28 : -(12 + Math.random() * 28)}deg`);
-            tendril.style.setProperty('--tendril-scale', `${0.55 + Math.random() * 0.55}`);
-            tendril.style.setProperty('--tendril-speed', `${5 + Math.random() * 7}s`);
-            tendril.dataset.reveal = (0.35 + Math.random() * 0.55).toFixed(3);
-            atmosphere.appendChild(tendril);
-            tendrils.push(tendril);
-        }
-
-        for (let i = 0; i < 7; i++) {
-            const line = document.createElement('span');
-            line.className = 'warp-static-line';
-            line.style.top = `${12 + Math.random() * 80}%`;
-            line.dataset.reveal = (0.28 + Math.random() * 0.62).toFixed(3);
-            atmosphere.appendChild(line);
-            staticLines.push(line);
-        }
-
-        let currentDepth = 0;
-        let shiverTimer = null;
-
-        const updateDepth = () => {
-            const rect = root.getBoundingClientRect();
-            const viewport = Math.max(window.innerHeight || 1, 1);
-            // Starts barely corrupted near the title and approaches full intensity
-            // near the bottom of the recovered fragment.
-            const travel = Math.max(rect.height - viewport * 0.30, 1);
-            const depth = Math.min(1, Math.max(0, (viewport * 0.62 - rect.top) / travel));
-            currentDepth = depth;
-            root.style.setProperty('--warp-depth', depth.toFixed(3));
-            root.style.setProperty('--warp-bg-green', (0.04 + depth * 0.10).toFixed(3));
-            root.style.setProperty('--warp-bg-purple', (0.02 + depth * 0.09).toFixed(3));
-            root.style.setProperty('--warp-box-purple', (depth * 0.12).toFixed(3));
-            root.style.setProperty('--warp-title-sigil-opacity', (0.22 + depth * 0.45).toFixed(3));
-            root.style.setProperty('--warp-glow', `${(depth * 4).toFixed(2)}px`);
-            root.style.setProperty('--warp-side-shift', `${(depth * 0.6).toFixed(2)}px`);
-            root.style.setProperty('--warp-whisper-opacity', (0.70 + depth * 0.20).toFixed(3));
-            root.style.setProperty('--warp-whisper-green', (0.15 + depth * 0.30).toFixed(3));
-            root.style.setProperty('--warp-whisper-purple', (depth * 0.20).toFixed(3));
-            root.style.setProperty('--warp-stage-sigil-opacity', (depth * 0.85).toFixed(3));
-            root.style.setProperty('--warp-stage-pattern-opacity', (0.08 + depth * 0.30).toFixed(3));
-            root.style.setProperty('--warp-stage-spacing', `${(4 + depth * 4).toFixed(2)}px`);
-            root.style.setProperty('--warp-mist-opacity', (0.04 + depth * 0.30).toFixed(3));
-
-            glyphs.forEach((glyph) => {
-                const reveal = parseFloat(glyph.dataset.reveal || '0');
-                const strength = Math.max(0, Math.min(1, (depth - reveal) / 0.22));
-                glyph.style.opacity = (strength * 0.34).toFixed(3);
-                glyph.style.color = `rgba(96, 232, 114, ${(strength * 0.42).toFixed(3)})`;
-            });
-
-            tendrils.forEach((tendril) => {
-                const reveal = parseFloat(tendril.dataset.reveal || '0');
-                const strength = Math.max(0, Math.min(1, (depth - reveal) / 0.26));
-                tendril.style.opacity = (strength * 0.46).toFixed(3);
-                tendril.style.setProperty('--tendril-scale', (0.50 + strength * 0.72).toFixed(3));
-            });
-
-            staticLines.forEach((line) => {
-                const reveal = parseFloat(line.dataset.reveal || '0');
-                const strength = Math.max(0, Math.min(1, (depth - reveal) / 0.18));
-                line.style.opacity = (strength * 0.28).toFixed(3);
-            });
-        };
-
-        const scheduleShiver = () => {
-            if (reduceMotion) return;
-            clearTimeout(shiverTimer);
-            const delay = Math.max(1700, 6200 - currentDepth * 3600 + Math.random() * 2600);
-            shiverTimer = setTimeout(() => {
-                if (currentDepth > 0.28) {
-                    const candidates = Array.from(root.querySelectorAll('.warp-stage p:not(.whisper-line)'));
-                    const visible = candidates.filter((p) => {
-                        const r = p.getBoundingClientRect();
-                        return r.bottom > 0 && r.top < (window.innerHeight || 0);
-                    });
-                    const pool = visible.length ? visible : candidates;
-                    if (pool.length) {
-                        const target = pool[Math.floor(Math.random() * pool.length)];
-                        target.classList.remove('warp-shiver');
-                        void target.offsetWidth;
-                        target.classList.add('warp-shiver');
-                        setTimeout(() => target.classList.remove('warp-shiver'), 220);
-                    }
+                m.style.left = `${rnd(-14, 86)}%`;
+                m.style.top = `calc(${yPct}% - ${h / 2}px)`;
+                m.style.width = `${w}px`;
+                m.style.height = `${h}px`;
+                m.style.setProperty('--m-blur', `${rnd(opts.minBlur, opts.maxBlur)}px`);
+                m.style.setProperty('--m-speed', `${rnd(19, 38)}s`);
+                m.style.setProperty('--m-scale', rnd(0.9, 1.25).toFixed(2));
+                m.style.animationDelay = `${-rnd(0, 20)}s`;
+                if (purple) {
+                    m.style.setProperty('--m-core', 'rgba(104, 40, 128, 0.40)');
+                    m.style.setProperty('--m-mid', 'rgba(52, 18, 70, 0.16)');
+                } else {
+                    m.style.setProperty('--m-core', 'rgba(58, 168, 78, 0.44)');
+                    m.style.setProperty('--m-mid', 'rgba(30, 92, 44, 0.17)');
                 }
-                scheduleShiver();
-            }, delay);
-        };
+                // Banks low on the page need barely any depth to show; banks high
+                // up stay hidden until the reader is well into the descent.
+                m.dataset.reveal = clamp01(0.06 + (1 - yPct / 100) * 0.55 + rnd(-0.08, 0.10)).toFixed(3);
+                m.dataset.peak = (opts.peak || 0.34).toFixed(3);
+                target.appendChild(m);
+                mists.push(m);
+            }
+        }
 
+        buildMist(under, 11, { minW: 340, maxW: 760, minBlur: 26, maxBlur: 52, peak: 0.30, purpleChance: 0.32 });
+        if (deepAtmos) buildMist(deepAtmos, 7, { minW: 300, maxW: 620, minBlur: 20, maxBlur: 42, peak: 0.46, purpleChance: 0.48 });
+
+        // ---------- tendrils -------------------------------------------------
+        // Organic beziers that crawl inward from the page edges. Growth is
+        // stroke-dashoffset driven, so they physically extend as depth rises.
+        function tendrilPath(w, h, dir) {
+            let x = dir > 0 ? 2 : w - 2;
+            let y = 3;
+            let d = `M ${x.toFixed(1)} ${y.toFixed(1)}`;
+            const segs = 4 + Math.floor(Math.random() * 3);
+            const sx = w / segs;
+            const sy = h / segs;
+            const joints = [];
+            for (let i = 0; i < segs; i++) {
+                const nx = x + dir * sx * rnd(0.62, 1.28);
+                const ny = y + sy * rnd(0.55, 1.30);
+                const c1x = x + dir * sx * rnd(0.35, 0.85);
+                const c1y = y + sy * rnd(0.05, 0.40);
+                const c2x = nx - dir * sx * rnd(0.25, 0.70);
+                const c2y = ny - sy * rnd(0.30, 0.75);
+                d += ` C ${c1x.toFixed(1)} ${c1y.toFixed(1)}, ${c2x.toFixed(1)} ${c2y.toFixed(1)}, ${nx.toFixed(1)} ${ny.toFixed(1)}`;
+                joints.push([nx, ny]);
+                x = nx; y = ny;
+            }
+            return { d: d, joints: joints };
+        }
+
+        function branchPath(from, w, h, dir) {
+            const [bx, by] = from;
+            const ex = bx + dir * rnd(0.12, 0.40) * w;
+            const ey = by + rnd(-0.18, 0.30) * h;
+            const cx = bx + dir * rnd(0.08, 0.28) * w;
+            const cy = by + rnd(-0.22, 0.12) * h;
+            return `M ${bx.toFixed(1)} ${by.toFixed(1)} Q ${cx.toFixed(1)} ${cy.toFixed(1)}, ${ex.toFixed(1)} ${ey.toFixed(1)}`;
+        }
+
+        function buildTendrils(target, count, opts) {
+            for (let i = 0; i < count; i++) {
+                const fromLeft = Math.random() > 0.5;
+                const dir = fromLeft ? 1 : -1;
+                const w = rnd(opts.minW, opts.maxW);
+                const h = rnd(opts.minH, opts.maxH);
+
+                const svg = document.createElementNS(SVG_NS, 'svg');
+                svg.setAttribute('class', 'wf-tendril');
+                svg.setAttribute('viewBox', `0 0 ${w.toFixed(0)} ${h.toFixed(0)}`);
+                svg.setAttribute('width', w.toFixed(0));
+                svg.setAttribute('height', h.toFixed(0));
+                svg.setAttribute('aria-hidden', 'true');
+                svg.style.width = `${w.toFixed(0)}px`;
+                svg.style.height = `${h.toFixed(0)}px`;
+
+                const yPct = (i + rnd(0.05, 0.95)) / count * 100;
+                if (fromLeft) svg.style.left = `${rnd(-6, 4)}%`;
+                else svg.style.right = `${rnd(-6, 4)}%`;
+                svg.style.top = `calc(${yPct}% - ${h / 2}px)`;
+                svg.style.setProperty('--t-origin', fromLeft ? '0% 0%' : '100% 0%');
+                svg.style.setProperty('--t-rot', `${rnd(-14, 14)}deg`);
+                svg.style.setProperty('--t-speed', `${rnd(8, 17)}s`);
+                svg.style.animationDelay = `${-rnd(0, 12)}s`;
+                if (Math.random() < 0.32) {
+                    svg.style.setProperty('--t-stroke', 'rgba(174, 84, 208, 0.48)');
+                }
+
+                const built = tendrilPath(w, h, dir);
+                const main = document.createElementNS(SVG_NS, 'path');
+                main.setAttribute('d', built.d);
+                svg.appendChild(main);
+
+                const branches = [];
+                const branchCount = 1 + Math.floor(Math.random() * 3);
+                for (let b = 0; b < branchCount && built.joints.length; b++) {
+                    const p = document.createElementNS(SVG_NS, 'path');
+                    p.setAttribute('class', 'branch');
+                    p.setAttribute('d', branchPath(pick(built.joints), w, h, dir));
+                    svg.appendChild(p);
+                    branches.push(p);
+                }
+
+                target.appendChild(svg);
+
+                const paths = [main].concat(branches);
+                paths.forEach((p) => {
+                    let len = 0;
+                    try { len = p.getTotalLength(); } catch (e) { len = w + h; }
+                    if (!len || !isFinite(len)) len = w + h;
+                    p.dataset.len = len.toFixed(1);
+                    p.style.strokeDasharray = len.toFixed(1);
+                    p.style.strokeDashoffset = len.toFixed(1);
+                });
+
+                svg.dataset.reveal = clamp01(0.10 + (1 - yPct / 100) * 0.50 + rnd(-0.08, 0.12)).toFixed(3);
+                svg.dataset.peak = (opts.peak || 0.50).toFixed(3);
+                svg._paths = paths;
+                tendrils.push(svg);
+            }
+        }
+
+        buildTendrils(under, 16, { minW: 220, maxW: 520, minH: 180, maxH: 460, peak: 0.46 });
+        if (deepAtmos) buildTendrils(deepAtmos, 9, { minW: 260, maxW: 600, minH: 200, maxH: 520, peak: 0.62 });
+
+        // ---------- sigil rings ---------------------------------------------
+        function buildSigils(target, count, opts) {
+            for (let i = 0; i < count; i++) {
+                const size = rnd(opts.min, opts.max);
+                const svg = document.createElementNS(SVG_NS, 'svg');
+                svg.setAttribute('class', 'wf-sigil');
+                svg.setAttribute('viewBox', '0 0 100 100');
+                svg.setAttribute('aria-hidden', 'true');
+                svg.style.width = `${size.toFixed(0)}px`;
+                svg.style.height = `${size.toFixed(0)}px`;
+                svg.style.left = `${rnd(6, 94)}%`;
+                const yPct = (i + rnd(0.1, 0.9)) / count * 100;
+                svg.style.top = `${yPct.toFixed(2)}%`;
+                svg.style.setProperty('--s-rot', `${rnd(0, 360)}deg`);
+                svg.style.setProperty('--s-speed', `${rnd(38, 90)}s`);
+                svg.style.setProperty('--s-scale', rnd(0.6, 1.0).toFixed(2));
+                if (Math.random() < 0.3) svg.style.setProperty('--s-stroke', 'rgba(180, 90, 214, 0.45)');
+
+                const outer = document.createElementNS(SVG_NS, 'circle');
+                outer.setAttribute('cx', '50'); outer.setAttribute('cy', '50');
+                outer.setAttribute('r', '46');
+                outer.setAttribute('stroke-dasharray', `${rnd(3, 9).toFixed(1)} ${rnd(4, 11).toFixed(1)}`);
+                svg.appendChild(outer);
+
+                const inner = document.createElementNS(SVG_NS, 'circle');
+                inner.setAttribute('cx', '50'); inner.setAttribute('cy', '50');
+                inner.setAttribute('r', rnd(20, 34).toFixed(1));
+                svg.appendChild(inner);
+
+                const spokes = 5 + Math.floor(Math.random() * 6);
+                for (let s = 0; s < spokes; s++) {
+                    const a = (s / spokes) * Math.PI * 2 + rnd(-0.12, 0.12);
+                    const r1 = rnd(24, 33), r2 = rnd(38, 47);
+                    const ln = document.createElementNS(SVG_NS, 'line');
+                    ln.setAttribute('x1', (50 + Math.cos(a) * r1).toFixed(1));
+                    ln.setAttribute('y1', (50 + Math.sin(a) * r1).toFixed(1));
+                    ln.setAttribute('x2', (50 + Math.cos(a) * r2).toFixed(1));
+                    ln.setAttribute('y2', (50 + Math.sin(a) * r2).toFixed(1));
+                    svg.appendChild(ln);
+                }
+
+                // Irregular inscribed polygon - keeps the rings from looking machined.
+                const pts = 3 + Math.floor(Math.random() * 4);
+                let dPoly = '';
+                for (let p = 0; p < pts; p++) {
+                    const a = (p / pts) * Math.PI * 2 + rnd(-0.2, 0.2);
+                    const r = rnd(16, 30);
+                    dPoly += (p === 0 ? 'M ' : ' L ') + (50 + Math.cos(a) * r).toFixed(1) + ' ' + (50 + Math.sin(a) * r).toFixed(1);
+                }
+                dPoly += ' Z';
+                const poly = document.createElementNS(SVG_NS, 'path');
+                poly.setAttribute('d', dPoly);
+                svg.appendChild(poly);
+
+                svg.dataset.reveal = clamp01(0.22 + (1 - yPct / 100) * 0.45 + rnd(-0.06, 0.12)).toFixed(3);
+                svg.dataset.peak = (opts.peak || 0.26).toFixed(3);
+                target.appendChild(svg);
+                sigils.push(svg);
+            }
+        }
+
+        buildSigils(under, 9, { min: 90, max: 260, peak: 0.22 });
+        if (deepAtmos) buildSigils(deepAtmos, 5, { min: 110, max: 300, peak: 0.30 });
+
+        // ---------- glyph swarm ----------------------------------------------
+        function buildGlyphs(target, count, opts) {
+            for (let i = 0; i < count; i++) {
+                const g = document.createElement('span');
+                g.className = 'wf-glyph';
+                g.textContent = pick(GLYPHS);
+                g.style.left = `${rnd(2, 98)}%`;
+                const yPct = (i + rnd(0.05, 0.95)) / count * 100;
+                g.style.top = `${yPct.toFixed(2)}%`;
+                g.style.fontSize = `${rnd(0.7, 2.4).toFixed(2)}rem`;
+                g.style.setProperty('--g-rot', `${rnd(-40, 40)}deg`);
+                g.style.setProperty('--g-speed', `${rnd(3.5, 9)}s`);
+                g.style.animationDelay = `${-rnd(0, 8)}s`;
+                if (Math.random() < 0.28) g.dataset.purple = 'true';
+                g.dataset.reveal = clamp01(0.05 + (1 - yPct / 100) * 0.60 + rnd(-0.10, 0.14)).toFixed(3);
+                g.dataset.peak = (opts.peak || 0.34).toFixed(3);
+                target.appendChild(g);
+                glyphs.push(g);
+            }
+        }
+
+        buildGlyphs(under, 46, { peak: 0.30 });
+        if (deepAtmos) buildGlyphs(deepAtmos, 30, { peak: 0.44 });
+
+        // ---------- rune rows -------------------------------------------------
+        function buildRunes(target, count, opts) {
+            for (let i = 0; i < count; i++) {
+                const r = document.createElement('div');
+                r.className = 'wf-runes';
+                r.textContent = runeString(14 + Math.floor(Math.random() * 26));
+                const yPct = (i + rnd(0.1, 0.9)) / count * 100;
+                r.style.top = `${yPct.toFixed(2)}%`;
+                r.style.setProperty('--r-size', `${rnd(0.8, 1.5).toFixed(2)}rem`);
+                r.dataset.reveal = clamp01(0.28 + (1 - yPct / 100) * 0.42 + rnd(-0.06, 0.10)).toFixed(3);
+                r.dataset.peak = (opts.peak || 0.16).toFixed(3);
+                target.appendChild(r);
+                runeRows.push(r);
+            }
+        }
+
+        buildRunes(under, 8, { peak: 0.13 });
+        if (deepAtmos) buildRunes(deepAtmos, 6, { peak: 0.20 });
+
+        // ---------- glitch tears ----------------------------------------------
+        for (let i = 0; i < 6; i++) {
+            const t = document.createElement('div');
+            t.className = 'wf-tear';
+            t.style.top = `${rnd(4, 96).toFixed(2)}%`;
+            t.style.setProperty('--tear-h', `${rnd(1, 3).toFixed(1)}px`);
+            over.appendChild(t);
+            tears.push(t);
+        }
+
+        // ---------- whisper echoes ---------------------------------------------
+        const whispers = Array.prototype.slice.call(field.querySelectorAll('.whisper-line'));
+        whispers.forEach((w) => { w.dataset.echo = w.textContent; });
+
+        // ---------- depth engine ------------------------------------------------
+        let fieldDepth = 0;
+        let deepDepth = 0;
+
+        function progressThrough(el) {
+            if (!el) return 0;
+            const r = el.getBoundingClientRect();
+            if (!r.height) return 0;
+            const hostRect = host ? host.getBoundingClientRect() : { top: 0, height: window.innerHeight || 1 };
+            const vh = Math.max(hostRect.height || window.innerHeight || 1, 1);
+            const top = r.top - hostRect.top;
+            // 0 as the block's head enters the lower third; 1 once its tail clears
+            // the upper quarter. Long blocks therefore ramp very slowly.
+            const travel = Math.max(r.height - vh * 0.28, 1);
+            return clamp01((vh * 0.72 - top) / travel);
+        }
+
+        let lastF = -1;
+        let lastD = -1;
+
+        function updateDepth(force) {
+            fieldDepth = progressThrough(field);
+            deepDepth = deepRoot && deepRoot.offsetHeight ? progressThrough(deepRoot) : 0;
+
+            // ~150 layer elements get inline styles below. Skipping sub-pixel deltas
+            // keeps a fast scroll from thrashing style recalc on every frame.
+            if (!force && Math.abs(fieldDepth - lastF) < 0.0015 && Math.abs(deepDepth - lastD) < 0.0015) return;
+            lastF = fieldDepth;
+            lastD = deepDepth;
+
+            const f = fieldDepth;
+            const d = deepDepth;
+
+            // --- field tier ---
+            field.style.setProperty('--wf', f.toFixed(3));
+            field.style.setProperty('--wf-tint-green', (f * 0.16).toFixed(3));
+            field.style.setProperty('--wf-tint-purple', (f * f * 0.22).toFixed(3));
+            field.style.setProperty('--wf-grain', (f * f * 0.55).toFixed(3));
+            field.style.setProperty('--wf-vignette', (Math.max(0, f - 0.25) / 0.75 * 0.55).toFixed(3));
+            field.style.setProperty('--wf-over', (Math.max(0, f - 0.18) / 0.82 * 0.85).toFixed(3));
+
+            // --- deep tier (preserves the original variable contract) ---
+            if (deepRoot) {
+                deepRoot.style.setProperty('--warp-depth', d.toFixed(3));
+                deepRoot.style.setProperty('--warp-bg-green', (0.04 + d * 0.13).toFixed(3));
+                deepRoot.style.setProperty('--warp-bg-purple', (0.02 + d * d * 0.14).toFixed(3));
+                deepRoot.style.setProperty('--warp-box-purple', (d * 0.18).toFixed(3));
+                deepRoot.style.setProperty('--warp-title-sigil-opacity', (0.22 + d * 0.45).toFixed(3));
+                deepRoot.style.setProperty('--warp-glow', `${(d * 6).toFixed(2)}px`);
+                deepRoot.style.setProperty('--warp-side-shift', `${(d * 0.9).toFixed(2)}px`);
+                deepRoot.style.setProperty('--warp-whisper-opacity', (0.70 + d * 0.22).toFixed(3));
+                deepRoot.style.setProperty('--warp-whisper-green', (0.15 + d * 0.34).toFixed(3));
+                deepRoot.style.setProperty('--warp-whisper-purple', (d * 0.26).toFixed(3));
+                deepRoot.style.setProperty('--warp-stage-sigil-opacity', (d * 0.85).toFixed(3));
+                deepRoot.style.setProperty('--warp-stage-pattern-opacity', (0.08 + d * 0.34).toFixed(3));
+                deepRoot.style.setProperty('--warp-stage-spacing', `${(4 + d * 7).toFixed(2)}px`);
+                deepRoot.style.setProperty('--warp-mist-opacity', (0.04 + d * 0.42).toFixed(3));
+                // Barely perceptible list, but it stops the later stages sitting square.
+                deepRoot.style.setProperty('--warp-lean', `${(d * 0.32).toFixed(3)}deg`);
+            }
+
+            // --- per-element reveals ---
+            mists.forEach((m) => {
+                const reveal = parseFloat(m.dataset.reveal || '0');
+                const peak = parseFloat(m.dataset.peak || '0.3');
+                const strength = clamp01((f - reveal) / 0.30);
+                m.style.opacity = (strength * peak).toFixed(3);
+                m.style.setProperty('--m-scale', (0.85 + strength * 0.55).toFixed(3));
+            });
+
+            tendrils.forEach((t) => {
+                const reveal = parseFloat(t.dataset.reveal || '0');
+                const peak = parseFloat(t.dataset.peak || '0.5');
+                const strength = clamp01((f - reveal) / 0.34);
+                t.style.opacity = (strength * peak).toFixed(3);
+                t.style.setProperty('--t-scale', (0.40 + strength * 0.95).toFixed(3));
+                t.style.setProperty('--t-width', (0.7 + strength * 2.2).toFixed(2));
+                // The strand itself extends - this is the "creeping" motion.
+                const grow = Math.pow(strength, 0.82);
+                // Lengths taken at init are unreliable while #document-container is
+                // still display:none, so re-measure once the element has real layout.
+                const needsMeasure = t.dataset.measured !== '1' && t.getBoundingClientRect().width > 0;
+                (t._paths || []).forEach((p) => {
+                    if (needsMeasure) {
+                        let real = 0;
+                        try { real = p.getTotalLength(); } catch (e) { real = 0; }
+                        if (real && isFinite(real)) {
+                            p.dataset.len = real.toFixed(1);
+                            p.style.strokeDasharray = real.toFixed(1);
+                        }
+                    }
+                    const len = parseFloat(p.dataset.len || '0');
+                    p.style.strokeDashoffset = (len * (1 - grow)).toFixed(1);
+                });
+                if (needsMeasure) t.dataset.measured = '1';
+            });
+
+            sigils.forEach((s) => {
+                const reveal = parseFloat(s.dataset.reveal || '0');
+                const peak = parseFloat(s.dataset.peak || '0.24');
+                const strength = clamp01((f - reveal) / 0.28);
+                s.style.opacity = (strength * peak).toFixed(3);
+                s.style.setProperty('--s-scale', (0.55 + strength * 0.75).toFixed(3));
+            });
+
+            glyphs.forEach((g) => {
+                const reveal = parseFloat(g.dataset.reveal || '0');
+                const peak = parseFloat(g.dataset.peak || '0.32');
+                const strength = clamp01((f - reveal) / 0.24);
+                const alpha = strength * peak;
+                g.style.setProperty('--g-alpha', alpha.toFixed(3));
+                g.style.opacity = alpha.toFixed(3);
+                g.style.color = g.dataset.purple === 'true'
+                    ? `rgba(186, 96, 220, ${(strength * 0.55).toFixed(3)})`
+                    : `rgba(96, 232, 114, ${(strength * 0.60).toFixed(3)})`;
+            });
+
+            runeRows.forEach((r) => {
+                const reveal = parseFloat(r.dataset.reveal || '0');
+                const peak = parseFloat(r.dataset.peak || '0.15');
+                const strength = clamp01((f - reveal) / 0.26);
+                r.style.opacity = (strength * peak).toFixed(3);
+                r.style.setProperty('--r-space', `${(5 + strength * 16).toFixed(1)}px`);
+            });
+
+            whispers.forEach((w) => {
+                w.style.setProperty('--echo-alpha', (f * 0.34).toFixed(3));
+                w.style.setProperty('--echo-x', `${(f * 2.6).toFixed(2)}px`);
+                w.style.setProperty('--echo-y', `${(f * 1.4).toFixed(2)}px`);
+                w.style.setProperty('--echo-blur', `${(0.3 + f * 1.1).toFixed(2)}px`);
+            });
+        }
+
+        // ---------- glitch scheduler ---------------------------------------------
+        let glitchTimer = null;
+
+        function visibleParagraphs() {
+            const hostRect = host ? host.getBoundingClientRect() : { top: 0, bottom: window.innerHeight || 0 };
+            const all = Array.prototype.slice.call(field.querySelectorAll('.warp-stage p, .vox-log > p'));
+            const vis = all.filter((p) => {
+                const r = p.getBoundingClientRect();
+                return r.bottom > hostRect.top && r.top < hostRect.bottom;
+            });
+            return vis.length ? vis : all;
+        }
+
+        function flashClass(el, cls, ms) {
+            el.classList.remove(cls);
+            void el.offsetWidth;
+            el.classList.add(cls);
+            setTimeout(() => el.classList.remove(cls), ms);
+        }
+
+        // Character-level corruption. The original string is cached on the node the
+        // first time it is touched and every restore reads from that cache, so the
+        // log text can never drift out of shape no matter how often this fires.
+        function corruptText(p, intensity) {
+            if (p.querySelector('*')) return;
+            if (!p.dataset.wfOrig) p.dataset.wfOrig = p.textContent;
+            const orig = p.dataset.wfOrig;
+            if (!orig || orig.length < 12) return;
+            const chars = orig.split('');
+            const hits = 1 + Math.round(intensity * 7);
+            for (let i = 0; i < hits; i++) {
+                const idx = Math.floor(Math.random() * chars.length);
+                if (chars[idx] === ' ') continue;
+                chars[idx] = pick(CORRUPT);
+            }
+            p.textContent = chars.join('');
+            setTimeout(() => {
+                if (p.dataset.wfOrig) p.textContent = p.dataset.wfOrig;
+            }, 80 + Math.random() * 190);
+        }
+
+        function infest(p, intensity) {
+            p.dataset.infest = Math.random() < 0.4 ? runeString(2) : pick(GLYPHS);
+            p.style.setProperty('--inf-x', `${rnd(12, 88).toFixed(1)}%`);
+            p.style.setProperty('--inf-y', `${rnd(18, 82).toFixed(1)}%`);
+            p.style.setProperty('--inf-size', `${rnd(1.6, 4.4).toFixed(2)}rem`);
+            p.style.setProperty('--inf-rot', `${rnd(-45, 45).toFixed(1)}deg`);
+            p.style.setProperty('--inf-alpha', (0.08 + intensity * 0.20).toFixed(3));
+            p.classList.add('wf-infested');
+            setTimeout(() => {
+                p.classList.remove('wf-infested');
+                delete p.dataset.infest;
+            }, 2600 + Math.random() * 6500);
+        }
+
+        function fireTear() {
+            const t = pick(tears);
+            t.style.top = `${rnd(4, 96).toFixed(2)}%`;
+            flashClass(t, 'fire', 460);
+        }
+
+        function rerollGlyph() {
+            const pool = glyphs.filter((g) => parseFloat(g.style.opacity || '0') > 0.02);
+            if (!pool.length) return;
+            const g = pick(pool);
+            g.textContent = pick(GLYPHS);
+            g.style.setProperty('--g-rot', `${rnd(-50, 50)}deg`);
+        }
+
+        function scheduleGlitch() {
+            clearTimeout(glitchTimer);
+            const drive = Math.max(fieldDepth, deepDepth);
+            const delay = Math.max(650, 7200 - drive * 6000) + Math.random() * 2400;
+            glitchTimer = setTimeout(() => {
+                const drv = Math.max(fieldDepth, deepDepth);
+                if (drv > 0.12 && !reduceMotion) {
+                    const paras = visibleParagraphs();
+                    const roll = Math.random();
+
+                    if (paras.length) {
+                        const target = pick(paras);
+                        if (drv > 0.62 && roll < 0.22) {
+                            corruptText(target, drv);
+                        } else if (drv > 0.42 && roll < 0.42) {
+                            flashClass(target, 'wf-split', 220 + Math.random() * 420);
+                        } else if (drv > 0.50 && roll < 0.56) {
+                            flashClass(target, 'wf-drop', 520);
+                        } else if (drv > 0.36 && roll < 0.70 && !target.classList.contains('whisper-line')) {
+                            infest(target, drv);
+                        } else {
+                            flashClass(target, 'wf-shiver', 240);
+                        }
+                    }
+
+                    if (drv > 0.30 && Math.random() < 0.35) fireTear();
+                    if (drv > 0.55 && Math.random() < 0.22) flashClass(scan, 'fire', 340);
+                    if (drv > 0.34 && Math.random() < 0.45) rerollGlyph();
+                    if (deepRoot && deepDepth > 0.80 && Math.random() < 0.10) flashClass(deepRoot, 'wf-jolt', 360);
+                }
+                scheduleGlitch();
+            }, delay);
+        }
+
+        // ---------- wiring ---------------------------------------------------------
         let ticking = false;
         const requestUpdate = () => {
             if (ticking) return;
@@ -2714,10 +3421,31 @@
             });
         };
 
-        window.addEventListener('scroll', requestUpdate, { passive: true });
+        // #document-container is the scroller. Window is bound in the capture phase
+        // as a fallback for any other ancestor that ends up scrolling instead.
+        if (host) host.addEventListener('scroll', requestUpdate, { passive: true });
+        window.addEventListener('scroll', requestUpdate, { passive: true, capture: true });
         window.addEventListener('resize', requestUpdate);
-        updateDepth();
-        scheduleShiver();
+
+        // Sealed blocks expand the page by thousands of pixels when unsealed, so a
+        // full re-measure is exposed for revealRedact() to call.
+        window.warpRefresh = function() {
+            const full = () => { lastF = -1; lastD = -1; requestUpdate(); };
+            full();
+            setTimeout(full, 60);
+            setTimeout(full, 320);
+            setTimeout(full, 900);
+        };
+
+        if (window.ResizeObserver) {
+            try {
+                const ro = new ResizeObserver(requestUpdate);
+                ro.observe(field);
+            } catch (e) { /* non-fatal */ }
+        }
+
+        updateDepth(true);
+        scheduleGlitch();
     }
 
     // --- OVERRIDE & CONTROL PANEL ---
