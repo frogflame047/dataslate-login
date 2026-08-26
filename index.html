@@ -797,6 +797,78 @@
             text-transform: none;
         }
 
+
+        /* Warrant-sealed archive stratum. Hidden unless the Warrant override is used. */
+        .warrant-only { display: none; }
+
+        .warrant-only.warrant-authorized { display: block; }
+
+        .warrant-stratum {
+            position: relative;
+            margin-top: 2.6rem;
+            padding: 18px 20px 22px;
+            border: 1px solid rgba(79, 224, 92, 0.55);
+            background:
+                linear-gradient(180deg, rgba(15, 45, 18, 0.12), rgba(60, 8, 16, 0.08)),
+                repeating-linear-gradient(0deg, rgba(79, 224, 92, 0.025) 0px, rgba(79, 224, 92, 0.025) 1px, transparent 1px, transparent 4px);
+            box-shadow: inset 0 0 22px rgba(79, 224, 92, 0.08), 0 0 10px rgba(140, 28, 19, 0.16);
+        }
+
+        .warrant-stratum::before {
+            content: "WARRANT-SEALED // PROSCRIBED STRATUM";
+            position: absolute;
+            top: -10px;
+            right: 14px;
+            padding: 2px 8px;
+            background: var(--bg-color);
+            border: 1px solid rgba(79, 224, 92, 0.45);
+            color: #62d86c;
+            font-family: 'VT323', monospace;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+        }
+
+        .warp-echo {
+            color: #76d77c;
+            text-shadow: 0 0 5px rgba(80, 220, 100, 0.35);
+        }
+
+        .whisper-line {
+            margin: 12px 4% !important;
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            opacity: 0.72;
+            text-align: center;
+            letter-spacing: 0.4px;
+        }
+
+        .warrant-index {
+            width: 100%;
+            margin: 12px 0 18px;
+            border-collapse: collapse;
+            font-family: 'VT323', monospace;
+        }
+
+        .warrant-index th,
+        .warrant-index td {
+            border: 1px solid rgba(79, 224, 92, 0.28);
+            padding: 7px 9px;
+            vertical-align: top;
+        }
+
+        .warrant-index th {
+            width: 23%;
+            color: #76d77c;
+            letter-spacing: 1px;
+            text-align: left;
+        }
+
+        .warrant-stratum .redact-revealed {
+            text-decoration: none;
+            font-family: inherit;
+            font-size: inherit;
+        }
+
         /* Scribe's transcription slip - the OOC block */
         .scribe-slip {
             border: 1px solid rgba(216,163,60,0.5);
@@ -1205,6 +1277,127 @@
             She has outlived every name she arrived with. The Administratum records this not as merit but as fact, and the distinction is left to those who read after.
         </div>
 
+        <div id="warrant-lore-section" class="warrant-only warrant-stratum">
+            <div class="doc-section-title">VII &mdash; Warrant-Sealed Appendix // A Thousand Eyes</div>
+            <div class="crimson-alert">++ DYNASTY EYES ONLY // NO MUNITORUM COPY // UNSANCTIONED AETHERIC INDICATORS ++</div>
+
+            <table class="warrant-index">
+                <tr>
+                    <th>RECOVERY SOURCE</th>
+                    <td>Private vox-memory fragment recovered from the subject&rsquo;s disputed Officio Medicae crate. Timestamp falls within the missing year of Fusilier service.</td>
+                </tr>
+                <tr>
+                    <th>INCIDENT TYPE</th>
+                    <td>Trench assault, unit separation, probable first psychic manifestation. No surviving regimental witness statement located.</td>
+                </tr>
+                <tr>
+                    <th>ARCHIVE STATUS</th>
+                    <td>Never submitted to Fusilier command. Retained under Warrant authority. Cross-reference with Section V is forbidden without Lord-Captain&rsquo;s leave.</td>
+                </tr>
+                <tr>
+                    <th>AETHERIC NOTE</th>
+                    <td class="warp-echo">Green ribbon-like warp discharge and abnormal awareness of nearby vermin are consistent with a Vermin Speaker manifestation. Subject appears not to have understood the phenomenon at the time.</td>
+                </tr>
+            </table>
+
+            <div class="addendum-box">
+                <div class="redact-block" onclick="revealRedact(this)">[ &#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608; PRIVATE MEMORY-LOG SEALED &mdash; WARRANT AUTHORITY MAY INTERROGATE ]</div>
+                <div class="redact-hidden">
+                    <div class="vox-log">
+                        <span class="vox-slug">Recovered vox-memory &mdash; designation uncertain // trench line, theatre unrecorded</span>
+
+                        <p>&ldquo;I remember the whistle first. Not ours. Maybe theirs. Maybe one of the shell casings screaming over the line. By then it all sounded the same. The trench had stopped being a trench somewhere behind us and become a long ditch full of red water, broken boards, men trying not to drown face-down in mud, and officers shouting forward because forward was the only direction they knew.&rdquo;</p>
+
+                        <p>&ldquo;We went over anyway. We always went over. The Fusiliers wanted the next line before dusk and people like us were cheaper than artillery. I made it maybe fifty metres before a shell picked the earth up and threw it back down on top of me. When I woke I was in a crater deep enough that the firing passed over the lip. My left ear only heard a thin whine. My lasgun had been folded against a slab of ferrocrete; the casing was split, the focusing assembly hanging out like a snapped bone. I tried the charge lever twice because you do stupid things when you&rsquo;re frightened. It gave me sparks and nothing else.&rdquo;</p>
+
+                        <p>&ldquo;I could not see the line anymore. I could not see anyone. But I could hear scratching.&rdquo;</p>
+
+                        <p>&ldquo;At first I thought it was someone digging through the spoil. Then I realised it was underneath me. Little claws in the wet earth. Rats. Hundreds of them, maybe. The bombardment had driven them out of the trenches and into every hole that wasn&rsquo;t already full of bodies. I hated them for being alive. I hated that I could hear them better than I could hear the men shouting above me.&rdquo;</p>
+
+                        <p>&ldquo;Then I saw the field again.&rdquo;</p>
+
+                        <p>&ldquo;Not from the crater. From somewhere close to the ground. Everything was enormous. Boots striking mud. Torn cloth dragging through puddles. A dead man&rsquo;s hand with a ring on it. Another view blinked into mine and I was looking through a drainage pipe. Another, and I was under coils of wire. Another, and something was chewing leather from a corpse while the world shook around it. I shut my eyes and it did not stop. There were eyes everywhere, little black beads in the dirt, and for a few seconds every one of them felt like mine.&rdquo;</p>
+
+                        <p class="whisper-line">Too many eyes. Too many places to hide. Too many things that could see her.</p>
+
+                        <p>&ldquo;That was how I knew the enemy was coming before I heard him.&rdquo;</p>
+
+                        <p>&ldquo;He dropped into the crater hard enough to splash mud across my face. I remember his bayonet more clearly than his face. He saw the broken lasgun, saw the antlers, and whatever he thought I was, he decided I was easy. I tried to bring the weapon up like a club. He kicked it out of my hands. I remember thinking that I had survived the underhive, the Guard, a year of being used as a sandbag that could walk, and I was going to die in a hole because a piece of cheap issue metal finally gave up before I did.&rdquo;</p>
+
+                        <p>&ldquo;I wanted him away from me. That was all. I did not pray. I did not say anything. I did not know there was anything listening.&rdquo;</p>
+
+                        <p>&ldquo;Something green came out of the air between us.&rdquo;</p>
+
+                        <p>&ldquo;They looked like ribbons at first. Thin strands, bright enough to paint the crater walls sickly green. They wrapped around his forearm and the bayonet went one way while the hand stayed clenched around it. More strands crossed his chest. His coat opened in straight wet lines, then the flesh beneath it followed. He had time to scream once before the ribbons pulled in opposite directions.&rdquo;</p>
+
+                        <p>&ldquo;His skin came away in sheets. I saw white rib beneath it, clean for less than a heartbeat before another strand sawed through the gaps. Something hooked under his jaw and peeled the lower half of his face down against his throat. His tongue was still moving. His eyes were still looking at me. Then the green threads tightened again and what was standing over me stopped being shaped like a man.&rdquo;</p>
+
+                        <p>&ldquo;It happened too quickly for the amount of blood there was. Pieces of him struck the crater wall hard enough to stick in the mud. One arm landed beside my knee. The rest folded apart in strips and chunks, pulled open as if invisible hands were trying to find something hidden inside him. Then the light vanished. No smoke. No heat. Just the smell of blood, burnt air, and all those rats suddenly going quiet.&rdquo;</p>
+
+                        <p>&ldquo;I thought I had imagined it until Harl and Merek climbed over the lip.&rdquo;</p>
+
+                        <p>&ldquo;They had been looking for me. Throne knows why. Maybe because I had patched Harl&rsquo;s leg the week before. Maybe because Merek still remembered when there were more of us from Vaxanide. They stared at the thing in the crater. Then they stared at me.&rdquo;</p>
+
+                        <p>&ldquo;Neither of them said witch at first.&rdquo;</p>
+
+                        <p>&ldquo;They did not have to.&rdquo;</p>
+
+                        <p>&ldquo;Everyone in the Imperium knows what happens next. You do not need a priest to explain the Black Ships. You do not need to know the words sanctioning, possession, pyre. We had all seen men beaten to death for less frightening rumours. We had all heard stories about people taken away because a candle guttered when they walked past it. I knew what Harl was thinking because I was thinking it too. If they told anyone, I was dead. If they were kind, I was merely dead.&rdquo;</p>
+
+                        <p>&ldquo;Harl kept saying my name. Quietly. Like he was trying to remind himself I still had one. Merek reached for his rifle.&rdquo;</p>
+
+                        <p>&ldquo;I moved first.&rdquo;</p>
+
+                        <p>&ldquo;I still had the bayonet. The enemy&rsquo;s hand was attached to it, so I had to wrench it loose. I wish I could say I don&rsquo;t remember what happened after that. I remember all of it. I remember Harl asking me to stop. I remember Merek slipping on the crater wall. I remember how much easier it was to put a blade into someone when you knew exactly where the gaps in their kit were because you had helped buckle that same kit closed before an assault.&rdquo;</p>
+
+                        <p>&ldquo;I remember apologising to Harl while I held him down.&rdquo;</p>
+
+                        <p>&ldquo;I remember that being the worst part.&rdquo;</p>
+
+                        <p>&ldquo;When it was finished, I dragged both of them against the other body and waited for the shelling to bury the difference. I told myself the guns would do it. The guns always cleaned up after us eventually. I told myself nobody would count three bodies in a crater when thousands were missing. I told myself they would have condemned me first.&rdquo;</p>
+
+                        <p>&ldquo;None of that made them less dead.&rdquo;</p>
+
+                        <p class="whisper-line">They saw you. You saw them. Now only you remain to remember.</p>
+
+                        <p>&ldquo;I stayed in that crater until night.&rdquo;</p>
+
+                        <p>&ldquo;The assault moved past me. Then back over me. Then somewhere else. I could hear the rats again after dark. Worse, I could feel where some of them were. A pressure at the edge of thought. A hundred tiny lives moving through drainage cuts and under corpses, finding paths I could not see. Every time one looked toward the crater I had the sick feeling of being watched from inside my own skull.&rdquo;</p>
+
+                        <p>&ldquo;There were other voices too. Not loud. Not like the preachers describe daemons. Nothing grand. Just little thoughts that arrived wearing my own voice.&rdquo;</p>
+
+                        <p class="whisper-line">You survived. That makes it right.</p>
+                        <p class="whisper-line">They would have burned you.</p>
+                        <p class="whisper-line">You were always going to be alone.</p>
+                        <p class="whisper-line">Look again. There are so many eyes beneath the earth.</p>
+
+                        <p>&ldquo;I kept answering them even though I knew I had not spoken first. No. No. No. Harl had a sister. Merek snored loud enough to wake the dead. Harl hated recaf unless it was so sweet it hurt your teeth. Merek used to steal my ration bars and pretend the rats had taken them. They were people. They were mine. I killed them because I was afraid.&rdquo;</p>
+
+                        <p>&ldquo;That truth was worse than the voices. The voices could be ignored for a few seconds at a time. The truth stayed.&rdquo;</p>
+
+                        <p>&ldquo;Sometime before dawn a rat climbed onto Harl&rsquo;s sleeve. I knew it was there before I turned my head. It looked at me. For one impossible instant I was looking back at myself from the sleeve &mdash; mud on my face, antlers black against the sky, three corpses around me, both hands clamped over my mouth because I was scared someone would hear me crying.&rdquo;</p>
+
+                        <p>&ldquo;Then it ran.&rdquo;</p>
+
+                        <p>&ldquo;I followed the direction it went when I finally left the crater. I do not know why. It found a drainage trench that led behind what remained of our line. I crawled most of the way. By sunrise I was back among the Fusiliers with somebody else&rsquo;s rifle and a story about being buried by a shell.&rdquo;</p>
+
+                        <p>&ldquo;No one asked about Harl or Merek until three days later.&rdquo;</p>
+
+                        <p>&ldquo;I said I never saw them after we went over.&rdquo;</p>
+
+                        <p>&ldquo;That is still the worst lie I have ever told.&rdquo;</p>
+                    </div>
+
+                    <div class="purity-seal">
+                        <span class="seal-tag">Private annotation // appended later, hand uncertain</span>
+                        I know what the Imperium calls people who do impossible things and live. I know what they do to them. If there is something wrong inside me, it will stay inside me. I will not give them another reason to put me on a pyre. I have already paid for the secret with two lives. I cannot make that payment mean nothing.
+                    </div>
+
+                    <div class="crimson-alert">++ END MEMORY-LOG // DO NOT PROPAGATE TO SANCTIONED PERSONNEL FILE ++</div>
+                </div>
+            </div>
+        </div>
+
         <br>
         <div style="text-align: center; font-family: 'Cinzel', serif; letter-spacing: 6px; font-size: 0.9rem;">++ END OF RECORD ++</div>
         <br><br>
@@ -1237,7 +1430,7 @@
         "JANE - THE LONG FACES.mp3",
         "Pale.mp3",
         "Wormwood.mp3",
-        "STARSET - ECHO.mp3"
+        "Aviators - Wake Me When it's Over.mp3"
     ];
 
     // Global audio dampener to ensure the maximum volume is 40% lower universally.
@@ -1273,6 +1466,7 @@
     let runStartTime = 0;
     let dudsUsed = 0;
     let loreIndices = [];
+    let warrantArchiveAccess = false;
 
     // --- IMPERIAL DATING ---
     // Renders a rough Imperial-style timestamp beside real local time.
@@ -1525,6 +1719,12 @@
         let hiddenContent = el.nextElementSibling;
         hiddenContent.classList.remove('redact-hidden');
         hiddenContent.classList.add('redact-revealed');
+    }
+
+    function grantWarrantArchiveAccess() {
+        warrantArchiveAccess = true;
+        const section = document.getElementById('warrant-lore-section');
+        if (section) section.classList.add('warrant-authorized');
     }
 
     // --- BOOT SEQUENCE LOGIC ---
@@ -1882,22 +2082,24 @@
 
     // --- OVERRIDE & CONTROL PANEL ---
     // Access passphrases (case-insensitive):
-    //   omnissiah / weiss     -> straight access, skips the cypher lock
-    //   warrant   / parasite  -> access AND unlocks the record-expungement panel
+    //   omnissiah / croix     -> straight access, skips the cypher lock
+    //   warrant   / parasite  -> Warrant-grade access, record expungement, and proscribed lore stratum
     window.adminBypass = function() {
         const pw = prompt("++ ADEPTUS OVERRIDE REQUIRED ++\nSPEAK THE HIGH CYPHER:");
         if (!pw) return;
 
         const key = pw.toLowerCase();
 
-        if (key === "omnissiah" || key === "weiss") {
+        if (key === "omnissiah" || key === "croix") {
             sfxSuccess();
             addLog("> OVERRIDE ACKNOWLEDGED.");
             addLog("> SEAL BROKEN.");
             setTimeout(executeTransition, 800);
         } else if (key === "warrant" || key === "parasite") {
+            grantWarrantArchiveAccess();
             sfxSuccess();
             addLog("> WARRANT AUTHORITY RECOGNISED.");
+            addLog("> PROSCRIBED STRATUM VII MOUNTED.");
             addLog("> SEAL BROKEN.");
             document.getElementById('admin-panel-btn').style.display = 'block';
             setTimeout(executeTransition, 800);
