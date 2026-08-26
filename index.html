@@ -815,7 +815,7 @@
         }
 
         .warrant-stratum::before {
-            content: "WARRANT-SEALED // PROSCRIBED STRATUM";
+            content: "GHOST-CIPHER // PROSCRIBED STRATUM";
             position: absolute;
             top: -10px;
             right: 14px;
@@ -867,6 +867,209 @@
             text-decoration: none;
             font-family: inherit;
             font-size: inherit;
+        }
+
+
+        /* --- WARP DESCENT // Warrant-only continuation ---
+           Pure CSS/DOM atmosphere: no image assets are used. Effects stay behind
+           the prose and intensify only as the reader descends through the fragment. */
+        .warp-descent {
+            --warp-depth: 0;
+            --warp-bg-green: 0.04;
+            --warp-bg-purple: 0.02;
+            --warp-box-purple: 0;
+            --warp-title-sigil-opacity: 0.22;
+            --warp-glow: 0px;
+            --warp-side-shift: 0px;
+            --warp-whisper-opacity: 0.70;
+            --warp-whisper-green: 0.15;
+            --warp-whisper-purple: 0;
+            --warp-stage-sigil-opacity: 0;
+            --warp-stage-pattern-opacity: 0.08;
+            --warp-stage-spacing: 4px;
+            --warp-mist-opacity: 0.04;
+            position: relative;
+            isolation: isolate;
+            overflow: hidden;
+            margin: 28px -10px 4px;
+            padding: 26px 18px 30px;
+            border-top: 1px solid rgba(87, 218, 103, 0.22);
+            border-bottom: 1px solid rgba(87, 218, 103, 0.18);
+            background:
+                linear-gradient(180deg,
+                    rgba(5, 12, 7, 0.04),
+                    rgba(8, 28, 12, var(--warp-bg-green)),
+                    rgba(20, 4, 26, var(--warp-bg-purple)));
+            box-shadow:
+                inset 0 22px 34px rgba(0,0,0,0.16),
+                inset 0 -30px 48px rgba(31, 4, 38, var(--warp-box-purple));
+        }
+
+        .warp-descent > *:not(.warp-atmosphere) {
+            position: relative;
+            z-index: 3;
+        }
+
+        .warp-continuation-title {
+            margin: 0 0 22px;
+            padding: 8px 12px;
+            border: 1px solid rgba(85, 219, 102, 0.32);
+            background: rgba(3, 10, 5, 0.58);
+            font-family: 'VT323', monospace;
+            color: #76d77c;
+            letter-spacing: 2px;
+            text-align: center;
+            text-transform: uppercase;
+            text-shadow: 0 0 8px rgba(86, 240, 111, 0.32);
+        }
+
+        .warp-continuation-title::before,
+        .warp-continuation-title::after {
+            content: "//";
+            opacity: var(--warp-title-sigil-opacity);
+            margin: 0 9px;
+        }
+
+        .warp-descent p {
+            transition: text-shadow 0.25s ease, filter 0.25s ease;
+            text-shadow:
+                0 0 var(--warp-glow) rgba(76, 211, 95, 0.14),
+                var(--warp-side-shift) 0 0 rgba(155, 75, 190, 0.11);
+        }
+
+        .warp-descent .whisper-line {
+            opacity: var(--warp-whisper-opacity);
+            text-shadow:
+                0 0 8px rgba(83, 240, 105, var(--warp-whisper-green)),
+                1px 0 0 rgba(185, 76, 206, var(--warp-whisper-purple));
+        }
+
+        .warp-stage {
+            position: relative;
+            padding: 2px 0;
+        }
+
+        .warp-stage::before {
+            content: attr(data-sigil);
+            position: absolute;
+            left: -10px;
+            top: 10%;
+            color: rgba(103, 232, 119, 0.18);
+            font-family: 'VT323', monospace;
+            font-size: 1.05rem;
+            letter-spacing: 5px;
+            transform: rotate(-90deg) translateX(-100%);
+            transform-origin: left top;
+            opacity: var(--warp-stage-sigil-opacity);
+            pointer-events: none;
+        }
+
+        .warp-stage.deep::after {
+            content: "∴   ⟡   ⌁   ⧖   ∴";
+            display: block;
+            margin: 22px 0 14px;
+            color: rgba(103, 232, 119, var(--warp-stage-pattern-opacity));
+            text-align: center;
+            font-family: 'VT323', monospace;
+            letter-spacing: var(--warp-stage-spacing);
+            text-shadow: 0 0 8px rgba(87, 230, 104, 0.30);
+        }
+
+        .warp-atmosphere {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .warp-mist {
+            position: absolute;
+            inset: -12% -10%;
+            opacity: var(--warp-mist-opacity);
+            background:
+                radial-gradient(ellipse at 14% 28%, rgba(53, 160, 73, 0.30) 0%, rgba(27, 83, 39, 0.12) 22%, transparent 54%),
+                radial-gradient(ellipse at 88% 58%, rgba(86, 32, 103, 0.28) 0%, rgba(47, 19, 66, 0.10) 25%, transparent 56%),
+                radial-gradient(ellipse at 42% 86%, rgba(55, 198, 82, 0.23) 0%, transparent 48%);
+            filter: blur(16px);
+            animation: warpMistDrift 18s ease-in-out infinite alternate;
+        }
+
+        .warp-glyph {
+            position: absolute;
+            z-index: 2;
+            color: rgba(96, 232, 114, 0.0);
+            font-family: 'VT323', monospace;
+            text-shadow: 0 0 8px rgba(79, 226, 99, 0.35);
+            user-select: none;
+            transform: translate(-50%, -50%) rotate(var(--glyph-rot));
+            transition: opacity 0.6s ease, color 0.6s ease;
+            animation: warpGlyphPulse var(--glyph-speed) ease-in-out infinite alternate;
+        }
+
+        .warp-tendril {
+            position: absolute;
+            width: 7px;
+            height: var(--tendril-length);
+            border-radius: 55% 45% 60% 40%;
+            opacity: 0;
+            background: linear-gradient(180deg,
+                rgba(66, 226, 93, 0),
+                rgba(70, 218, 92, 0.24) 18%,
+                rgba(53, 147, 75, 0.18) 60%,
+                rgba(100, 52, 128, 0));
+            filter: blur(1.1px) drop-shadow(0 0 5px rgba(59, 211, 81, 0.22));
+            transform-origin: 50% 0%;
+            transform: rotate(var(--tendril-rot)) scaleY(var(--tendril-scale));
+            transition: opacity 0.55s ease, transform 0.7s ease;
+            animation: warpTendrilSway var(--tendril-speed) ease-in-out infinite alternate;
+        }
+
+        .warp-shiver {
+            animation: warpTextShiver 0.16s steps(2, end) 1;
+        }
+
+        .warp-static-line {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(94, 232, 112, 0.18), rgba(174, 83, 205, 0.13), transparent);
+            opacity: 0;
+            z-index: 2;
+            transition: opacity 0.25s ease;
+            box-shadow: 0 0 6px rgba(94, 232, 112, 0.14);
+        }
+
+        @keyframes warpMistDrift {
+            0% { transform: translate3d(-2%, -1%, 0) scale(1.02); }
+            100% { transform: translate3d(3%, 2%, 0) scale(1.10); }
+        }
+
+        @keyframes warpGlyphPulse {
+            0% { filter: blur(0px); }
+            100% { filter: blur(0.65px); }
+        }
+
+        @keyframes warpTendrilSway {
+            0% { margin-left: -3px; }
+            100% { margin-left: 5px; }
+        }
+
+        @keyframes warpTextShiver {
+            0% { transform: translateX(0); filter: none; }
+            35% { transform: translateX(-0.7px); filter: hue-rotate(8deg); }
+            70% { transform: translateX(0.8px); filter: hue-rotate(-9deg); }
+            100% { transform: translateX(0); filter: none; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .warp-mist,
+            .warp-glyph,
+            .warp-tendril,
+            .warp-shiver {
+                animation: none !important;
+            }
         }
 
         /* Scribe's transcription slip - the OOC block */
@@ -1278,8 +1481,8 @@
         </div>
 
         <div id="warrant-lore-section" class="warrant-only warrant-stratum">
-            <div class="doc-section-title">VII &mdash; Warrant-Sealed Appendix // A Thousand Eyes</div>
-            <div class="crimson-alert">++ DYNASTY EYES ONLY // NO MUNITORUM COPY // UNSANCTIONED AETHERIC INDICATORS ++</div>
+            <div class="doc-section-title">VII &mdash; Ghost-Cipher Appendix // A Thousand Eyes</div>
+            <div class="crimson-alert">++ UNREGISTERED GHOST PARTITION // LORD-CAPTAIN UNNOTIFIED // NO DYNASTY OR MUNITORUM MIRROR ++</div>
 
             <table class="warrant-index">
                 <tr>
@@ -1292,7 +1495,7 @@
                 </tr>
                 <tr>
                     <th>ARCHIVE STATUS</th>
-                    <td>Never submitted to Fusilier command. Retained under Warrant authority. Cross-reference with Section V is forbidden without Lord-Captain&rsquo;s leave.</td>
+                    <td>Never submitted to Fusilier command. No dynasty authorization token, captaincy seal, or sanctioned Psykana referral is present. This partition is absent from the normal archive index and appears to have been concealed rather than formally retained.</td>
                 </tr>
                 <tr>
                     <th>AETHERIC NOTE</th>
@@ -1301,7 +1504,7 @@
             </table>
 
             <div class="addendum-box">
-                <div class="redact-block" onclick="revealRedact(this)">[ &#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608; PRIVATE MEMORY-LOG SEALED &mdash; WARRANT AUTHORITY MAY INTERROGATE ]</div>
+                <div class="redact-block" onclick="revealRedact(this)">[ &#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608; PRIVATE MEMORY-LOG SEALED &mdash; GHOST-CIPHER INTERROGATION ONLY ]</div>
                 <div class="redact-hidden">
                     <div class="vox-log">
                         <span class="vox-slug">Recovered vox-memory &mdash; designation uncertain // trench line, theatre unrecorded</span>
@@ -1386,6 +1589,299 @@
                         <p>&ldquo;I said I never saw them after we went over.&rdquo;</p>
 
                         <p>&ldquo;That is still the worst lie I have ever told.&rdquo;</p>
+
+
+                        <div id="wake-fragment" class="warp-descent">
+                            <div class="warp-atmosphere" aria-hidden="true">
+                                <div class="warp-mist"></div>
+                            </div>
+
+                            <div class="warp-continuation-title">Recovered continuation // Wake Me When It Is Over</div>
+
+                            <div class="warp-stage" data-sigil="SOMNIAL FRAGMENT // 01">
+                                <p>&ldquo;The lie did not end anything. That is the part I think I expected it to do.&rdquo;</p>
+
+                                <p>&ldquo;I thought if the words came out clean enough, if I looked tired enough, if I kept my hands from shaking while I said them, then the crater would remain where I left it. Harl and Merek would stay beneath the mud. The green light would stay beneath the mud. Whatever had looked out through all those little black eyes would stay there too. I would walk back into the trench, become one more filthy red coat among hundreds, and the war would be loud enough to drown the rest.&rdquo;</p>
+
+                                <p>&ldquo;It was not.&rdquo;</p>
+
+                                <p>&ldquo;They put me back to work before the mud on my coat had dried. We had too many wounded and not enough medicae hands, which meant no one cared where I had been so long as I could still tie a tourniquet and tell the difference between a man who could wait and one who could not. I remember washing someone else&rsquo;s blood from my fingers in a ration tin. The water was brown, then red, then brown again. For a second I saw green moving through it in threads so thin I thought they were veins inside my own eyes.&rdquo;</p>
+
+                                <p>&ldquo;I threw the water out. The orderly beside me asked what was wrong. I told him there was grit in it.&rdquo;</p>
+
+                                <p>&ldquo;Another lie. Smaller. Easier.&rdquo;</p>
+
+                                <p>&ldquo;That frightened me almost as much as the first one.&rdquo;</p>
+
+                                <p class="whisper-line">It gets easier.</p>
+
+                                <p>&ldquo;I did not answer that one.&rdquo;</p>
+                            </div>
+
+                            <div class="warp-stage" data-sigil="SOMNIAL FRAGMENT // 02">
+                                <p>&ldquo;There was no proper sleep that night. There was barely a night. The sky went black, the guns kept firing, illumination shells made everything white again, and every time I began to drift off somebody screamed for a corpsman or a runner kicked my boot because another stretcher had arrived.&rdquo;</p>
+
+                                <p>&ldquo;When I did close my eyes I could still see.&rdquo;</p>
+
+                                <p>&ldquo;That is difficult to write without sounding mad.&rdquo;</p>
+
+                                <p>&ldquo;I would put my forehead against my knees and there would be the inside of the dugout, dark and close, exactly as it should be. Then another image would slide across it. A crack beneath the duckboards. A drainage culvert half full of black water. A dead officer&rsquo;s coat from the level of his boots. A crust of bread caught between two sandbags. I learned quickly that I could tell which sights were mine because mine were higher from the ground.&rdquo;</p>
+
+                                <p>&ldquo;The others came low.&rdquo;</p>
+
+                                <p>&ldquo;Always low.&rdquo;</p>
+
+                                <p>&ldquo;Every time I felt one of those little borrowed sights open, my stomach turned. I would squeeze my eyes shut harder, as if I could close theirs by doing it. Sometimes that worked. Sometimes the view only sharpened.&rdquo;</p>
+
+                                <p class="whisper-line">You do not have to look with your own eyes.</p>
+
+                                <p>&ldquo;I started counting shell impacts instead. One. Two. Three. Pause. One. Two. Three. Pause. If I knew when the next one was coming, then I had something real to wait for. Something ordinary.&rdquo;</p>
+
+                                <p>&ldquo;Harl used to count them too.&rdquo;</p>
+
+                                <p>&ldquo;That was when I cried for the first time.&rdquo;</p>
+
+                                <p>&ldquo;Not in the crater. Not while I was holding him down. Not while I dragged him through the mud. It happened in a dugout full of sleeping men because I realised I had stolen even that from myself. I could not count the guns without remembering him tapping the rhythm on his helmet and getting the timing wrong on purpose until Merek threatened to throw a boot at him.&rdquo;</p>
+
+                                <p>&ldquo;I bit down on my sleeve so no one would hear me.&rdquo;</p>
+                            </div>
+
+                            <div class="warp-stage deep" data-sigil="SOMNIAL FRAGMENT // 03">
+                                <p>&ldquo;The voices became clearer when I was tired.&rdquo;</p>
+
+                                <p>&ldquo;Not louder. Clearer.&rdquo;</p>
+
+                                <p>&ldquo;They never sounded like monsters. I think I could have handled monsters. Monsters are simple. You point a weapon at them. You run from them. You tell somebody else there is a monster and, if they believe you, at least the thing has a shape.&rdquo;</p>
+
+                                <p>&ldquo;These sounded like thoughts I might have had if I were a little crueler, a little more frightened, a little more willing to forgive myself.&rdquo;</p>
+
+                                <p class="whisper-line">Merek reached for the rifle.</p>
+                                <p class="whisper-line">Harl would have spoken eventually.</p>
+                                <p class="whisper-line">You knew where the blade had to go because you wanted to live.</p>
+                                <p class="whisper-line">Living is what you are good at.</p>
+
+                                <p>&ldquo;That last one nearly made me sick.&rdquo;</p>
+
+                                <p>&ldquo;All my life I had thought surviving was the only thing about me worth being proud of. The underhive did not kill me. The manufactorum did not take a hand. Recruitment did not reject me. The Guard did not spend me in the first assault or the second or the tenth. I kept getting back up. I kept crawling out. People called it luck when they were being kind and stubbornness when they were not.&rdquo;</p>
+
+                                <p>&ldquo;Now every time I thought about surviving, I saw Harl&rsquo;s face underneath me.&rdquo;</p>
+
+                                <p>&ldquo;I started wondering whether there was a point where survival stopped being a virtue and became something uglier. Whether there was a number of other people you could climb over before being alive at the end no longer counted as winning.&rdquo;</p>
+
+                                <p>&ldquo;I did not find an answer. The trench did not care enough to give me one.&rdquo;</p>
+
+                                <p>&ldquo;The next morning a replacement clerk wrote Harl and Merek down as missing. He asked me how to spell Merek&rsquo;s surname because he had copied it wrong from the company roll.&rdquo;</p>
+
+                                <p>&ldquo;I knew how to spell it.&rdquo;</p>
+
+                                <p>&ldquo;I told him.&rdquo;</p>
+
+                                <p>&ldquo;He corrected the letter, blew on the ink, and moved to the next name.&rdquo;</p>
+
+                                <p>&ldquo;That was all the Imperium required to make them disappear.&rdquo;</p>
+                            </div>
+
+                            <div class="warp-stage deep" data-sigil="SOMNIAL FRAGMENT // 04">
+                                <p>&ldquo;I began writing their names where no one could find them.&rdquo;</p>
+
+                                <p>&ldquo;Not on paper. Paper can be searched. Paper can be read. I wrote them with my finger in the condensation on the inside of my helmet. I traced them into the mud beneath my cot and smoothed it flat afterward. When I cleaned instruments I spelled each name in the order of the pieces laid out on the cloth. Harl. Merek. Harl. Merek. As if repetition could keep them people after I had turned them into a secret.&rdquo;</p>
+
+                                <p>&ldquo;Sometimes I added the others. The ones from Vaxanide. The ones whose faces had already started to blur. I was frightened that if I forgot any of them, something else would remember in my place.&rdquo;</p>
+
+                                <p class="whisper-line">We remember.</p>
+
+                                <p>&ldquo;That one did not sound like me.&rdquo;</p>
+
+                                <p>&ldquo;I stood so quickly I hit my antlers against the roof brace. Nobody else woke. Somewhere behind the revetment I could hear claws moving through the wall.&rdquo;</p>
+
+                                <p>&ldquo;I knew there were seven rats in the void behind the boards.&rdquo;</p>
+
+                                <p>&ldquo;I knew it before I saw them.&rdquo;</p>
+
+                                <p>&ldquo;I knew one was missing part of its tail. I knew another had something metallic between its teeth. I knew the smallest one was pressed flat because a larger one was crawling over it.&rdquo;</p>
+
+                                <p>&ldquo;I told myself I had heard them. Beastfolk ears. Good hearing. Nothing more.&rdquo;</p>
+
+                                <p>&ldquo;Then one squeezed through a gap near the floor.&rdquo;</p>
+
+                                <p>&ldquo;It was carrying a brass uniform button.&rdquo;</p>
+
+                                <p>&ldquo;Red enamel around the rim. Fusilier issue. There were thousands like it in the regiment. Tens of thousands, probably. It meant nothing.&rdquo;</p>
+
+                                <p>&ldquo;There was dried blood in the groove around the back.&rdquo;</p>
+
+                                <p>&ldquo;I stared at it until the rat dropped the button beside my boot.&rdquo;</p>
+
+                                <p class="whisper-line">You left something behind.</p>
+
+                                <p>&ldquo;I crushed the button beneath the heel of my boot until the metal bent. Then I buried it beneath the duckboards with my bare fingers.&rdquo;</p>
+
+                                <p>&ldquo;The rat watched the entire time.&rdquo;</p>
+                            </div>
+
+                            <div class="warp-stage deep" data-sigil="SOMNIAL FRAGMENT // 05">
+                                <p>&ldquo;After that I became afraid to sleep at all.&rdquo;</p>
+
+                                <p>&ldquo;The first time exhaustion won, I dreamed I was back in the crater. Only it was quiet. No shelling. No shouting. No wind. Just Harl and Merek sitting opposite me with their backs against the mud wall like we were waiting for an order.&rdquo;</p>
+
+                                <p>&ldquo;Harl had his mug of recaf. Merek had both boots. Neither of them were bleeding.&rdquo;</p>
+
+                                <p>&ldquo;I knew it was a dream because they would not look at me.&rdquo;</p>
+
+                                <p>&ldquo;I kept trying to apologise. Every time I spoke, mud came out of my mouth.&rdquo;</p>
+
+                                <p>&ldquo;Then Harl lifted his head.&rdquo;</p>
+
+                                <p>&ldquo;There were no eyes in his face.&rdquo;</p>
+
+                                <p>&ldquo;I saw myself anyway.&rdquo;</p>
+
+                                <p>&ldquo;Not reflected. Seen. From under his collar. From inside the crater wall. From beneath Merek&rsquo;s sleeve. From the torn belly of the enemy soldier. Little points of sight opening everywhere until the whole hole was looking at me.&rdquo;</p>
+
+                                <p>&ldquo;I tried to wake up.&rdquo;</p>
+
+                                <p>&ldquo;I woke in another place instead.&rdquo;</p>
+
+                                <p>&ldquo;For a few seconds I was running through a drainage pipe on four feet. I could smell rust, blood, wet cloth, cordite. The pipe opened near the old assault ground and I saw the crater from low to the earth. Half of one wall had collapsed. The bodies were mostly buried.&rdquo;</p>
+
+                                <p>&ldquo;Mostly.&rdquo;</p>
+
+                                <p>&ldquo;Harl&rsquo;s hand was sticking out of the mud.&rdquo;</p>
+
+                                <p>&ldquo;I knew it was his because I had bandaged two of those fingers after he caught them in an ammunition hatch months before.&rdquo;</p>
+
+                                <p>&ldquo;Something moved beneath the hand.&rdquo;</p>
+
+                                <p>&ldquo;Then I was in my cot again with my mouth open and no sound coming out.&rdquo;</p>
+
+                                <p>&ldquo;I do not know if I dreamed the crater. I do not know if I saw it through another creature. I never went back to check.&rdquo;</p>
+
+                                <p>&ldquo;Cowardice has saved my life more often than courage ever has.&rdquo;</p>
+
+                                <p class="whisper-line">There are kinder words for it.</p>
+
+                                <p>&ldquo;I hated how gentle that sounded.&rdquo;</p>
+                            </div>
+
+                            <div class="warp-stage deep" data-sigil="SOMNIAL FRAGMENT // 06">
+                                <p>&ldquo;By the fourth night the trench itself began to feel sick.&rdquo;</p>
+
+                                <p>&ldquo;That cannot be true, but it is how I remember it. Mist gathered in the communication trench even when the air above was clear. It crawled along the floor instead of rising. Every lamp halo looked green around the edges. Shadows from the revetment posts stretched too far when nobody was moving.&rdquo;</p>
+
+                                <p>&ldquo;Once, while I was carrying dressings back from the aid station, I saw something thin curl around a sandbag at the edge of my vision. It looked like one of the green ribbons from the crater, only darker, almost black in the middle. I turned and there was nothing there.&rdquo;</p>
+
+                                <p>&ldquo;I kept walking.&rdquo;</p>
+
+                                <p>&ldquo;The next corner had three rats sitting in it.&rdquo;</p>
+
+                                <p>&ldquo;They moved aside before I reached them.&rdquo;</p>
+
+                                <p>&ldquo;I did not tell them to.&rdquo;</p>
+
+                                <p>&ldquo;I did not.&rdquo;</p>
+
+                                <p class="whisper-line">Of course not.</p>
+
+                                <p>&ldquo;I nearly screamed at that. Instead I laughed.&rdquo;</p>
+
+                                <p>&ldquo;Quietly at first. Then hard enough that I had to lean against the wall. It was not funny. Nothing had been funny for days. But Merek used to laugh whenever things became too awful to take seriously, and for half a second it felt so much like him that I could pretend I had not killed the person who taught me how.&rdquo;</p>
+
+                                <p>&ldquo;Then I remembered.&rdquo;</p>
+
+                                <p>&ldquo;I stopped laughing so quickly my teeth hurt.&rdquo;</p>
+
+                                <p>&ldquo;That was the pattern after. Grief, then fear. Fear, then guilt. Guilt, then exhaustion. Exhaustion, then the eyes. The eyes, then the voices. The voices, then grief again.&rdquo;</p>
+
+                                <p>&ldquo;Round and round until I stopped being able to tell whether I was waiting for the war to end or merely waiting for a few minutes in which my own head would leave me alone.&rdquo;</p>
+                            </div>
+
+                            <div class="warp-stage deep" data-sigil="SOMNIAL FRAGMENT // 07">
+                                <p>&ldquo;The worst moment came when a wounded Fusilier grabbed my wrist.&rdquo;</p>
+
+                                <p>&ldquo;He had shrapnel in his abdomen and was bleeding through two field dressings. I was trying to keep pressure on the wound when he opened his eyes and stared at me like he knew.&rdquo;</p>
+
+                                <p>&ldquo;He said, &lsquo;Don&rsquo;t let me die.&rsquo;&rdquo;</p>
+
+                                <p>&ldquo;That was all.&rdquo;</p>
+
+                                <p>&ldquo;For one heartbeat I was back in the crater with Harl beneath me.&rdquo;</p>
+
+                                <p>&ldquo;My hands locked.&rdquo;</p>
+
+                                <p>&ldquo;The man screamed. Somebody shouted at me to move. I nearly let go.&rdquo;</p>
+
+                                <p>&ldquo;Then training, or habit, or whatever ugly little machine the Guard had built inside me started turning again. Pressure. Pack the wound. Keep him talking. Check the colour in his lips. Tell him the Emperor is watching even if you are not sure He is. Lie if the lie keeps the patient breathing.&rdquo;</p>
+
+                                <p>&ldquo;He lived.&rdquo;</p>
+
+                                <p>&ldquo;Everyone congratulated me like that was supposed to feel good.&rdquo;</p>
+
+                                <p>&ldquo;I went behind the aid station and vomited until there was nothing left.&rdquo;</p>
+
+                                <p class="whisper-line">You can save them.</p>
+                                <p class="whisper-line">You can open them.</p>
+
+                                <p>&ldquo;I hit my own head against the trench wall hard enough to see white.&rdquo;</p>
+
+                                <p>&ldquo;The second thought stopped.&rdquo;</p>
+
+                                <p>&ldquo;I do not know where it came from.&rdquo;</p>
+
+                                <p>&ldquo;I still do not.&rdquo;</p>
+                            </div>
+
+                            <div class="warp-stage deep" data-sigil="SOMNIAL FRAGMENT // 08">
+                                <p>&ldquo;Eventually the line moved again.&rdquo;</p>
+
+                                <p>&ldquo;That is what wars do. They grind people into a place until the place has enough of them, then somebody points at another patch of mud and says that one matters now.&rdquo;</p>
+
+                                <p>&ldquo;We packed the aid station. We burned what we could not carry. We left the broken stretchers in a heap. The clerk folded the casualty rolls into an oilskin wallet. Harl and Merek were still listed as missing.&rdquo;</p>
+
+                                <p>&ldquo;No investigation. No questions. No one important enough to ask them.&rdquo;</p>
+
+                                <p>&ldquo;I should have been relieved.&rdquo;</p>
+
+                                <p>&ldquo;Instead it felt like I had killed them twice.&rdquo;</p>
+
+                                <p>&ldquo;Once because I was frightened of what they might tell someone.&rdquo;</p>
+
+                                <p>&ldquo;Again because I had been right that nobody would care enough to find them.&rdquo;</p>
+
+                                <p>&ldquo;That second death was quieter. I think that is why it hurt more.&rdquo;</p>
+
+                                <p>&ldquo;Before we left, I stood watch alone for part of the last dark cycle. The guns were finally distant. I remember thinking that this must be what peace sounded like.&rdquo;</p>
+
+                                <p>&ldquo;Then the rats beneath the boards all went still at once.&rdquo;</p>
+
+                                <p>&ldquo;Every one of them.&rdquo;</p>
+
+                                <p>&ldquo;I felt the silence before I heard it.&rdquo;</p>
+
+                                <p>&ldquo;Something in the fog beyond the wire seemed to breathe.&rdquo;</p>
+
+                                <p>&ldquo;A green line traced itself through the mist and vanished.&rdquo;</p>
+
+                                <p class="whisper-line">Not over.</p>
+
+                                <p>&ldquo;I whispered a prayer to the Emperor. I do not remember which one. I might have invented it.&rdquo;</p>
+
+                                <p>&ldquo;I asked for sleep.&rdquo;</p>
+
+                                <p>&ldquo;I asked to wake up when there was nothing left to be afraid of.&rdquo;</p>
+
+                                <p>&ldquo;Nothing answered.&rdquo;</p>
+
+                                <p>&ldquo;After a while the rats started moving again.&rdquo;</p>
+
+                                <p>&ldquo;I was grateful for the noise.&rdquo;</p>
+
+                                <p>&ldquo;That may have been the first moment I realised I was more frightened of silence than I was of them.&rdquo;</p>
+
+                                <p>&ldquo;I do not know what that says about me.&rdquo;</p>
+
+                                <p class="whisper-line">We do.</p>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="purity-seal">
@@ -1393,7 +1889,7 @@
                         I know what the Imperium calls people who do impossible things and live. I know what they do to them. If there is something wrong inside me, it will stay inside me. I will not give them another reason to put me on a pyre. I have already paid for the secret with two lives. I cannot make that payment mean nothing.
                     </div>
 
-                    <div class="crimson-alert">++ END MEMORY-LOG // DO NOT PROPAGATE TO SANCTIONED PERSONNEL FILE ++</div>
+                    <div class="crimson-alert">++ END MEMORY-LOG // LOCAL GHOST PARTITION ONLY // DO NOT PROPAGATE TO SANCTIONED OR DYNASTY PERSONNEL FILE ++</div>
                 </div>
             </div>
         </div>
@@ -1725,6 +2221,7 @@
         warrantArchiveAccess = true;
         const section = document.getElementById('warrant-lore-section');
         if (section) section.classList.add('warrant-authorized');
+        initWarpDescent();
     }
 
     // --- BOOT SEQUENCE LOGIC ---
@@ -2078,6 +2575,149 @@
                 addLog("> No false words remain.");
             }
         }
+    }
+
+
+    // --- WARP DESCENT ATMOSPHERE ---
+    // Gradual, readable corruption for the hidden continuation. Everything is
+    // procedural HTML/CSS so the archive does not need extra image assets.
+    function initWarpDescent() {
+        const root = document.getElementById('wake-fragment');
+        if (!root || root.dataset.warpInit === 'true') return;
+        root.dataset.warpInit = 'true';
+
+        const atmosphere = root.querySelector('.warp-atmosphere');
+        if (!atmosphere) return;
+
+        const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const glyphAlphabet = ['∴', '⟡', '⌁', '⧖', '⊕', '⋮', '⌬', '⟁', '◉', '◌', '⫶', '◇'];
+        const glyphs = [];
+        const tendrils = [];
+        const staticLines = [];
+
+        for (let i = 0; i < 34; i++) {
+            const glyph = document.createElement('span');
+            glyph.className = 'warp-glyph';
+            glyph.textContent = glyphAlphabet[Math.floor(Math.random() * glyphAlphabet.length)];
+            glyph.style.left = `${3 + Math.random() * 94}%`;
+            glyph.style.top = `${5 + Math.random() * 91}%`;
+            glyph.style.fontSize = `${0.75 + Math.random() * 1.25}rem`;
+            glyph.style.setProperty('--glyph-rot', `${-28 + Math.random() * 56}deg`);
+            glyph.style.setProperty('--glyph-speed', `${3.5 + Math.random() * 5.5}s`);
+            glyph.dataset.reveal = (0.12 + Math.random() * 0.78).toFixed(3);
+            atmosphere.appendChild(glyph);
+            glyphs.push(glyph);
+        }
+
+        for (let i = 0; i < 12; i++) {
+            const tendril = document.createElement('span');
+            tendril.className = 'warp-tendril';
+            const fromLeft = Math.random() > 0.5;
+            tendril.style.left = fromLeft ? `${Math.random() * 9}%` : `${91 + Math.random() * 8}%`;
+            tendril.style.top = `${8 + Math.random() * 82}%`;
+            tendril.style.setProperty('--tendril-length', `${90 + Math.random() * 210}px`);
+            tendril.style.setProperty('--tendril-rot', `${fromLeft ? 12 + Math.random() * 28 : -(12 + Math.random() * 28)}deg`);
+            tendril.style.setProperty('--tendril-scale', `${0.55 + Math.random() * 0.55}`);
+            tendril.style.setProperty('--tendril-speed', `${5 + Math.random() * 7}s`);
+            tendril.dataset.reveal = (0.35 + Math.random() * 0.55).toFixed(3);
+            atmosphere.appendChild(tendril);
+            tendrils.push(tendril);
+        }
+
+        for (let i = 0; i < 7; i++) {
+            const line = document.createElement('span');
+            line.className = 'warp-static-line';
+            line.style.top = `${12 + Math.random() * 80}%`;
+            line.dataset.reveal = (0.28 + Math.random() * 0.62).toFixed(3);
+            atmosphere.appendChild(line);
+            staticLines.push(line);
+        }
+
+        let currentDepth = 0;
+        let shiverTimer = null;
+
+        const updateDepth = () => {
+            const rect = root.getBoundingClientRect();
+            const viewport = Math.max(window.innerHeight || 1, 1);
+            // Starts barely corrupted near the title and approaches full intensity
+            // near the bottom of the recovered fragment.
+            const travel = Math.max(rect.height - viewport * 0.30, 1);
+            const depth = Math.min(1, Math.max(0, (viewport * 0.62 - rect.top) / travel));
+            currentDepth = depth;
+            root.style.setProperty('--warp-depth', depth.toFixed(3));
+            root.style.setProperty('--warp-bg-green', (0.04 + depth * 0.10).toFixed(3));
+            root.style.setProperty('--warp-bg-purple', (0.02 + depth * 0.09).toFixed(3));
+            root.style.setProperty('--warp-box-purple', (depth * 0.12).toFixed(3));
+            root.style.setProperty('--warp-title-sigil-opacity', (0.22 + depth * 0.45).toFixed(3));
+            root.style.setProperty('--warp-glow', `${(depth * 4).toFixed(2)}px`);
+            root.style.setProperty('--warp-side-shift', `${(depth * 0.6).toFixed(2)}px`);
+            root.style.setProperty('--warp-whisper-opacity', (0.70 + depth * 0.20).toFixed(3));
+            root.style.setProperty('--warp-whisper-green', (0.15 + depth * 0.30).toFixed(3));
+            root.style.setProperty('--warp-whisper-purple', (depth * 0.20).toFixed(3));
+            root.style.setProperty('--warp-stage-sigil-opacity', (depth * 0.85).toFixed(3));
+            root.style.setProperty('--warp-stage-pattern-opacity', (0.08 + depth * 0.30).toFixed(3));
+            root.style.setProperty('--warp-stage-spacing', `${(4 + depth * 4).toFixed(2)}px`);
+            root.style.setProperty('--warp-mist-opacity', (0.04 + depth * 0.30).toFixed(3));
+
+            glyphs.forEach((glyph) => {
+                const reveal = parseFloat(glyph.dataset.reveal || '0');
+                const strength = Math.max(0, Math.min(1, (depth - reveal) / 0.22));
+                glyph.style.opacity = (strength * 0.34).toFixed(3);
+                glyph.style.color = `rgba(96, 232, 114, ${(strength * 0.42).toFixed(3)})`;
+            });
+
+            tendrils.forEach((tendril) => {
+                const reveal = parseFloat(tendril.dataset.reveal || '0');
+                const strength = Math.max(0, Math.min(1, (depth - reveal) / 0.26));
+                tendril.style.opacity = (strength * 0.46).toFixed(3);
+                tendril.style.setProperty('--tendril-scale', (0.50 + strength * 0.72).toFixed(3));
+            });
+
+            staticLines.forEach((line) => {
+                const reveal = parseFloat(line.dataset.reveal || '0');
+                const strength = Math.max(0, Math.min(1, (depth - reveal) / 0.18));
+                line.style.opacity = (strength * 0.28).toFixed(3);
+            });
+        };
+
+        const scheduleShiver = () => {
+            if (reduceMotion) return;
+            clearTimeout(shiverTimer);
+            const delay = Math.max(1700, 6200 - currentDepth * 3600 + Math.random() * 2600);
+            shiverTimer = setTimeout(() => {
+                if (currentDepth > 0.28) {
+                    const candidates = Array.from(root.querySelectorAll('.warp-stage p:not(.whisper-line)'));
+                    const visible = candidates.filter((p) => {
+                        const r = p.getBoundingClientRect();
+                        return r.bottom > 0 && r.top < (window.innerHeight || 0);
+                    });
+                    const pool = visible.length ? visible : candidates;
+                    if (pool.length) {
+                        const target = pool[Math.floor(Math.random() * pool.length)];
+                        target.classList.remove('warp-shiver');
+                        void target.offsetWidth;
+                        target.classList.add('warp-shiver');
+                        setTimeout(() => target.classList.remove('warp-shiver'), 220);
+                    }
+                }
+                scheduleShiver();
+            }, delay);
+        };
+
+        let ticking = false;
+        const requestUpdate = () => {
+            if (ticking) return;
+            ticking = true;
+            requestAnimationFrame(() => {
+                updateDepth();
+                ticking = false;
+            });
+        };
+
+        window.addEventListener('scroll', requestUpdate, { passive: true });
+        window.addEventListener('resize', requestUpdate);
+        updateDepth();
+        scheduleShiver();
     }
 
     // --- OVERRIDE & CONTROL PANEL ---
