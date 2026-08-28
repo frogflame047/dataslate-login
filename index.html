@@ -1497,9 +1497,9 @@
             text-shadow: 0 0 calc(var(--final-apex) * 6px) rgba(102, 235, 117, 0.14);
         }
 
-        /* When the coda comes into view, the corruption does not simply fade: it
-           freezes first. JS lowers the same field variables while this selector
-           stops drift/sway/turn animations, creating the sudden post-contact hush. */
+        /* Legacy stillness selector retained for reduced-motion/fallback use.
+           The active finale no longer engages it: corruption now persists through
+           the final page instead of cleansing itself after contact. */
         #warrant-lore-section.warp-stilled .wf-mist,
         #warrant-lore-section.warp-stilled .wf-tendril,
         #warrant-lore-section.warp-stilled .wf-sigil,
@@ -1528,9 +1528,11 @@
         }
 
         .warp-coda p {
-            filter: none !important;
-            transform: none !important;
-            text-shadow: 0 0 calc((1 - var(--final-quiet)) * 3px) rgba(76, 211, 95, 0.09) !important;
+            /* The final page stays readable, but no longer gets immunity from the
+               same paragraph faults that infect the rest of Chapter III. */
+            text-shadow:
+                0 0 calc(2px + var(--final-apex) * 5px) rgba(76, 211, 95, 0.14),
+                calc(var(--final-apex) * 0.8px) 0 rgba(169, 72, 199, 0.08) !important;
         }
 
         .stillness-marker {
@@ -1629,11 +1631,12 @@
         }
 
         @keyframes wfJolt {
-            0%   { transform: translate(0, 0);      filter: none; }
-            25%  { transform: translate(-2.5px, 1px); filter: hue-rotate(24deg) saturate(1.5); }
-            50%  { transform: translate(2.5px, -1px); filter: hue-rotate(-26deg) contrast(1.15); }
-            75%  { transform: translate(-1px, 0);     filter: saturate(1.3); }
-            100% { transform: translate(0, 0);      filter: none; }
+            0%   { transform: translate(0, 0);         filter: none; }
+            18%  { transform: translate(-4.5px, 1.5px); filter: hue-rotate(28deg) saturate(1.65); }
+            43%  { transform: translate(5px, -1.5px);   filter: hue-rotate(-31deg) contrast(1.22); }
+            68%  { transform: translate(-3px, 0.5px);   filter: saturate(1.45) contrast(1.08); }
+            84%  { transform: translate(2px, -0.5px);   filter: hue-rotate(16deg); }
+            100% { transform: translate(0, 0);         filter: none; }
         }
 
         @keyframes wfInfestFade {
@@ -2629,350 +2632,343 @@
 
                                 <div class="warp-stage deep terminal" data-sigil="TERMINAL FRAGMENT // 11 // THE EYES OPEN WILLINGLY">
                                     <p>&ldquo;The first shell landed while everyone was still staring at the fog.&rdquo;</p>
-
                                     <p>&ldquo;It hit the communication trench behind the aid station and folded half the revetment inward. The second struck the reserve traverse. The third did not explode. Nobody trusted that one.&rdquo;</p>
-
                                     <p>&ldquo;Then the wounded started shouting.&rdquo;</p>
-
-                                    <p>&ldquo;A stretcher party had been caught on the wrong side of the collapse. Six men, maybe seven. Two could walk. One could crawl. The rest were whatever their bearers could drag.&rdquo;</p>
-
+                                    <p>&ldquo;A stretcher party had been caught on the wrong side of the collapse. Six men that I could see at first. Two bearers, four wounded. One of the wounded could walk if somebody held him upright. One could crawl. The others were whatever their bearers could drag.&rdquo;</p>
                                     <p>&ldquo;The proper route back was gone. The open ground was disappearing under that fog. Someone yelled to leave them. Someone else yelled that the covering company was already moving. An officer shouted something about acceptable losses.&rdquo;</p>
-
+                                    <p>&ldquo;I hated that phrase before that night.&rdquo;</p>
+                                    <p>&ldquo;I hated it more while I could hear one of them asking for a medic.&rdquo;</p>
                                     <p>&ldquo;I looked at the fog.&rdquo;</p>
-
                                     <p>&ldquo;I looked at the wounded.&rdquo;</p>
-
                                     <p>&ldquo;And I thought about Harl saying my name.&rdquo;</p>
-
                                     <p>&ldquo;The easy thing was to keep my head down.&rdquo;</p>
-
                                     <p>&ldquo;The safe thing was to let the regiment do what it always did and turn people into arithmetic.&rdquo;</p>
-
                                     <p>&ldquo;I had been very good at safe things lately.&rdquo;</p>
-
                                     <p>&ldquo;I hated that too.&rdquo;</p>
-
-                                    <p>&ldquo;So I did something worse.&rdquo;</p>
-
-                                    <p>&ldquo;I opened my eyes.&rdquo;</p>
-
+                                    <p>&ldquo;So I opened my eyes.&rdquo;</p>
                                     <p>&ldquo;Not these ones.&rdquo;</p>
-
                                     <p>&ldquo;All of them.&rdquo;</p>
-
                                     <p class="thousand-eyes-line">&ldquo;For the first time, I let the little black points come because I wanted them to.&rdquo;</p>
-
                                     <p>&ldquo;It hurt.&rdquo;</p>
-
                                     <p>&ldquo;Emperor, it hurt.&rdquo;</p>
-
                                     <p>&ldquo;The world broke into pieces. Pipe. Mud. Boot. Corpse. Wire. Fog. Sandbag. Blood. A man dragging himself with one arm. A rat under his stretcher. Another beneath the broken traverse. Another already halfway to the fallback trench.&rdquo;</p>
-
                                     <p>&ldquo;I could see paths.&rdquo;</p>
-
                                     <p>&ldquo;Not a map. Nothing so clean. Just hundreds of small choices made by creatures that had survived artillery, poison, flame, boots, hunger and us.&rdquo;</p>
-
                                     <p>&ldquo;Places they would not go.&rdquo;</p>
-
                                     <p>&ldquo;Places they could.&rdquo;</p>
-
                                     <p>&ldquo;One word came to me.&rdquo;</p>
-
                                     <p>&ldquo;This time I knew it was mine.&rdquo;</p>
-
                                     <p class="command-line">&ldquo;Run.&rdquo;</p>
-
                                     <p>&ldquo;The rats moved.&rdquo;</p>
-
                                     <p>&ldquo;Not all of them. Not neatly. But enough.&rdquo;</p>
-
                                     <p>&ldquo;They poured through a drainage cut beneath the collapsed revetment, up an ammunition step, across a half-buried culvert and into a trench segment I had thought was sealed. I followed them with my eyes and then with my feet.&rdquo;</p>
-
                                     <p>&ldquo;I screamed at the stretcher party to turn left where there was no sign of a left turn.&rdquo;</p>
-
                                     <p>&ldquo;They did.&rdquo;</p>
-
                                     <p>&ldquo;I told them where the ground would hold before I had stepped on it.&rdquo;</p>
-
-                                    <p>&ldquo;I told one man not to put his hand on a sandbag because there was an unexploded shell beneath it.&rdquo;</p>
-
-                                    <p>&ldquo;He asked how I knew.&rdquo;</p>
-
-                                    <p>&ldquo;I lied.&rdquo;</p>
-
-                                    <p>&ldquo;Later.&rdquo;</p>
-
-                                    <p>&ldquo;There was no time then.&rdquo;</p>
+                                    <p>&ldquo;I told one bearer not to put his hand on a sandbag because there was an unexploded shell beneath it.&rdquo;</p>
+                                    <p>&ldquo;He stared at me and asked how I knew.&rdquo;</p>
+                                    <p>&ldquo;I told him to move.&rdquo;</p>
+                                    <p>&ldquo;There was no time for a better lie.&rdquo;</p>
+                                    <p>&ldquo;For perhaps thirty seconds I thought I was going to get them out.&rdquo;</p>
+                                    <p>&ldquo;Then the rats nearest the drainage cut stopped running.&rdquo;</p>
+                                    <p>&ldquo;They did not turn around.&rdquo;</p>
+                                    <p>&ldquo;They simply pressed themselves flat into the mud as if being small enough might make the world forget them.&rdquo;</p>
+                                    <p>&ldquo;The fog reached the far side of the broken traverse.&rdquo;</p>
                                 </div>
 
-                                <div class="warp-stage deep terminal" data-sigil="TERMINAL FRAGMENT // 12 // PACK">
-                                    <p>&ldquo;We got four of them through before the fog reached the broken traverse.&rdquo;</p>
-
-                                    <p>&ldquo;The fifth was too heavy for one bearer and too hurt to move himself. The sixth had stopped making noise. I do not know if he was dead yet. I never learned his name.&rdquo;</p>
-
-                                    <p>&ldquo;The rats abandoned the opening.&rdquo;</p>
-
-                                    <p>&ldquo;Every rat except one.&rdquo;</p>
-
+                                <div class="warp-stage deep terminal aperture" data-sigil="TERMINAL FRAGMENT // 12 // THE COST OF SILENCE // PACK">
+                                    <p>&ldquo;The first bearer disappeared sideways.&rdquo;</p>
+                                    <p>&ldquo;There was no shape I could blame it on. One moment he had both hands on the stretcher poles. The next his boots left two trenches in the mud and he was pulled through the fog hard enough that the stretcher spun around and threw its passenger against the wall.&rdquo;</p>
+                                    <p>&ldquo;He screamed once.&rdquo;</p>
+                                    <p>&ldquo;Something answered with the sound of wet timber being split.&rdquo;</p>
+                                    <p>&ldquo;A fan of blood crossed the mist at shoulder height.&rdquo;</p>
+                                    <p>&ldquo;His left hand came back without him.&rdquo;</p>
+                                    <p>&ldquo;It landed palm-up in the drainage water and kept opening and closing for several seconds.&rdquo;</p>
+                                    <p>&ldquo;The other bearer dropped his end of the stretcher and ran.&rdquo;</p>
+                                    <p>&ldquo;He made three steps.&rdquo;</p>
+                                    <p>&ldquo;The fog folded around his middle.&rdquo;</p>
+                                    <p>&ldquo;When it opened again his upper half struck the parapet hard enough to leave teeth in the timber. The rest of him never came through.&rdquo;</p>
+                                    <p>&ldquo;I could hear the wounded men screaming for him.&rdquo;</p>
+                                    <p>&ldquo;For me.&rdquo;</p>
+                                    <p>&ldquo;Medic.&rdquo;</p>
+                                    <p>&ldquo;Medic.&rdquo;</p>
+                                    <p>&ldquo;MEDIC.&rdquo;</p>
+                                    <p>&ldquo;I moved toward them.&rdquo;</p>
+                                    <p>&ldquo;I swear I did.&rdquo;</p>
+                                    <p>&ldquo;Then one of the rats under the culvert looked up.&rdquo;</p>
+                                    <p>&ldquo;Through its eyes I saw something bend over the fallen stretcher.&rdquo;</p>
+                                    <p>&ldquo;Not enough of it to understand. A joint where no joint should be. A long pale surface slick with rain. Fingers, perhaps, except they bent twice between the knuckle and the nail.&rdquo;</p>
+                                    <p>&ldquo;It put one of those hands around the wounded man&rsquo;s chest.&rdquo;</p>
+                                    <p>&ldquo;It squeezed.&rdquo;</p>
+                                    <p>&ldquo;His ribs came through the front of his uniform.&rdquo;</p>
+                                    <p>&ldquo;Not all at once. One after another, little white hooks pushing through red wool while he tried to scream with lungs that no longer had room to open.&rdquo;</p>
+                                    <p>&ldquo;The rat fled before I saw the end.&rdquo;</p>
+                                    <p>&ldquo;I did not.&rdquo;</p>
+                                    <p>&ldquo;I stood behind the traverse with both hands pressed against my mouth.&rdquo;</p>
+                                    <p>&ldquo;The green feeling was already there.&rdquo;</p>
+                                    <p>&ldquo;Not light yet. Not ribbons. Just that pressure behind my eyes and under my fingernails. The same impossible certainty I had felt in the crater before the man came apart.&rdquo;</p>
+                                    <p>&ldquo;I knew I could try.&rdquo;</p>
+                                    <p>&ldquo;I also knew there were still men alive over there.&rdquo;</p>
+                                    <p>&ldquo;Men who could see.&rdquo;</p>
+                                    <p>&ldquo;Men who could survive.&rdquo;</p>
+                                    <p>&ldquo;Men who could say the word.&rdquo;</p>
+                                    <p class="whisper-line">Witch.</p>
+                                    <p>&ldquo;The crawling man reached the opening.&rdquo;</p>
+                                    <p>&ldquo;He was close enough that I could see the little brass aquila pinned crooked over his breast.&rdquo;</p>
+                                    <p>&ldquo;He saw me.&rdquo;</p>
+                                    <p>&ldquo;Emperor forgive me, the relief on his face was worse than the screaming.&rdquo;</p>
+                                    <p>&ldquo;He reached out.&rdquo;</p>
+                                    <p>&ldquo;I reached back.&rdquo;</p>
+                                    <p>&ldquo;Something caught him by the legs before our hands touched.&rdquo;</p>
+                                    <p>&ldquo;His fingers dug furrows through the mud. Three nails came away. Then the skin of his palm peeled open against a splintered duckboard and he was dragged backward hard enough to pull his shoulder out of place.&rdquo;</p>
+                                    <p>&ldquo;I caught his wrist.&rdquo;</p>
+                                    <p>&ldquo;For one second I had him.&rdquo;</p>
+                                    <p>&ldquo;Then whatever had him pulled again.&rdquo;</p>
+                                    <p>&ldquo;His arm separated at the shoulder with a sound I still hear when I wake too quickly.&rdquo;</p>
+                                    <p>&ldquo;I fell backward holding it.&rdquo;</p>
+                                    <p>&ldquo;He went into the fog.&rdquo;</p>
+                                    <p>&ldquo;He kept screaming after I could no longer see him.&rdquo;</p>
+                                    <p>&ldquo;Then he did not.&rdquo;</p>
+                                    <p>&ldquo;The last wounded man called for his mother.&rdquo;</p>
+                                    <p>&ldquo;The fog moved once.&rdquo;</p>
+                                    <p>&ldquo;There was a crunch.&rdquo;</p>
+                                    <p>&ldquo;There was no one left to call for me.&rdquo;</p>
+                                    <p>&ldquo;I had not killed them.&rdquo;</p>
+                                    <p>&ldquo;That thought came first.&rdquo;</p>
+                                    <p>&ldquo;I hated myself for how relieved it sounded.&rdquo;</p>
+                                    <p>&ldquo;I had not decided they should die. I had only decided, for a handful of seconds, that I could not let them see what I was.&rdquo;</p>
+                                    <p>&ldquo;Those seconds were enough.&rdquo;</p>
+                                    <p class="whisper-line">Cleaner.</p>
+                                    <p class="whisper-line">Safer.</p>
+                                    <p class="whisper-line">You learned.</p>
+                                    <p>&ldquo;I nearly vomited.&rdquo;</p>
+                                    <p>&ldquo;Something touched the toe of my boot.&rdquo;</p>
                                     <p>&ldquo;Small. Missing the end of its tail.&rdquo;</p>
-
-                                    <p>&ldquo;I knew it before I saw it.&rdquo;</p>
-
-                                    <p>&ldquo;It climbed onto the toe of my boot while everything else ran.&rdquo;</p>
-
+                                    <p>&ldquo;The little rat had come back.&rdquo;</p>
                                     <p>&ldquo;I told it to go.&rdquo;</p>
-
-                                    <p>&ldquo;Nothing.&rdquo;</p>
-
-                                    <p>&ldquo;I tried again.&rdquo;</p>
-
                                     <p class="command-line">&ldquo;Run.&rdquo;</p>
-
                                     <p>&ldquo;It sat up and looked at me.&rdquo;</p>
-
-                                    <p>&ldquo;For once there was no voice.&rdquo;</p>
-
-                                    <p>&ldquo;No clever sentence. No Harl. No Merek. No thing pretending to know what I deserved.&rdquo;</p>
-
-                                    <p>&ldquo;Just hunger. Fear. Recognition.&rdquo;</p>
-
+                                    <p>&ldquo;For once there was no clever voice waiting behind its eyes.&rdquo;</p>
+                                    <p>&ldquo;No Harl. No Merek. No forgiveness.&rdquo;</p>
+                                    <p>&ldquo;Just terror. Hunger. Recognition.&rdquo;</p>
                                     <p>&ldquo;And one certainty so simple I nearly mistook it for my own heartbeat.&rdquo;</p>
-
                                     <p class="whisper-line pack-word">PACK.</p>
-
-                                    <p>&ldquo;I laughed once.&rdquo;</p>
-
-                                    <p>&ldquo;Not because it was funny.&rdquo;</p>
-
-                                    <p>&ldquo;Because if I did not, I think I would have screamed until the fog found me.&rdquo;</p>
-
-                                    <p>&ldquo;The rat turned its head.&rdquo;</p>
-
-                                    <p>&ldquo;So did I.&rdquo;</p>
-
-                                    <p>&ldquo;Something was standing on the other side of the broken traverse.&rdquo;</p>
+                                    <p>&ldquo;Then it looked past me.&rdquo;</p>
+                                    <p>&ldquo;I felt the fur along its spine rise under a fear that was suddenly mine too.&rdquo;</p>
+                                    <p>&ldquo;Something was coming through the fog.&rdquo;</p>
                                 </div>
 
-                                <div class="warp-stage deep terminal aperture" data-sigil="TERMINAL FRAGMENT // 13 // IT LOOKS BACK">
+                                <div class="warp-stage deep terminal aperture" data-sigil="TERMINAL FRAGMENT // 13 // IT TAKES A SHAPE">
                                     <div class="fault-stack" aria-label="corrupted cogitator diagnostics">
                                         <span>++ VISUAL CONTACT: NEGATIVE ++</span>
                                         <span>++ VISUAL CONTACT: CONFIRMED ++</span>
                                         <span>++ SUBJECT COUNT: ONE ++</span>
                                         <span>++ SUBJECT COUNT: UNRESOLVED ++</span>
+                                        <span>++ MORPHOLOGY: REFUSED ++</span>
                                     </div>
-
-                                    <p>&ldquo;I cannot describe it.&rdquo;</p>
-
-                                    <p>&ldquo;That is not me being dramatic. I have tried.&rdquo;</p>
-
-                                    <p>&ldquo;When I remember the legs, I cannot remember the body. When I remember the body, it is on all fours. When I remember the head, it is Harl&rsquo;s. When I remember Harl&rsquo;s face, something is wrong with the number of eyes.&rdquo;</p>
-
-                                    <p>&ldquo;The rat saw a man.&rdquo;</p>
-
-                                    <p>&ldquo;Another rat under the culvert saw a hole in the fog shaped like a man.&rdquo;</p>
-
-                                    <p>&ldquo;A third saw the trench continuing through it as if nothing was there.&rdquo;</p>
-
-                                    <p>&ldquo;I saw all three at once.&rdquo;</p>
-
+                                    <p>&ldquo;Until then I had only seen pieces.&rdquo;</p>
+                                    <p>&ldquo;Rat-eyes. Footprints. A leg where the fog was thin. Something crawling where another pair of eyes insisted a man was standing.&rdquo;</p>
+                                    <p>&ldquo;My own eyes began to agree on a shape.&rdquo;</p>
+                                    <p>&ldquo;I wish they had not.&rdquo;</p>
+                                    <p>&ldquo;It did not step out of the fog.&rdquo;</p>
+                                    <p>&ldquo;It unfolded from it.&rdquo;</p>
+                                    <p>&ldquo;The first thing I understood was height. It had been bent nearly double on the other side of the traverse. When it straightened, its shoulders rose above the firing step.&rdquo;</p>
+                                    <p>&ldquo;The second thing was that the legs were wrong.&rdquo;</p>
+                                    <p>&ldquo;Too long. Too narrow. Each one hinged once where a knee belonged and then again halfway down the shin. It stood with those second joints folded backward, as if somebody had remembered the idea of a human being but assembled it from the wrong diagram.&rdquo;</p>
+                                    <p>&ldquo;Its arms hung below its knees.&rdquo;</p>
+                                    <p>&ldquo;There were hands at the ends.&rdquo;</p>
+                                    <p>&ldquo;I am certain of that because they were wet with Fusilier blood.&rdquo;</p>
+                                    <p>&ldquo;The fingers were thin and pale beneath it, each divided by too many knuckles. Human nails sat at the tips. One still had a strip of red uniform caught beneath it.&rdquo;</p>
+                                    <p>&ldquo;Its body was harder to keep in my head.&rdquo;</p>
+                                    <p>&ldquo;Sometimes it looked wrapped in black cloth soaked through with rain. Sometimes the black moved under a translucent hide like ropes dragged beneath skin. Sometimes there was no hide at all and I could see the fog moving through an empty ribcage.&rdquo;</p>
+                                    <p>&ldquo;Then it breathed.&rdquo;</p>
+                                    <p>&ldquo;Everything under that skin shifted upward at once.&rdquo;</p>
+                                    <p>&ldquo;Faces pressed against it from inside.&rdquo;</p>
+                                    <p>&ldquo;Not attached to anything. Just faces, flattened beneath the surface as if drowned men were trapped on the other side of a sheet of ice.&rdquo;</p>
+                                    <p>&ldquo;One had the bearer&rsquo;s broken teeth.&rdquo;</p>
+                                    <p>&ldquo;One had the crawling man&rsquo;s eyes.&rdquo;</p>
+                                    <p>&ldquo;One was the enemy soldier from the crater with half his face still hanging in green-lit strips.&rdquo;</p>
+                                    <p>&ldquo;Then Harl opened his eyes beneath its sternum.&rdquo;</p>
                                     <p class="whisper-line">Anura.</p>
-
-                                    <p>&ldquo;Harl again.&rdquo;</p>
-
+                                    <p>&ldquo;His mouth moved under the membrane.&rdquo;</p>
+                                    <p>&ldquo;Merek&rsquo;s laugh came from somewhere behind the creature&rsquo;s ribs.&rdquo;</p>
+                                    <p>&ldquo;I could see no head at first.&rdquo;</p>
+                                    <p>&ldquo;Then the shoulders twitched and something on a long neck rotated toward me from behind them.&rdquo;</p>
+                                    <p>&ldquo;It had a face only when I looked directly at it.&rdquo;</p>
+                                    <p>&ldquo;Every time I blinked, it was a different one.&rdquo;</p>
+                                    <p>&ldquo;Harl.&rdquo;</p>
+                                    <p>&ldquo;Merek.&rdquo;</p>
+                                    <p>&ldquo;Mine.&rdquo;</p>
+                                    <p>&ldquo;A stranger with no eyelids.&rdquo;</p>
+                                    <p>&ldquo;Nothing but a vertical seam that opened from brow to throat and showed rows of little black points moving behind it.&rdquo;</p>
+                                    <p>&ldquo;The rat saw a man.&rdquo;</p>
+                                    <p>&ldquo;Another rat under the culvert saw a hole in the fog shaped like a man.&rdquo;</p>
+                                    <p>&ldquo;A third saw the trench continuing through it as if nothing was there.&rdquo;</p>
+                                    <p>&ldquo;I saw all of those things at once and still watched it come closer.&rdquo;</p>
                                     <p class="whisper-line">You can stop now.</p>
-
                                     <p>&ldquo;Merek&rsquo;s voice came from inside my own mouth.&rdquo;</p>
-
-                                    <p class="whisper-line">You saved them.</p>
-
-                                    <p class="whisper-line">That makes it better.</p>
-
-                                    <p>&ldquo;I spat blood into the mud.&rdquo;</p>
-
-                                    <p>&ldquo;Saving strangers did not unkill my friends.&rdquo;</p>
-
-                                    <p>&ldquo;The thing seemed disappointed by that answer.&rdquo;</p>
-
-                                    <p>&ldquo;I do not know how I knew.&rdquo;</p>
-
+                                    <p class="whisper-line">You tried to save them.</p>
+                                    <p class="whisper-line">You were afraid.</p>
+                                    <p class="whisper-line">We understand.</p>
+                                    <p>&ldquo;The thing stepped over the severed arm I was still holding.&rdquo;</p>
+                                    <p>&ldquo;It did not disturb the mud.&rdquo;</p>
                                     <p class="whisper-line">We could make it quiet.</p>
-
                                     <p class="whisper-line">No dreams.</p>
-
                                     <p class="whisper-line">No crater.</p>
-
                                     <p class="whisper-line">No names.</p>
-
                                     <p>&ldquo;That frightened me more than dying.&rdquo;</p>
-
                                     <p>&ldquo;Because for half a heartbeat I wanted that too.&rdquo;</p>
-
-                                    <p>&ldquo;Then the little rat on my boot screamed.&rdquo;</p>
-
-                                    <p>&ldquo;Every borrowed viewpoint I still held turned toward the same point in the fog.&rdquo;</p>
-
+                                    <p>&ldquo;The little rat on my boot screamed.&rdquo;</p>
+                                    <p>&ldquo;Every borrowed viewpoint I still held turned toward the same point.&rdquo;</p>
                                     <p>&ldquo;Different trenches. Different angles. Different distances.&rdquo;</p>
-
-                                    <p>&ldquo;All of them looked directly at me.&rdquo;</p>
-
-                                    <p>&ldquo;Not the thing.&rdquo;</p>
-
+                                    <p>&ldquo;Every one of them was looking at me.&rdquo;</p>
+                                    <p>&ldquo;Not the creature.&rdquo;</p>
                                     <p>&ldquo;Me.&rdquo;</p>
-
+                                    <p>&ldquo;The seam in its borrowed face widened.&rdquo;</p>
+                                    <p>&ldquo;The black points behind it opened.&rdquo;</p>
                                     <p class="whisper-line many-voice">A THOUSAND EYES.</p>
-
-                                    <p>&ldquo;And for one heartbeat I understood that whatever I had been using to see it had been using the same road to see back.&rdquo;</p>
+                                    <p>&ldquo;And for one heartbeat I understood that whatever road I had been using to look through the vermin had been open in both directions.&rdquo;</p>
+                                    <p>&ldquo;One of its hands reached for my face.&rdquo;</p>
                                 </div>
 
-                                <div class="warp-stage deep terminal aperture apex-stage" data-sigil="TERMINAL FRAGMENT // 14 // FLENSING">
+                                <div class="warp-stage deep terminal aperture apex-stage" data-sigil="TERMINAL FRAGMENT // 14 // FLENSING // SELF-DEFENCE">
                                     <div class="fault-stack severe" aria-label="corrupted cogitator diagnostics">
                                         <span>++ RECORD TERMINATED ++</span>
                                         <span>++ RECORD CONTINUES ++</span>
                                         <span>++ SUBJECT ABSENT ++</span>
                                         <span>++ SUBJECT OBSERVING ++</span>
+                                        <span>++ VIEWER POSITION: WITHIN RECORD ++</span>
                                     </div>
-
-                                    <p>&ldquo;I had no lasgun.&rdquo;</p>
-
-                                    <p>&ldquo;Not a working one.&rdquo;</p>
-
-                                    <p>&ldquo;I had a bayonet, a medicae satchel, two wounded men behind me and the memory of green light taking a person apart.&rdquo;</p>
-
-                                    <p>&ldquo;I had spent days pretending that memory belonged to something else.&rdquo;</p>
-
-                                    <p>&ldquo;There was no room left for pretending.&rdquo;</p>
-
-                                    <p>&ldquo;I wanted it gone.&rdquo;</p>
-
-                                    <p>&ldquo;This time I knew exactly what I was asking for.&rdquo;</p>
-
+                                    <p>&ldquo;I had another lasgun by then.&rdquo;</p>
+                                    <p>&ldquo;I had taken a serviceable one from the field after the crater, cleaned the mud from the contacts and carried it for the days that followed.&rdquo;</p>
+                                    <p>&ldquo;It was not with me.&rdquo;</p>
+                                    <p>&ldquo;We had been stripping the aid station for retreat, and I had spent the last hour with both hands full of dressings, injectors, water and other people&rsquo;s weight. The rifle had gone back with the packed kit because a longarm is very little help when you are trying to drag a stretcher through a collapsed trench.&rdquo;</p>
+                                    <p>&ldquo;So when that hand came toward me I had a bayonet, a medicae satchel, somebody else&rsquo;s severed arm in the mud beside my knee and nothing between my face and those fingers.&rdquo;</p>
+                                    <p>&ldquo;I drew the bayonet anyway.&rdquo;</p>
+                                    <p>&ldquo;It looked very small.&rdquo;</p>
+                                    <p>&ldquo;The creature&rsquo;s fingers opened.&rdquo;</p>
+                                    <p>&ldquo;The joints kept opening after a hand should have stopped.&rdquo;</p>
+                                    <p>&ldquo;Harl&rsquo;s face pushed outward beneath its chest.&rdquo;</p>
+                                    <p class="whisper-line">Anura.</p>
+                                    <p>&ldquo;I did not want power.&rdquo;</p>
+                                    <p>&ldquo;I did not want understanding.&rdquo;</p>
+                                    <p>&ldquo;I wanted not to be touched.&rdquo;</p>
+                                    <p>&ldquo;That was enough.&rdquo;</p>
                                     <p>&ldquo;The green ribbons came.&rdquo;</p>
-
                                     <p>&ldquo;Not from my hands.&rdquo;</p>
-
                                     <p>&ldquo;Not from the ground.&rdquo;</p>
-
                                     <p>&ldquo;They simply existed between one blink and the next, thin as wire and bright enough to turn every droplet of fog into an emerald star.&rdquo;</p>
-
-                                    <p>&ldquo;They struck the shape.&rdquo;</p>
-
+                                    <p>&ldquo;The first strand wound around its wrist.&rdquo;</p>
+                                    <p>&ldquo;The second crossed its throat.&rdquo;</p>
+                                    <p>&ldquo;Five more appeared through its torso at angles I could not follow.&rdquo;</p>
+                                    <p>&ldquo;I remembered what they had done in the crater.&rdquo;</p>
+                                    <p>&ldquo;I expected pieces.&rdquo;</p>
+                                    <p>&ldquo;The ribbons tightened.&rdquo;</p>
+                                    <p>&ldquo;Its skin opened.&rdquo;</p>
                                     <p>&ldquo;Nothing came off.&rdquo;</p>
-
-                                    <p>&ldquo;No skin. No blood. No bone.&rdquo;</p>
-
-                                    <p>&ldquo;The strands passed into it and kept going.&rdquo;</p>
-
-                                    <p>&ldquo;For an instant the thing opened.&rdquo;</p>
-
-                                    <p>&ldquo;There was more fog inside.&rdquo;</p>
-
-                                    <p>&ldquo;Then a trench I had never seen.&rdquo;</p>
-
-                                    <p>&ldquo;Then the underside of the duckboards beneath my own feet.&rdquo;</p>
-
-                                    <p>&ldquo;Then Harl&rsquo;s dead eye reflecting green light.&rdquo;</p>
-
-                                    <p>&ldquo;Then myself, seen from somewhere beyond the wire.&rdquo;</p>
-
+                                    <p>&ldquo;The cut edges peeled apart like wet paper and inside there was no meat waiting for them.&rdquo;</p>
+                                    <p>&ldquo;There was depth.&rdquo;</p>
+                                    <p>&ldquo;Too much depth.&rdquo;</p>
+                                    <p>&ldquo;The wound was wider inside than the creature was outside.&rdquo;</p>
+                                    <p>&ldquo;I saw a trench beneath a violet sky I had never stood under.&rdquo;</p>
+                                    <p>&ldquo;I saw the underside of the duckboards beneath my own feet.&rdquo;</p>
+                                    <p>&ldquo;I saw the stretcher party still alive, pressed flat against one another somewhere impossible, mouths open as if the moment before their deaths had been stored there instead of ending.&rdquo;</p>
+                                    <p>&ldquo;I saw Harl&rsquo;s dead eye reflecting green light.&rdquo;</p>
+                                    <p>&ldquo;I saw Merek turn toward me from the bottom of a shell hole that had no bottom.&rdquo;</p>
+                                    <p>&ldquo;Then I saw myself from beyond the wire.&rdquo;</p>
                                     <p>&ldquo;I was not shaped like myself from there.&rdquo;</p>
-
                                     <p>&ldquo;I was a knot.&rdquo;</p>
-
-                                    <p>&ldquo;Green threads. Black eyes. Antlers. Hands. A hundred little points of sight bound together around something terrified enough to keep living.&rdquo;</p>
-
-                                    <p>&ldquo;The ribbons pulled.&rdquo;</p>
-
-                                    <p>&ldquo;The fog screamed.&rdquo;</p>
-
-                                    <p>&ldquo;Not the thing.&rdquo;</p>
-
-                                    <p>&ldquo;The fog.&rdquo;</p>
-
-                                    <p>&ldquo;Every rat screamed with it.&rdquo;</p>
-
+                                    <p>&ldquo;Green threads. Black eyes. Antlers. Hands. Hundreds of little points of sight tied around something frightened enough to keep living.&rdquo;</p>
+                                    <p>&ldquo;The creature did something the man in the crater had not.&rdquo;</p>
+                                    <p>&ldquo;It grabbed the ribbon.&rdquo;</p>
+                                    <p>&ldquo;Its fingers closed around light.&rdquo;</p>
+                                    <p>&ldquo;I felt them close behind my eyes.&rdquo;</p>
+                                    <p>&ldquo;Every tooth in my mouth hurt at once.&rdquo;</p>
+                                    <p>&ldquo;The skin under my fingernails pulled tight as if the strand ran through me instead of toward it.&rdquo;</p>
+                                    <p>&ldquo;It pulled.&rdquo;</p>
+                                    <p>&ldquo;I came forward on my knees.&rdquo;</p>
+                                    <p>&ldquo;The rat screamed.&rdquo;</p>
+                                    <p>&ldquo;A hundred other rats screamed with it.&rdquo;</p>
+                                    <p>&ldquo;The creature&rsquo;s chest split wider.&rdquo;</p>
+                                    <p>&ldquo;All the faces under its skin opened their mouths together.&rdquo;</p>
+                                    <p>&ldquo;The sound did not come from them.&rdquo;</p>
+                                    <p>&ldquo;It came from the fog.&rdquo;</p>
+                                    <p>&ldquo;From the trench walls.&rdquo;</p>
+                                    <p>&ldquo;From my own lungs.&rdquo;</p>
                                     <p>&ldquo;Every symbol on the inside of my skull became an eye.&rdquo;</p>
-
+                                    <p>&ldquo;The ribbons pulled one way.&rdquo;</p>
+                                    <p>&ldquo;The thing pulled the other.&rdquo;</p>
+                                    <p>&ldquo;For a moment I thought whatever was between us would be the part that tore.&rdquo;</p>
+                                    <p>&ldquo;Then the borrowed face wearing mine smiled.&rdquo;</p>
                                     <p>&ldquo;Something touched the far end of the green strands.&rdquo;</p>
-
                                     <p>&ldquo;And touched me back.&rdquo;</p>
-
                                     <p class="whisper-line many-voice">FOUND YOU.</p>
-
+                                    <p>&ldquo;The page of the world seemed to shift sideways.&rdquo;</p>
+                                    <p>&ldquo;The trench was there and not there.&rdquo;</p>
+                                    <p>&ldquo;The creature was in front of me and behind my eyes.&rdquo;</p>
                                     <p>&ldquo;Then there was nothing.&rdquo;</p>
-
                                     <p>&ldquo;No explosion. No corpse. No retreating footsteps.&rdquo;</p>
-
-                                    <p>&ldquo;The ribbons vanished.&rdquo;</p>
-
-                                    <p>&ldquo;The fog collapsed into ordinary mist and blew east with the wind.&rdquo;</p>
-
+                                    <p>&ldquo;The green strands snapped out of existence so suddenly I fell forward into the mud.&rdquo;</p>
+                                    <p>&ldquo;The fog collapsed into ordinary mist and finally remembered the wind.&rdquo;</p>
+                                    <p>&ldquo;It blew east.&rdquo;</p>
                                     <p>&ldquo;There were no tracks beyond the broken traverse.&rdquo;</p>
-
-                                    <p>&ldquo;The little rat was still on my boot.&rdquo;</p>
-
-                                    <p>&ldquo;It was shaking.&rdquo;</p>
-
+                                    <p>&ldquo;There was only blood, pieces of men, a dropped stretcher and the little rat pressed against my boot hard enough to shake it.&rdquo;</p>
+                                    <p>&ldquo;It was trembling.&rdquo;</p>
                                     <p>&ldquo;So was I.&rdquo;</p>
                                 </div>
 
-                                <div class="warp-stage deep terminal" data-sigil="TERMINAL FRAGMENT // 15 // WHAT SURVIVES">
-                                    <p>&ldquo;We got the last living wounded man out.&rdquo;</p>
-
-                                    <p>&ldquo;I say we because one bearer came back for him after the fog broke. I do not remember that man&rsquo;s face either. I hope someone does.&rdquo;</p>
-
-                                    <p>&ldquo;A Fusilier with a bandage over one eye kept staring at me while we moved.&rdquo;</p>
-
-                                    <p>&ldquo;I waited for the word.&rdquo;</p>
-
-                                    <p>&ldquo;Witch.&rdquo;</p>
-
-                                    <p>&ldquo;It never came.&rdquo;</p>
-
-                                    <p>&ldquo;He asked what the green light had been.&rdquo;</p>
-
-                                    <p>&ldquo;I said a flare.&rdquo;</p>
-
-                                    <p>&ldquo;He said flares do not move like that.&rdquo;</p>
-
-                                    <p>&ldquo;I said maybe this one did.&rdquo;</p>
-
-                                    <p>&ldquo;He looked at the fog. Looked at me. Then looked at the wounded man between us.&rdquo;</p>
-
-                                    <p>&ldquo;He never asked again.&rdquo;</p>
-
-                                    <p>&ldquo;I do not know whether he believed me.&rdquo;</p>
-
-                                    <p>&ldquo;I do not know whether he decided he owed me silence.&rdquo;</p>
-
-                                    <p>&ldquo;I do know I spent the rest of the withdrawal waiting for a hand on my shoulder.&rdquo;</p>
-
-                                    <p>&ldquo;None came.&rdquo;</p>
-
-                                    <p>&ldquo;That should have felt like mercy.&rdquo;</p>
-
-                                    <p>&ldquo;Instead I kept thinking about the crater.&rdquo;</p>
-
-                                    <p>&ldquo;About how quickly I had decided Harl and Merek were a danger to me.&rdquo;</p>
-
-                                    <p>&ldquo;About how slowly I had decided strangers were worth becoming a danger to myself.&rdquo;</p>
-
-                                    <p>&ldquo;It did not balance anything.&rdquo;</p>
-
-                                    <p>&ldquo;I think that is important.&rdquo;</p>
-
-                                    <p>&ldquo;There are things you cannot repay because the people you owe are dead.&rdquo;</p>
-
-                                    <p>&ldquo;You can only decide what their absence makes of you next.&rdquo;</p>
-
-                                    <p class="whisper-line">We can still make it quiet.</p>
-
-                                    <p>&ldquo;I ignored that one.&rdquo;</p>
-
-                                    <p>&ldquo;It was easier now that I knew kindness could have teeth.&rdquo;</p>
+                                <div class="warp-stage deep terminal aperture" data-sigil="TERMINAL FRAGMENT // 15 // WHAT REMAINS">
+                                    <p>&ldquo;The first thing I thought was that nobody had seen the ribbons.&rdquo;</p>
+                                    <p>&ldquo;Not nobody.&rdquo;</p>
+                                    <p>&ldquo;Nobody human.&rdquo;</p>
+                                    <p>&ldquo;That relief lasted perhaps one heartbeat.&rdquo;</p>
+                                    <p>&ldquo;Then I looked at what was left of the stretcher party and hated myself all over again.&rdquo;</p>
+                                    <p>&ldquo;I went back to them.&rdquo;</p>
+                                    <p>&ldquo;There was nothing useful a medic could do.&rdquo;</p>
+                                    <p>&ldquo;I did it anyway.&rdquo;</p>
+                                    <p>&ldquo;I put a dressing over a chest that no longer had enough chest beneath it to breathe.&rdquo;</p>
+                                    <p>&ldquo;I tied a tourniquet around the severed arm before I realised I was treating the wrong half of the man.&rdquo;</p>
+                                    <p>&ldquo;I found the bearer whose teeth were in the parapet and closed what remained of his jaw because I could not close his eyes.&rdquo;</p>
+                                    <p>&ldquo;I collected identification tags when I could find them.&rdquo;</p>
+                                    <p>&ldquo;One had been pushed so deep into a man&rsquo;s throat by whatever killed him that I had to cut the cord rather than pull it free.&rdquo;</p>
+                                    <p>&ldquo;I remember apologising while I did it.&rdquo;</p>
+                                    <p>&ldquo;I do not know who I thought I was apologising to.&rdquo;</p>
+                                    <p>&ldquo;The last wounded man had stopped calling for his mother.&rdquo;</p>
+                                    <p>&ldquo;I sat beside him for a little while anyway.&rdquo;</p>
+                                    <p>&ldquo;The rat sat beside me.&rdquo;</p>
+                                    <p>&ldquo;I kept thinking that I could have tried sooner.&rdquo;</p>
+                                    <p>&ldquo;Maybe the ribbons would have saved them.&rdquo;</p>
+                                    <p>&ldquo;Maybe they would have cut the wrong thing.&rdquo;</p>
+                                    <p>&ldquo;Maybe the creature would have killed all of us.&rdquo;</p>
+                                    <p>&ldquo;I will never know.&rdquo;</p>
+                                    <p>&ldquo;That is the punishment.&rdquo;</p>
+                                    <p>&ldquo;Not knowing whether I protected my life or merely protected my secret.&rdquo;</p>
+                                    <p>&ldquo;I had not killed those men.&rdquo;</p>
+                                    <p>&ldquo;I had also heard them begging for a medic while I waited for there to be no witnesses.&rdquo;</p>
+                                    <p>&ldquo;I do not know how much difference the dead would grant me.&rdquo;</p>
+                                    <p class="whisper-line">Better.</p>
+                                    <p class="whisper-line">No witnesses.</p>
+                                    <p class="whisper-line">No word.</p>
+                                    <p>&ldquo;I told it to shut up.&rdquo;</p>
+                                    <p class="whisper-line">Witch.</p>
+                                    <p>&ldquo;I said it louder.&rdquo;</p>
+                                    <p class="refusal-line">&ldquo;Shut up.&rdquo;</p>
+                                    <p>&ldquo;The voice laughed.&rdquo;</p>
+                                    <p>&ldquo;The rat did not.&rdquo;</p>
+                                    <p>&ldquo;It climbed onto my knee and stayed there while I finished gathering the tags.&rdquo;</p>
+                                    <p>&ldquo;When I finally returned to the line, I told them the collapse cut us off and the fog swallowed the stretcher party.&rdquo;</p>
+                                    <p>&ldquo;That much was true.&rdquo;</p>
+                                    <p>&ldquo;I did not tell them what had been inside it.&rdquo;</p>
+                                    <p>&ldquo;I did not tell them what I had done after it came for me.&rdquo;</p>
+                                    <p>&ldquo;I did not tell them that I had learned something worse than the fact I could kill with the green light.&rdquo;</p>
+                                    <p>&ldquo;I had learned I could choose not to use it while people died.&rdquo;</p>
+                                    <p>&ldquo;I think that frightened me more.&rdquo;</p>
+                                    <p>&ldquo;Because the thing in the fog was a monster.&rdquo;</p>
+                                    <p>&ldquo;I still had to decide what I was.&rdquo;</p>
                                 </div>
 
                                 <div id="finale-coda" class="warp-coda" data-sigil="TERMINAL FRAGMENT // 16 // AFTER">
-                                    <div class="stillness-marker">++ AETHERIC INTERFERENCE DROPS BELOW COGITATOR THRESHOLD ++</div>
+                                    <div class="stillness-marker">++ AETHERIC INTERFERENCE PERSISTS // SOURCE CONTAMINATION NO LONGER LOCALIZED ++</div>
 
                                     <p>&ldquo;We left the line in the back of an ammunition carrier with benches welded into it.&rdquo;</p>
 
@@ -3161,8 +3157,32 @@
     let audioCtx;
     let audioInitialized = false;
 
-    // Randomize initial track on load
-    let currentTrackIdx = Math.floor(Math.random() * TRACK_LIST.length);
+    // During the cypher minigame every track uses the normal equal-weight rotation,
+    // including JANE. Only when the actual character record opens is JANE made rare
+    // at a 1-in-10 automatic chance; manual track switching can still select it freely.
+    const JANE_TRACK = "JANE - THE LONG FACES.mp3";
+    const MAIN_PAGE_JANE_CHANCE = 0.10;
+
+    function randomMinigameTrackIndex() {
+        return Math.floor(Math.random() * TRACK_LIST.length);
+    }
+
+    function randomNonJaneTrackIndex() {
+        const choices = TRACK_LIST
+            .map((track, index) => ({ track, index }))
+            .filter(entry => entry.track !== JANE_TRACK);
+        return choices[Math.floor(Math.random() * choices.length)].index;
+    }
+
+    function randomMainPageTrackIndex() {
+        if (Math.random() < MAIN_PAGE_JANE_CHANCE) {
+            return TRACK_LIST.indexOf(JANE_TRACK);
+        }
+        return randomNonJaneTrackIndex();
+    }
+
+    let currentTrackIdx = randomMinigameTrackIndex();
+    let mainPageTrackChosen = false;
     const bgMusic = document.getElementById('bg-music');
 
     window.formatSongName = function(filename) {
@@ -3526,6 +3546,15 @@
                 text.innerText = "STRATA UNBOUND. THE RECORD OPENS.";
                 setTimeout(() => {
                     document.getElementById('transition-screen').style.display = 'none';
+
+                    // Main-record soundtrack roll: JANE is intentionally rare here
+                    // because its custom lyric substitutions can reflow the page.
+                    if (!mainPageTrackChosen) {
+                        mainPageTrackChosen = true;
+                        currentTrackIdx = randomMainPageTrackIndex();
+                        loadTrack(currentTrackIdx);
+                    }
+
                     typeDocument();
                 }, 1200);
             }
@@ -4186,18 +4215,23 @@
             const rawF = fieldDepth;
             const rawD = deepDepth;
             const x = finalDepth;
-            // The coda deliberately arrests the infestation. It begins by freezing
-            // motion and then strips most of the visual gain away while preserving
-            // just enough green residue for the final single glyph.
-            const quiet = clamp01(codaDepth * 2.55);
-            const rise = clamp01((x - 0.08) / 0.62);
-            const apex = Math.sin(rise * Math.PI * 0.5) * (1 - quiet * 0.96);
-            const f = rawF * (1 - quiet * 0.90);
-            const d = Math.max(rawD, x * 0.98) * (1 - quiet * 0.86);
-            const amp = 1 + apex * 0.62;
 
-            field.classList.toggle('warp-finale-live', x > 0.035 && quiet < 0.92);
-            field.classList.toggle('warp-stilled', quiet > 0.035);
+            // Chapter II is the first true infection point. The appendix above it
+            // remains visually stable even after unsealing; the field wakes as the
+            // reader descends into #wake-fragment. Chapter III then adds a second,
+            // steeper gain curve and never fully calms down again.
+            const chapterTwo = rawD;
+            const chapterThree = clamp01((x - 0.015) / 0.82);
+            const quiet = clamp01(codaDepth * 0.08); // residue only; no cleanup pass
+            const rise = clamp01((x - 0.035) / 0.60);
+            const apex = Math.sin(rise * Math.PI * 0.5);
+
+            const f = clamp01(chapterTwo * 0.82 + chapterThree * 0.46);
+            const d = clamp01(chapterTwo * 0.94 + chapterThree * 0.50);
+            const amp = 1 + chapterThree * 0.58 + apex * 0.52;
+
+            field.classList.toggle('warp-finale-live', x > 0.025);
+            field.classList.remove('warp-stilled');
             if (finalRoot) {
                 finalRoot.style.setProperty('--final-depth', x.toFixed(3));
                 finalRoot.style.setProperty('--final-apex', apex.toFixed(3));
@@ -4206,30 +4240,31 @@
 
             // --- field tier ---
             field.style.setProperty('--wf', f.toFixed(3));
-            field.style.setProperty('--wf-tint-green', (f * 0.16).toFixed(3));
-            field.style.setProperty('--wf-tint-purple', (f * f * 0.15).toFixed(3));
-            field.style.setProperty('--wf-grain', (f * f * 0.32).toFixed(3));
-            field.style.setProperty('--wf-vignette', (Math.max(0, f - 0.25) / 0.75 * 0.40).toFixed(3));
-            field.style.setProperty('--wf-over', (Math.max(0, f - 0.18) / 0.82 * 0.60).toFixed(3));
+            field.style.setProperty('--wf-tint-green', (f * 0.22).toFixed(3));
+            field.style.setProperty('--wf-tint-purple', (f * f * 0.22).toFixed(3));
+            field.style.setProperty('--wf-grain', (f * f * 0.42).toFixed(3));
+            field.style.setProperty('--wf-vignette', (Math.max(0, f - 0.20) / 0.80 * 0.48).toFixed(3));
+            field.style.setProperty('--wf-over', (Math.max(0, f - 0.14) / 0.86 * 0.72).toFixed(3));
 
             // --- deep tier (preserves the original variable contract) ---
             if (deepRoot) {
                 deepRoot.style.setProperty('--warp-depth', d.toFixed(3));
-                deepRoot.style.setProperty('--warp-bg-green', (0.04 + d * 0.13 + apex * 0.045).toFixed(3));
-                deepRoot.style.setProperty('--warp-bg-purple', (0.02 + d * d * 0.14 + apex * 0.052).toFixed(3));
-                deepRoot.style.setProperty('--warp-box-purple', (d * 0.18 + apex * 0.08).toFixed(3));
-                deepRoot.style.setProperty('--warp-title-sigil-opacity', (0.22 + d * 0.45 + apex * 0.18).toFixed(3));
-                deepRoot.style.setProperty('--warp-glow', `${(d * 6 + apex * 4.2).toFixed(2)}px`);
-                deepRoot.style.setProperty('--warp-side-shift', `${(d * 0.9 + apex * 0.7).toFixed(2)}px`);
-                deepRoot.style.setProperty('--warp-whisper-opacity', Math.min(0.98, 0.70 + d * 0.22 + apex * 0.06).toFixed(3));
-                deepRoot.style.setProperty('--warp-whisper-green', Math.min(0.72, 0.15 + d * 0.34 + apex * 0.14).toFixed(3));
-                deepRoot.style.setProperty('--warp-whisper-purple', Math.min(0.52, d * 0.26 + apex * 0.16).toFixed(3));
-                deepRoot.style.setProperty('--warp-stage-sigil-opacity', Math.min(0.98, d * 0.85 + apex * 0.12).toFixed(3));
-                deepRoot.style.setProperty('--warp-stage-pattern-opacity', Math.min(0.58, 0.08 + d * 0.34 + apex * 0.12).toFixed(3));
-                deepRoot.style.setProperty('--warp-stage-spacing', `${(4 + d * 7 + apex * 5).toFixed(2)}px`);
-                deepRoot.style.setProperty('--warp-mist-opacity', Math.min(0.62, 0.04 + d * 0.42 + apex * 0.12).toFixed(3));
-                // Barely perceptible list, but it stops the later stages sitting square.
-                deepRoot.style.setProperty('--warp-lean', `${(d * 0.32 + apex * 0.10).toFixed(3)}deg`);
+                deepRoot.style.setProperty('--warp-bg-green', (0.04 + d * 0.16 + apex * 0.070).toFixed(3));
+                deepRoot.style.setProperty('--warp-bg-purple', (0.02 + d * d * 0.18 + apex * 0.080).toFixed(3));
+                deepRoot.style.setProperty('--warp-box-purple', (d * 0.22 + apex * 0.12).toFixed(3));
+                deepRoot.style.setProperty('--warp-title-sigil-opacity', Math.min(1, 0.20 + d * 0.48 + apex * 0.24).toFixed(3));
+                deepRoot.style.setProperty('--warp-glow', `${(d * 8 + apex * 6.2).toFixed(2)}px`);
+                deepRoot.style.setProperty('--warp-side-shift', `${(d * 1.35 + apex * 1.15).toFixed(2)}px`);
+                deepRoot.style.setProperty('--warp-whisper-opacity', Math.min(1, 0.70 + d * 0.24 + apex * 0.08).toFixed(3));
+                deepRoot.style.setProperty('--warp-whisper-green', Math.min(0.84, 0.15 + d * 0.40 + apex * 0.20).toFixed(3));
+                deepRoot.style.setProperty('--warp-whisper-purple', Math.min(0.68, d * 0.32 + apex * 0.22).toFixed(3));
+                deepRoot.style.setProperty('--warp-stage-sigil-opacity', Math.min(1, d * 0.90 + apex * 0.18).toFixed(3));
+                deepRoot.style.setProperty('--warp-stage-pattern-opacity', Math.min(0.72, 0.08 + d * 0.41 + apex * 0.18).toFixed(3));
+                deepRoot.style.setProperty('--warp-stage-spacing', `${(4 + d * 8 + apex * 7).toFixed(2)}px`);
+                deepRoot.style.setProperty('--warp-mist-opacity', Math.min(0.74, 0.04 + d * 0.49 + apex * 0.18).toFixed(3));
+                // Later terminal fragments visibly lean out of alignment without
+                // ever rotating enough to make the prose hard to follow.
+                deepRoot.style.setProperty('--warp-lean', `${(d * 0.44 + apex * 0.18).toFixed(3)}deg`);
             }
 
             // --- per-element reveals ---
@@ -4237,7 +4272,7 @@
                 const reveal = parseFloat(m.dataset.reveal || '0');
                 const peak = parseFloat(m.dataset.peak || '0.3');
                 const strength = clamp01((f - reveal) / 0.30);
-                m.style.opacity = Math.min(0.72, strength * peak * amp).toFixed(3);
+                m.style.opacity = Math.min(0.86, strength * peak * amp).toFixed(3);
                 m.style.setProperty('--m-scale', (0.85 + strength * 0.55).toFixed(3));
             });
 
@@ -4245,7 +4280,7 @@
                 const reveal = parseFloat(t.dataset.reveal || '0');
                 const peak = parseFloat(t.dataset.peak || '0.5');
                 const strength = clamp01((f - reveal) / 0.34);
-                t.style.opacity = Math.min(0.52, strength * peak * amp).toFixed(3);
+                t.style.opacity = Math.min(0.70, strength * peak * amp).toFixed(3);
                 t.style.setProperty('--t-scale', (0.40 + strength * 0.95).toFixed(3));
                 t.style.setProperty('--t-width', (0.45 + strength * 0.95).toFixed(2));
                 // The strand itself extends - this is the "creeping" motion.
@@ -4272,7 +4307,7 @@
                 const reveal = parseFloat(s.dataset.reveal || '0');
                 const peak = parseFloat(s.dataset.peak || '0.24');
                 const strength = clamp01((f - reveal) / 0.28);
-                s.style.opacity = Math.min(0.52, strength * peak * amp).toFixed(3);
+                s.style.opacity = Math.min(0.70, strength * peak * amp).toFixed(3);
                 s.style.setProperty('--s-scale', (0.55 + strength * 0.75).toFixed(3));
             });
 
@@ -4280,7 +4315,7 @@
                 const reveal = parseFloat(g.dataset.reveal || '0');
                 const peak = parseFloat(g.dataset.peak || '0.32');
                 const strength = clamp01((f - reveal) / 0.24);
-                const alpha = Math.min(0.58, strength * peak * amp);
+                const alpha = Math.min(0.74, strength * peak * amp);
                 g.style.setProperty('--g-alpha', alpha.toFixed(3));
                 g.style.opacity = alpha.toFixed(3);
                 g.style.color = g.dataset.purple === 'true'
@@ -4292,7 +4327,7 @@
                 const reveal = parseFloat(r.dataset.reveal || '0');
                 const peak = parseFloat(r.dataset.peak || '0.15');
                 const strength = clamp01((f - reveal) / 0.26);
-                r.style.opacity = Math.min(0.34, strength * peak * amp).toFixed(3);
+                r.style.opacity = Math.min(0.48, strength * peak * amp).toFixed(3);
                 r.style.setProperty('--r-space', `${(5 + strength * 16).toFixed(1)}px`);
             });
 
@@ -4376,14 +4411,16 @@
         }
 
         function glitchDrive() {
-            const quiet = clamp01(codaDepth * 2.55);
-            return Math.max(fieldDepth, deepDepth, finalDepth * 1.18) * (1 - quiet * 0.98);
+            // Chapter II starts sparse; Chapter III becomes increasingly hostile.
+            // Coda depth no longer suppresses corruption, so the record finishes
+            // visibly contaminated instead of cleaning itself up.
+            return Math.max(deepDepth * 0.96, finalDepth * 1.58);
         }
 
         function scheduleGlitch() {
             clearTimeout(glitchTimer);
             const drive = glitchDrive();
-            const delay = Math.max(420, 7200 - drive * 6250) + Math.random() * Math.max(700, 2300 - drive * 900);
+            const delay = Math.max(260, 7200 - drive * 6250) + Math.random() * Math.max(520, 2200 - drive * 980);
             glitchTimer = setTimeout(() => {
                 if (!armed) return;
                 const drv = glitchDrive();
@@ -4409,15 +4446,21 @@
                     if (drv > 0.30 && Math.random() < 0.35) fireTear();
                     if (drv > 0.55 && Math.random() < 0.22) flashClass(scan, 'fire', 340);
                     if (drv > 0.34 && Math.random() < 0.45) rerollGlyph();
-                    if (deepRoot && deepDepth > 0.80 && Math.random() < 0.10) flashClass(deepRoot, 'wf-jolt', 360);
+                    if (deepRoot && deepDepth > 0.58 && Math.random() < (0.07 + finalDepth * 0.12)) {
+                        flashClass(deepRoot, 'wf-jolt', 390);
+                    }
 
-                    // Terminal fragment: the same vocabulary of effects becomes more
-                    // insistent instead of introducing a visually unrelated system.
-                    if (finalDepth > 0.38 && codaDepth < 0.025) {
-                        if (Math.random() < 0.30) rerollGlyph();
-                        if (Math.random() < 0.18) fireTear();
-                        if (finalDepth > 0.62 && Math.random() < 0.15) flashClass(scan, 'fire', 430);
-                        if (finalDepth > 0.70 && deepRoot && Math.random() < 0.13) flashClass(deepRoot, 'wf-jolt', 430);
+                    // Terminal fragment: same effects, much less restraint. By the
+                    // final pages the dataslate should feel close to losing control,
+                    // while short impulses keep the prose readable between faults.
+                    if (finalDepth > 0.30) {
+                        if (Math.random() < 0.46) rerollGlyph();
+                        if (Math.random() < 0.31) fireTear();
+                        if (finalDepth > 0.52 && Math.random() < 0.27) flashClass(scan, 'fire', 470);
+                        if (finalDepth > 0.58 && deepRoot && Math.random() < 0.28) flashClass(deepRoot, 'wf-jolt', 470);
+                        if (finalDepth > 0.80 && paras.length && Math.random() < 0.20) {
+                            flashClass(pick(paras), 'wf-drop', 620);
+                        }
                     }
                 }
                 scheduleGlitch();
