@@ -2007,26 +2007,20 @@
             .wf-eye .lid { transform: scaleY(0.02); }
         }
 
-        /* ================= EYE CLUSTERS // OPHANIM =================
-           Single eyes are now small and faint; the presence comes from wheels of
-           them turning together. Sclera fill is deliberately weak so an eye
-           sitting behind a paragraph darkens the page instead of punching a hole
-           in it. */
-        .wf-ophanim {
+        /* ================= EYE NESTS =================
+           Eyes gather in irregular knots rather than rings - a few loose sub-centres
+           with scatter around each, so the grouping reads as something grown rather
+           than something drawn with a compass. Sclera fill is deliberately weak so
+           an eye sitting behind a paragraph darkens the page instead of punching a
+           hole in it. */
+        .wf-nest {
             position: absolute;
             opacity: 0;
             overflow: visible;
             pointer-events: none;
             transform: translate(-50%, -50%) scale(var(--o-scale, 1));
             transition: opacity 1.3s ease, transform 1.7s ease;
-            animation: wfOphanimTurn var(--o-speed, 70s) linear infinite;
-        }
-
-        .wf-ophanim .ring {
-            fill: none;
-            stroke: var(--o-stroke, rgba(96, 228, 114, 0.30));
-            stroke-width: 1;
-            vector-effect: non-scaling-stroke;
+            animation: wfNestDrift var(--o-speed, 26s) ease-in-out infinite alternate;
         }
 
         .wf-eye .sclera,
@@ -2053,7 +2047,7 @@
         .wf-eye .iris, .wf-eye .pupil, .wf-eye .glint,
         .wf-oeye .iris, .wf-oeye .pupil, .wf-oeye .glint {
             transform: translate(var(--look-x, 0px), var(--look-y, 0px));
-            transition: transform 0.55s ease-out;
+            transition: transform 0.30s cubic-bezier(0.2, 0.8, 0.3, 1);
         }
 
         .wf-oeye .lid {
@@ -2064,8 +2058,8 @@
             animation-delay: var(--e-delay, 0s);
         }
 
-        .wf-ophanim.staring .lid { animation: none; transform: scaleY(0.02); }
-        .wf-ophanim.staring .iris { fill: rgba(126, 248, 146, 0.56); }
+        .wf-nest.staring .lid { animation: none; transform: scaleY(0.02); }
+        .wf-nest.staring .iris { fill: rgba(126, 248, 146, 0.56); }
 
         /* Weaker lid so a blink reads as a flicker, not a black bar. */
         .wf-eye .lid { fill: rgba(2, 7, 3, 0.82); }
@@ -2081,8 +2075,22 @@
             pointer-events: none;
             border-radius: 62% 38% 54% 46%;
             background: radial-gradient(ellipse at 64% 50%,
-                rgba(2, 6, 3, 0.95) 0%, rgba(6, 14, 7, 0.72) 54%, transparent 80%);
-            filter: blur(1.1px);
+                rgba(1, 4, 2, 0.99) 0%, rgba(5, 12, 6, 0.90) 58%, rgba(8, 18, 10, 0.42) 76%, transparent 88%);
+            filter: blur(0.7px);
+            box-shadow: 0 0 7px rgba(0, 0, 0, 0.55);
+        }
+
+        /* a wet little eye catching the green */
+        .wf-rat::before {
+            content: "";
+            position: absolute;
+            left: 74%;
+            top: 28%;
+            width: 2px;
+            height: 2px;
+            border-radius: 50%;
+            background: rgba(126, 240, 146, 0.75);
+            box-shadow: 0 0 4px rgba(96, 232, 114, 0.7);
         }
 
         .wf-rat::after {
@@ -2093,7 +2101,7 @@
             width: 70%;
             height: 1.4px;
             border-radius: 2px;
-            background: linear-gradient(270deg, rgba(3, 9, 4, 0.85), transparent);
+            background: linear-gradient(270deg, rgba(2, 7, 3, 0.95), transparent);
         }
 
         .wf-rat.run { animation: wfRatRun var(--rat-dur, 1.6s) linear 1; }
@@ -2143,9 +2151,9 @@
         .wf-passing.sweep { animation: wfPassing var(--pass-dur, 6s) ease-in-out 1; }
 
         /* ---- keyframes ---- */
-        @keyframes wfOphanimTurn {
-            0%   { transform: translate(-50%, -50%) scale(var(--o-scale, 1)) rotate(0deg); }
-            100% { transform: translate(-50%, -50%) scale(var(--o-scale, 1)) rotate(360deg); }
+        @keyframes wfNestDrift {
+            0%   { transform: translate(-50%, -50%) scale(calc(var(--o-scale, 1) * 0.97)) rotate(-2.5deg); }
+            100% { transform: translate(-51%, -49%) scale(calc(var(--o-scale, 1) * 1.05)) rotate(2.5deg); }
         }
 
         @keyframes wfRatRun {
@@ -2170,7 +2178,7 @@
         }
 
         @media (prefers-reduced-motion: reduce) {
-            .wf-ophanim,
+            .wf-nest,
             .wf-oeye .lid,
             .wf-rat,
             .wf-margin-word,
@@ -4366,7 +4374,7 @@
         // present would mean ~450 style writes per scroll frame.
         const layerNodes = [];
 
-        function registerNode(el) { el._y = 0; layerNodes.push(el); return el; }
+        function registerNode(el) { el._x = 0; el._y = 0; layerNodes.push(el); return el; }
 
         // The appendix is ~25,000px tall. A uniform spread puts a tendril every
         // 2,500px - roughly one per three screens, which is why the field read as
@@ -4413,8 +4421,8 @@
             }
         }
 
-        buildMist(under, 26, { minW: 300, maxW: 700, minBlur: 24, maxBlur: 46, peak: 0.30, purpleChance: 0.32, bias: 0.62 });
-        if (deepAtmos) buildMist(deepAtmos, 20, { minW: 280, maxW: 600, minBlur: 20, maxBlur: 40, peak: 0.46, purpleChance: 0.48, bias: 0.55 });
+        buildMist(under, 17, { minW: 300, maxW: 700, minBlur: 24, maxBlur: 46, peak: 0.30, purpleChance: 0.32, bias: 0.62 });
+        if (deepAtmos) buildMist(deepAtmos, 13, { minW: 280, maxW: 600, minBlur: 20, maxBlur: 40, peak: 0.46, purpleChance: 0.48, bias: 0.55 });
 
         // ---------- tendrils -------------------------------------------------
         // Organic beziers that crawl inward from the page edges. Growth is
@@ -4516,8 +4524,8 @@
             }
         }
 
-        buildTendrils(under, 54, { minW: 200, maxW: 500, minH: 170, maxH: 440, peak: 0.24, bias: 0.58, cluster: 3 });
-        if (deepAtmos) buildTendrils(deepAtmos, 40, { minW: 240, maxW: 580, minH: 190, maxH: 500, peak: 0.36, bias: 0.50, cluster: 4 });
+        buildTendrils(under, 35, { minW: 200, maxW: 500, minH: 170, maxH: 440, peak: 0.24, bias: 0.58, cluster: 3 });
+        if (deepAtmos) buildTendrils(deepAtmos, 26, { minW: 240, maxW: 580, minH: 190, maxH: 500, peak: 0.36, bias: 0.50, cluster: 4 });
 
         // ---------- sigil rings ---------------------------------------------
         function buildSigils(target, count, opts) {
@@ -4580,8 +4588,8 @@
             }
         }
 
-        buildSigils(under, 18, { min: 80, max: 240, peak: 0.15, bias: 0.60 });
-        if (deepAtmos) buildSigils(deepAtmos, 14, { min: 100, max: 280, peak: 0.22, bias: 0.52 });
+        buildSigils(under, 12, { min: 80, max: 240, peak: 0.15, bias: 0.60 });
+        if (deepAtmos) buildSigils(deepAtmos, 9, { min: 100, max: 280, peak: 0.22, bias: 0.52 });
 
         // ---------- glyph swarm ----------------------------------------------
         function buildGlyphs(target, count, opts) {
@@ -4604,8 +4612,8 @@
             }
         }
 
-        buildGlyphs(under, 130, { peak: 0.26, bias: 0.58 });
-        if (deepAtmos) buildGlyphs(deepAtmos, 100, { peak: 0.38, bias: 0.50 });
+        buildGlyphs(under, 82, { peak: 0.26, bias: 0.58 });
+        if (deepAtmos) buildGlyphs(deepAtmos, 63, { peak: 0.38, bias: 0.50 });
 
         // ---------- rune rows -------------------------------------------------
         function buildRunes(target, count, opts) {
@@ -4623,8 +4631,8 @@
             }
         }
 
-        buildRunes(under, 20, { peak: 0.14, bias: 0.58 });
-        if (deepAtmos) buildRunes(deepAtmos, 16, { peak: 0.21, bias: 0.50 });
+        buildRunes(under, 13, { peak: 0.14, bias: 0.58 });
+        if (deepAtmos) buildRunes(deepAtmos, 10, { peak: 0.21, bias: 0.50 });
 
         // ---------- glitch tears ----------------------------------------------
         for (let i = 0; i < 6; i++) {
@@ -4655,6 +4663,7 @@
             if (!fr.height) return;
             layerNodes.forEach((el) => {
                 const r = el.getBoundingClientRect();
+                el._x = (r.left - fr.left) + r.width * 0.5;
                 el._y = (r.top - fr.top) + r.height * 0.5;
             });
         }
@@ -4728,8 +4737,8 @@
             }
         }
 
-        buildEyes(under, 46, { min: 13, max: 34, peak: 0.17, bias: 0.42 });
-        if (deepAtmos) buildEyes(deepAtmos, 60, { min: 14, max: 40, peak: 0.22, bias: 0.38 });
+        buildEyes(under, 27, { min: 13, max: 34, peak: 0.17, bias: 0.42 });
+        if (deepAtmos) buildEyes(deepAtmos, 35, { min: 14, max: 40, peak: 0.22, bias: 0.38 });
 
         // ---------- the shape in the fog --------------------------------------
         // Lives inside the flensing fragment only, behind the prose. Antlers, a
@@ -4809,24 +4818,24 @@
             apexEyeLayer.className = 'wf-beast-layer';
             apexEyeLayer.setAttribute('aria-hidden', 'true');
             apexStage.insertBefore(apexEyeLayer, apexStage.firstChild);
-            buildEyes(apexEyeLayer, 34, { min: 12, max: 34, peak: 0.26, bias: 0.85 });
+            buildEyes(apexEyeLayer, 20, { min: 12, max: 34, peak: 0.26, bias: 0.85 });
             // Ribbons that reach inward toward the reader rather than creeping
             // across the margins - the strands closing on the subject.
-            buildTendrils(apexEyeLayer, 18, { minW: 190, maxW: 420, minH: 160, maxH: 380, peak: 0.32, bias: 0.9, cluster: 3 });
+            buildTendrils(apexEyeLayer, 12, { minW: 190, maxW: 420, minH: 160, maxH: 380, peak: 0.32, bias: 0.9, cluster: 3 });
         }
 
         buildBeast(apexStage);
 
-        // ---------- ophanim // wheels of eyes -----------------------------------
-        // Individual eyes are now small and faint. Presence comes from these:
-        // concentric dashed rings carrying 7-14 lenses that turn together, and
-        // blink out of phase with each other.
-        const ophanim = [];
+        // ---------- eye nests ---------------------------------------------------
+        // Not wheels. Each nest picks two or three loose sub-centres and scatters
+        // lenses around them with a square-root radial falloff, so the eyes bunch
+        // and overlap the way a growth would rather than sitting on a compass arc.
+        const nests = [];
 
-        function buildOphanim(target, count, opts) {
+        function buildNest(target, count, opts) {
             for (let i = 0; i < count; i++) {
                 const svg = document.createElementNS(SVG_NS, 'svg');
-                svg.setAttribute('class', 'wf-ophanim');
+                svg.setAttribute('class', 'wf-nest');
                 svg.setAttribute('viewBox', '0 0 200 200');
                 svg.setAttribute('aria-hidden', 'true');
                 const size = rnd(opts.min, opts.max);
@@ -4835,38 +4844,31 @@
                 svg.style.left = `${rnd(10, 90).toFixed(2)}%`;
                 const yPct = placeY(i, count, opts.bias);
                 svg.style.top = `${yPct.toFixed(2)}%`;
-                svg.style.setProperty('--o-speed', `${rnd(52, 120).toFixed(0)}s`);
-                if (Math.random() < 0.5) svg.style.animationDirection = 'reverse';
+                svg.style.setProperty('--o-speed', `${rnd(17, 34).toFixed(1)}s`);
+                svg.style.animationDelay = `${(-rnd(0, 16)).toFixed(1)}s`;
                 const purple = Math.random() < 0.28;
-                if (purple) svg.style.setProperty('--o-stroke', 'rgba(178, 92, 210, 0.28)');
 
-                // two or three wheels within wheels
-                const ringCount = 2 + Math.floor(Math.random() * 2);
-                const radii = [];
-                for (let r = 0; r < ringCount; r++) {
-                    const rad = 88 - r * rnd(24, 32);
-                    if (rad < 22) break;
-                    radii.push(rad);
-                    const c = document.createElementNS(SVG_NS, 'circle');
-                    c.setAttribute('class', 'ring');
-                    c.setAttribute('cx', '100');
-                    c.setAttribute('cy', '100');
-                    c.setAttribute('r', rad.toFixed(1));
-                    c.setAttribute('stroke-dasharray', `${rnd(2, 7).toFixed(1)} ${rnd(5, 13).toFixed(1)}`);
-                    svg.appendChild(c);
+                // loose sub-centres, themselves off-centre in the nest
+                const lobes = [];
+                const lobeCount = 2 + Math.floor(Math.random() * 2);
+                for (let l = 0; l < lobeCount; l++) {
+                    lobes.push([rnd(58, 142), rnd(58, 142)]);
                 }
 
-                const total = 7 + Math.floor(Math.random() * 8);
+                const total = 5 + Math.floor(Math.random() * 6);
                 for (let e = 0; e < total; e++) {
-                    const rad = pick(radii);
-                    const a = (e / total) * Math.PI * 2 + rnd(-0.16, 0.16);
-                    const cx = 100 + Math.cos(a) * rad;
-                    const cy = 100 + Math.sin(a) * rad;
-                    const sc = rnd(0.30, 0.52);
+                    const [lx, ly] = pick(lobes);
+                    // sqrt falloff clumps toward the lobe centre instead of a shell
+                    const spread = Math.sqrt(Math.random()) * rnd(22, 52);
+                    const a = Math.random() * Math.PI * 2;
+                    const cx = Math.max(14, Math.min(186, lx + Math.cos(a) * spread));
+                    const cy = Math.max(14, Math.min(186, ly + Math.sin(a) * spread * rnd(0.6, 1.1)));
+                    const sc = rnd(0.26, 0.56);
                     const g = document.createElementNS(SVG_NS, 'g');
                     g.setAttribute('class', 'wf-oeye');
+                    // mostly upright with a wandering tilt - no radial alignment
                     g.setAttribute('transform',
-                        `translate(${cx.toFixed(1)} ${cy.toFixed(1)}) rotate(${(a * 180 / Math.PI + 90).toFixed(1)}) scale(${sc.toFixed(2)}) translate(-30 -17)`);
+                        `translate(${cx.toFixed(1)} ${cy.toFixed(1)}) rotate(${rnd(-38, 38).toFixed(1)}) scale(${sc.toFixed(2)}) translate(-30 -17)`);
                     g.style.setProperty('--e-blink', `${rnd(4.5, 12).toFixed(2)}s`);
                     g.style.setProperty('--e-delay', `${(-rnd(0, 11)).toFixed(2)}s`);
                     if (purple) {
@@ -4898,12 +4900,15 @@
                 svg.dataset.reveal = clamp01(0.26 + (1 - yPct / 100) * 0.34 + rnd(-0.05, 0.09)).toFixed(3);
                 svg.dataset.peak = (opts.peak || 0.20).toFixed(3);
                 target.appendChild(svg);
-                ophanim.push(registerNode(svg));
+                nests.push(registerNode(svg));
             }
         }
 
-        buildOphanim(under, 9, { min: 110, max: 260, peak: 0.16, bias: 0.36 });
-        if (deepAtmos) buildOphanim(deepAtmos, 12, { min: 120, max: 300, peak: 0.20, bias: 0.34 });
+        buildNest(under, 6, { min: 110, max: 250, peak: 0.16, bias: 0.36 });
+        if (deepAtmos) buildNest(deepAtmos, 8, { min: 115, max: 285, peak: 0.20, bias: 0.34 });
+
+        // Everything that owns a pupil. Nests resolve as a unit.
+        const gazeTargets = eyes.concat(nests);
 
         // ---------- vermin ------------------------------------------------------
         // She hears them before anything else happens, and never stops hearing
@@ -4931,7 +4936,7 @@
             r.style.setProperty('--rat-dir', toRight ? '1' : '-1');
             r.style.setProperty('--rat-travel', `${travel.toFixed(0)}px`);
             r.style.setProperty('--rat-dur', `${rnd(0.75, 2.1).toFixed(2)}s`);
-            r.style.setProperty('--rat-alpha', (0.22 + intensity * 0.42).toFixed(3));
+            r.style.setProperty('--rat-alpha', (0.42 + intensity * 0.44).toFixed(3));
             flashClass(r, 'run', 2300);
         }
 
@@ -5250,7 +5255,7 @@
                 eyes.forEach((e) => e.classList.toggle('staring', staring));
             }
 
-            ophanim.forEach((o) => {
+            nests.forEach((o) => {
                 if (o._y < cullTop || o._y > cullBottom) return;
                 const reveal = parseFloat(o.dataset.reveal || '0');
                 const peak = parseFloat(o.dataset.peak || '0.20');
@@ -5412,9 +5417,9 @@
 
                     // Vermin arrive first and never leave - they are the one effect
                     // that runs from the very top of the crater log onward.
-                    if (Math.random() < 0.20 + drv * 0.46) scurry(drv);
-                    if (drv > 0.22 && Math.random() < 0.10 + drv * 0.22) marginalia(drv);
-                    if (drv > 0.46 && Math.random() < 0.05 + drv * 0.09) somethingPasses(drv);
+                    if (Math.random() < 0.22 + drv * 0.44) scurry(drv);
+                    if (drv > 0.22 && Math.random() < 0.06 + drv * 0.15) marginalia(drv);
+                    if (drv > 0.46 && Math.random() < 0.03 + drv * 0.06) somethingPasses(drv);
                     if (deepRoot && deepDepth > 0.58 && Math.random() < (0.07 + finalDepth * 0.12)) {
                         flashClass(deepRoot, 'wf-jolt', 390);
                     }
@@ -5426,7 +5431,7 @@
                         if (Math.random() < 0.46) rerollGlyph();
                         if (Math.random() < 0.31) fireTear();
                         if (Math.random() < 0.55) scurry(1);
-                        if (Math.random() < 0.34) marginalia(1);
+                        if (Math.random() < 0.22) marginalia(1);
                         if (finalDepth > 0.52 && Math.random() < 0.27) flashClass(scan, 'fire', 470);
                         if (finalDepth > 0.58 && deepRoot && Math.random() < 0.28) flashClass(deepRoot, 'wf-jolt', 470);
                         if (finalDepth > 0.80 && paras.length && Math.random() < 0.20) {
@@ -5550,25 +5555,53 @@
         }
 
         // ---------- gaze ------------------------------------------------------------
-        // Every pupil drifts opposite the direction of travel, so the eyes appear
-        // to hold on the reader as the page moves under them. One inherited pair
-        // of variables moves all of them at once.
+        // Every eye tracks the cursor. A single shared --look-x/--look-y pair would
+        // make them all glance the same way, which reads as wind rather than
+        // attention, so the deflection is solved per eye from its own cached centre
+        // toward the pointer. Only eyes inside the cull band are touched, so this is
+        // a few dozen writes per pointer frame regardless of total population.
+        // A whole nest shares one solution - it is small enough on screen that its
+        // lenses would agree anyway, and it keeps the cost flat.
+        let pointerX = null;
+        let pointerY = null;
+        let gazeQueued = false;
         let lastScrollY = null;
-        let lookX = 0;
-        let lookY = 0;
+        let driftY = 0;
 
         function updateGaze() {
-            const v = viewport();
+            if (!armed || reduceMotion) return;
             const fr = field.getBoundingClientRect();
-            const y = v.top - fr.top;
-            if (lastScrollY === null) { lastScrollY = y; return; }
-            const dv = y - lastScrollY;
-            lastScrollY = y;
-            const targetY = Math.max(-2.6, Math.min(2.6, -dv * 0.10));
-            lookY += (targetY - lookY) * 0.35;
-            lookX = Math.sin(y * 0.0016) * 1.9;
-            field.style.setProperty('--look-x', `${lookX.toFixed(2)}px`);
-            field.style.setProperty('--look-y', `${lookY.toFixed(2)}px`);
+            if (!fr.height) return;
+
+            if (pointerX === null) {
+                // No pointer yet (touch, or nothing moved): fall back to a slow
+                // drift against the direction of travel so they are never dead.
+                const v = viewport();
+                const y = v.top - fr.top;
+                if (lastScrollY === null) { lastScrollY = y; return; }
+                const dv = y - lastScrollY;
+                lastScrollY = y;
+                driftY += (Math.max(-2.4, Math.min(2.4, -dv * 0.10)) - driftY) * 0.35;
+                field.style.setProperty('--look-x', `${(Math.sin(y * 0.0016) * 1.8).toFixed(2)}px`);
+                field.style.setProperty('--look-y', `${driftY.toFixed(2)}px`);
+                return;
+            }
+
+            const mx = pointerX - fr.left;
+            const my = pointerY - fr.top;
+
+            for (let i = 0; i < gazeTargets.length; i++) {
+                const el = gazeTargets[i];
+                if (el._y < cullTop || el._y > cullBottom) continue;
+                const dx = mx - el._x;
+                const dy = my - el._y;
+                const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+                // Full deflection past ~70px; closer than that the pupil is
+                // effectively already on the cursor and shouldn't over-swing.
+                const reach = Math.min(1, dist / 70);
+                el.style.setProperty('--look-x', `${(dx / dist * 3.0 * reach).toFixed(2)}px`);
+                el.style.setProperty('--look-y', `${(dy / dist * 2.4 * reach).toFixed(2)}px`);
+            }
         }
 
         // ---------- wiring ---------------------------------------------------------
@@ -5582,6 +5615,14 @@
                 ticking = false;
             });
         };
+
+        window.addEventListener('pointermove', (ev) => {
+            pointerX = ev.clientX;
+            pointerY = ev.clientY;
+            if (gazeQueued || !armed || reduceMotion) return;
+            gazeQueued = true;
+            requestAnimationFrame(() => { gazeQueued = false; updateGaze(); });
+        }, { passive: true });
 
         // #document-container is the scroller. Window is bound in the capture phase
         // as a fallback for any other ancestor that ends up scrolling instead.
