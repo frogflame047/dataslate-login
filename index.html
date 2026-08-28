@@ -141,8 +141,8 @@
 
         @keyframes crtJitter {
             0%, 10% { transform: translate(0,0); }
-            10.5% { transform: translate(-0.5px, 0.5px); }
-            11% { transform: translate(0.5px, -0.5px); }
+            10.5% { transform: translate(-0.25px, 0.25px); }
+            11% { transform: translate(0.25px, -0.25px); }
             11.5% { transform: translate(0,0); }
             100% { transform: translate(0,0); }
         }
@@ -172,8 +172,8 @@
 
         @keyframes terminalFaultJitter {
             0%, 100% { transform: translate(0, 0); filter: none; }
-            32% { transform: translate(-1.4px, 0.5px); filter: hue-rotate(9deg); }
-            66% { transform: translate(1.2px, -0.5px); filter: hue-rotate(-12deg); }
+            32% { transform: translate(-0.75px, 0.28px); filter: hue-rotate(9deg); }
+            66% { transform: translate(0.65px, -0.28px); filter: hue-rotate(-12deg); }
         }
 
         @keyframes manyVoicePulse {
@@ -1490,7 +1490,7 @@
         }
 
         .fault-stack.severe {
-            animation: terminalFaultJitter 0.9s steps(3, end) infinite;
+            animation: terminalFaultJitter 1.5s steps(3, end) infinite;
         }
 
         .apex-stage {
@@ -1618,24 +1618,24 @@
 
         @keyframes wfShiver {
             0%   { transform: translateX(0);      filter: none; }
-            30%  { transform: translateX(-1.1px); filter: hue-rotate(14deg); }
-            65%  { transform: translateX(1.3px);  filter: hue-rotate(-16deg); }
+            30%  { transform: translateX(-0.6px); filter: hue-rotate(14deg); }
+            65%  { transform: translateX(0.7px);  filter: hue-rotate(-16deg); }
             100% { transform: translateX(0);      filter: none; }
         }
 
         @keyframes wfDrop {
             0%   { transform: translateY(0)     skewX(0deg);   opacity: 1; }
-            22%  { transform: translateY(2.5px) skewX(-0.7deg); opacity: 0.55; }
-            55%  { transform: translateY(-1px)  skewX(0.5deg);  opacity: 0.85; }
+            22%  { transform: translateY(1.35px) skewX(-0.38deg); opacity: 0.74; }
+            55%  { transform: translateY(-0.55px) skewX(0.28deg); opacity: 0.92; }
             100% { transform: translateY(0)     skewX(0deg);    opacity: 1; }
         }
 
         @keyframes wfJolt {
             0%   { transform: translate(0, 0);         filter: none; }
-            18%  { transform: translate(-4.5px, 1.5px); filter: hue-rotate(28deg) saturate(1.65); }
-            43%  { transform: translate(5px, -1.5px);   filter: hue-rotate(-31deg) contrast(1.22); }
-            68%  { transform: translate(-3px, 0.5px);   filter: saturate(1.45) contrast(1.08); }
-            84%  { transform: translate(2px, -0.5px);   filter: hue-rotate(16deg); }
+            18%  { transform: translate(-2.4px, 0.8px); filter: hue-rotate(28deg) saturate(1.65); }
+            43%  { transform: translate(2.7px, -0.8px); filter: hue-rotate(-31deg) contrast(1.22); }
+            68%  { transform: translate(-1.6px, 0.3px); filter: saturate(1.45) contrast(1.08); }
+            84%  { transform: translate(1.1px, -0.3px); filter: hue-rotate(16deg); }
             100% { transform: translate(0, 0);         filter: none; }
         }
 
@@ -2036,9 +2036,9 @@
 
         @keyframes wfRecoil {
             0%   { transform: translateX(0)     skewX(0deg);    filter: none; }
-            18%  { transform: translateX(-7px)  skewX(-1.4deg); filter: hue-rotate(30deg) saturate(1.5); }
-            44%  { transform: translateX(6px)   skewX(1.1deg);  filter: hue-rotate(-28deg); }
-            72%  { transform: translateX(-2.5px) skewX(-0.4deg); filter: saturate(1.2); }
+            18%  { transform: translateX(-3.8px) skewX(-0.75deg); filter: hue-rotate(30deg) saturate(1.5); }
+            44%  { transform: translateX(3.2px)  skewX(0.60deg);  filter: hue-rotate(-28deg); }
+            72%  { transform: translateX(-1.35px) skewX(-0.22deg); filter: saturate(1.2); }
             100% { transform: translateX(0)     skewX(0deg);    filter: none; }
         }
 
@@ -5628,7 +5628,7 @@
         function scheduleGlitch() {
             clearTimeout(glitchTimer);
             const drive = glitchDrive();
-            const delay = Math.max(260, 7200 - drive * 6250) + Math.random() * Math.max(520, 2200 - drive * 980);
+            const delay = Math.max(520, 7200 - drive * 4200) + Math.random() * Math.max(900, 2200 - drive * 620);
             glitchTimer = setTimeout(() => {
                 if (!armed) return;
                 const drv = glitchDrive();
@@ -5660,7 +5660,7 @@
                     if (Math.random() < 0.22 + drv * 0.44) scurry(drv);
                     if (drv > 0.22 && Math.random() < 0.06 + drv * 0.15) marginalia(drv);
                     if (drv > 0.46 && Math.random() < 0.03 + drv * 0.06) somethingPasses(drv);
-                    if (deepRoot && deepDepth > 0.58 && Math.random() < (0.07 + finalDepth * 0.12)) {
+                    if (deepRoot && deepDepth > 0.58 && Math.random() < (0.03 + finalDepth * 0.06)) {
                         flashClass(deepRoot, 'wf-jolt', 390);
                     }
 
@@ -5673,8 +5673,8 @@
                         if (Math.random() < 0.55) scurry(1);
                         if (Math.random() < 0.22) marginalia(1);
                         if (finalDepth > 0.52 && Math.random() < 0.27) flashClass(scan, 'fire', 470);
-                        if (finalDepth > 0.58 && deepRoot && Math.random() < 0.28) flashClass(deepRoot, 'wf-jolt', 470);
-                        if (finalDepth > 0.80 && paras.length && Math.random() < 0.20) {
+                        if (finalDepth > 0.58 && deepRoot && Math.random() < 0.13) flashClass(deepRoot, 'wf-jolt', 470);
+                        if (finalDepth > 0.80 && paras.length && Math.random() < 0.11) {
                             flashClass(pick(paras), 'wf-drop', 620);
                         }
                     }
