@@ -1822,63 +1822,83 @@
             position: absolute;
             left: 50%;
             top: 62%;
-            width: min(88%, 520px);
+            width: min(66%, 400px);
             height: auto;
             opacity: 0;
             transform: translate(-50%, -50%) scale(var(--b-scale, 1.24));
-            filter: blur(var(--b-blur, 26px));
+            filter:
+                blur(var(--b-blur, 26px))
+                drop-shadow(0 0 var(--b-rim, 7px) rgba(64, 196, 84, 0.55))
+                drop-shadow(0 0 calc(var(--b-rim, 7px) * 2.2) rgba(128, 60, 164, 0.34));
             transition: opacity 1.4s ease, filter 1.4s ease, transform 1.8s ease;
             animation: wfBeastSway 13s ease-in-out infinite alternate;
         }
 
+        /* Black silhouette. On a near-black page a pure black fill reads as
+           nothing, so the whole figure carries ONE root-level glow (see the
+           .wf-beast filter chain) rather than a drop-shadow per part - the figure
+           is already blurred 5-28px, so per-part shadows would be invisible and
+           ~50 nested filters expensive. Parts are tinted blacks instead, which
+           costs nothing and still separates the rack from the body.
+
+           No vector-effect here on purpose: the strokes must scale with --b-scale,
+           or the limbs stay fat while the figure shrinks. */
         .wf-beast .mass {
-            fill: rgba(1, 5, 2, 0.94);
-            stroke: rgba(74, 206, 92, 0.46);
-            stroke-width: 1.3;
-            vector-effect: non-scaling-stroke;
+            fill: rgba(0, 0, 0, 0.96);
+            stroke: rgba(6, 20, 9, 0.9);
+            stroke-width: 1.5;
         }
 
-        /* Second hunched line above the shoulders - reads as stooping. */
-        .wf-beast .ridge {
+        .wf-beast .bone {
             fill: none;
-            stroke: rgba(80, 212, 98, 0.40);
-            stroke-width: 2;
+            stroke: rgba(2, 10, 4, 0.96);
+            stroke-width: 9;
             stroke-linecap: round;
-            vector-effect: non-scaling-stroke;
+            stroke-linejoin: round;
         }
 
-        .wf-beast .limb {
+        .wf-beast .vert {
             fill: none;
-            stroke: rgba(70, 204, 88, 0.52);
-            stroke-width: 3.2;
+            stroke: rgba(2, 10, 4, 0.94);
+            stroke-width: 4.5;
             stroke-linecap: round;
-            vector-effect: non-scaling-stroke;
+        }
+
+        .wf-beast .rib {
+            fill: none;
+            stroke: rgba(2, 10, 4, 0.90);
+            stroke-width: 3;
+            stroke-linecap: round;
         }
 
         .wf-beast .claw {
             fill: none;
-            stroke: rgba(88, 216, 104, 0.44);
-            stroke-width: 1.5;
+            stroke: rgba(2, 10, 4, 0.94);
+            stroke-width: 3.4;
             stroke-linecap: round;
-            vector-effect: non-scaling-stroke;
+            stroke-linejoin: round;
         }
 
-        /* The rack carries the silhouette, so it is the most defined thing here. */
+        /* The rack carries the silhouette: heaviest line, faintly violet-black. */
         .wf-beast .antler {
             fill: none;
-            stroke: rgba(186, 100, 218, 0.62);
-            stroke-width: 3;
+            stroke: rgba(14, 3, 19, 0.97);
+            stroke-width: 5.5;
             stroke-linecap: round;
-            vector-effect: non-scaling-stroke;
         }
 
-        .wf-beast .antler.tine {
-            stroke: rgba(174, 92, 208, 0.50);
-            stroke-width: 1.9;
+        .wf-beast .antler.tine { stroke-width: 3.4; }
+
+        /* Strands shedding off the rack and the arms. */
+        .wf-beast .drip {
+            fill: none;
+            stroke: rgba(4, 12, 6, 0.78);
+            stroke-width: 1.8;
+            stroke-linecap: round;
         }
 
         .wf-beast .facet {
-            fill: rgba(92, 232, 112, 0.38);
+            fill: rgba(92, 232, 112, 0.34);
         }
 
         /* ================= FOUND YOU // IMPACT =================
@@ -4766,29 +4786,29 @@
         // ---------- the shape in the fog --------------------------------------
         // Lives inside the flensing fragment only, behind the prose.
         //
-        // Design rules, in tension with each other on purpose:
-        //   DEFINED   - a real branching antler rack, hunched shoulders, four arms
-        //               and splayed fingers, so the outline is legible as a thing.
-        //   UNKNOWABLE - no face, no eyes in the head, no feet. The lower body is
-        //               masked into nothing so it never acquires a base, and the
-        //               blur floor never reaches zero.
-        // The rack is generated rather than hand-drawn so left and right never
-        // match, which is most of why it reads as wrong.
+        // Archetype: gaunt antlered humanoid. Upright and starved rather than
+        // hunched - small angular skull, exposed vertebrae, a ribcage you can
+        // count, arms that hang well past the knees into long spindly claws, and
+        // a rack far too heavy for the neck carrying it, shedding strands.
+        //
+        // DEFINED   - the outline reads as an anatomy: skull, spine, ribs, pelvis,
+        //             legs, hands. You can tell what kind of thing it is.
+        // UNKNOWABLE - no face. Every rack, rib and finger is generated, so it is
+        //             never quite symmetrical, and the blur floor never hits zero.
         let beast = null;
 
         const BEAST_W = 440;
-        const BEAST_TOP = -120;   // headroom for the tallest generated tines
-        const BEAST_BOT = 600;    // room for the lowest fingers
+        const BEAST_TOP = -150;   // headroom for the tallest generated tines
+        const BEAST_BOT = 640;    // room for the feet
         const BEAST_H = BEAST_BOT - BEAST_TOP;
 
-        // One beam plus its tines. Returns the beam path and the points along it
-        // that tines can fork from.
+        // One beam plus the points along it that tines and strands can hang from.
         function antlerBeam(x, y, dir) {
             let d = `M ${x.toFixed(1)} ${y.toFixed(1)}`;
-            let angle = -Math.PI / 2 + dir * rnd(0.42, 0.68);
-            let len = rnd(34, 44);
+            let angle = -Math.PI / 2 + dir * rnd(0.38, 0.62);
+            let len = rnd(40, 52);
             const forks = [];
-            const segs = 4 + Math.floor(Math.random() * 3);
+            const segs = 5 + Math.floor(Math.random() * 3);
             for (let i = 0; i < segs; i++) {
                 const nx = x + Math.cos(angle) * len;
                 const ny = y + Math.sin(angle) * len;
@@ -4797,17 +4817,16 @@
                 d += ` Q ${cx.toFixed(1)} ${cy.toFixed(1)}, ${nx.toFixed(1)} ${ny.toFixed(1)}`;
                 forks.push([nx, ny, angle]);
                 x = nx; y = ny;
-                // curls outward then back up - a rack, not a pair of horns
-                angle += dir * rnd(0.14, 0.34) - rnd(0.16, 0.30);
-                len *= rnd(0.80, 0.94);
+                angle += dir * rnd(0.16, 0.36) - rnd(0.18, 0.32);
+                len *= rnd(0.80, 0.93);
             }
             return { d: d, forks: forks };
         }
 
         function antlerTine(fork, dir) {
             const [x, y, a] = fork;
-            const t = a - dir * rnd(0.45, 1.05);
-            const len = rnd(20, 46);
+            const t = a - dir * rnd(0.42, 1.10);
+            const len = rnd(24, 54);
             const ex = x + Math.cos(t) * len;
             const ey = y + Math.sin(t) * len;
             const cx = x + Math.cos(t + dir * 0.34) * len * 0.55;
@@ -4815,16 +4834,27 @@
             return `M ${x.toFixed(1)} ${y.toFixed(1)} Q ${cx.toFixed(1)} ${cy.toFixed(1)}, ${ex.toFixed(1)} ${ey.toFixed(1)}`;
         }
 
-        function fingerSpray(x, y, dir, count) {
+        // Strands that hang off the rack and the arms - the thing is coming apart.
+        function dripPath(x, y) {
+            const len = rnd(16, 54);
+            const drift = rnd(-5, 5);
+            return `M ${x.toFixed(1)} ${y.toFixed(1)} Q ${(x + drift).toFixed(1)} ${(y + len * 0.6).toFixed(1)}, ${(x + drift * 0.5).toFixed(1)} ${(y + len).toFixed(1)}`;
+        }
+
+        // Long splayed fingers, each with a knuckle break so they read as jointed.
+        function clawSpray(x, y, dir, count) {
             const out = [];
             for (let i = 0; i < count; i++) {
-                const a = Math.PI / 2 + dir * rnd(-0.62, 0.62);
-                const len = rnd(30, 62);
-                const ex = x + Math.cos(a) * len;
-                const ey = y + Math.sin(a) * len;
-                const cx = x + Math.cos(a - dir * 0.4) * len * 0.5;
-                const cy = y + Math.sin(a) * len * 0.55;
-                out.push(`M ${x.toFixed(1)} ${y.toFixed(1)} Q ${cx.toFixed(1)} ${cy.toFixed(1)}, ${ex.toFixed(1)} ${ey.toFixed(1)}`);
+                const spread = (i / Math.max(1, count - 1)) - 0.5;
+                const a = Math.PI / 2 + dir * spread * rnd(0.85, 1.25);
+                const l1 = rnd(26, 42);
+                const mx = x + Math.cos(a) * l1;
+                const my = y + Math.sin(a) * l1;
+                const a2 = a + dir * rnd(-0.34, 0.16);
+                const l2 = rnd(24, 46);
+                const ex = mx + Math.cos(a2) * l2;
+                const ey = my + Math.sin(a2) * l2;
+                out.push(`M ${x.toFixed(1)} ${y.toFixed(1)} L ${mx.toFixed(1)} ${my.toFixed(1)} L ${ex.toFixed(1)} ${ey.toFixed(1)}`);
             }
             return out;
         }
@@ -4840,14 +4870,13 @@
             svg.setAttribute('viewBox', `0 ${BEAST_TOP} ${BEAST_W} ${BEAST_H}`);
             svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
 
-            // The lower body is masked out entirely - it has no feet and no base,
-            // it just stops being there.
+            // The feet dissolve rather than standing on anything.
             const defs = document.createElementNS(SVG_NS, 'defs');
             const grad = document.createElementNS(SVG_NS, 'linearGradient');
             grad.setAttribute('id', 'wfBeastFadeGrad');
             grad.setAttribute('x1', '0'); grad.setAttribute('y1', '0');
             grad.setAttribute('x2', '0'); grad.setAttribute('y2', '1');
-            [['0', '0.50'], ['0.15', '1'], ['0.64', '1'], ['1', '0']].forEach((st) => {
+            [['0', '0.45'], ['0.16', '1'], ['0.80', '1'], ['1', '0']].forEach((st) => {
                 const stop = document.createElementNS(SVG_NS, 'stop');
                 stop.setAttribute('offset', st[0]);
                 stop.setAttribute('stop-color', '#fff');
@@ -4883,55 +4912,93 @@
                 return p;
             };
 
-            // Hunched mass. Shoulders ride high and the head sits sunk between
-            // them, small and empty - the silhouette reads as stooping toward you.
+            const CX = 220;
+            const HEAD_Y = 128;
+            const SHOULDER_Y = 214;
+            const PELVIS_Y = 372;
+
+            // --- skull: small, angular, tipped forward, and empty ---
             add('mass',
-                'M220 138 C 202 138, 190 152, 188 172 ' +
-                'C 186 190, 172 196, 156 202 ' +
-                'C 124 214, 100 236, 92 266 ' +
-                'C 84 296, 88 330, 96 366 ' +
-                'C 106 412, 118 470, 124 540 ' +
-                'L 316 540 ' +
-                'C 322 470, 334 412, 344 366 ' +
-                'C 352 330, 356 296, 348 266 ' +
-                'C 340 236, 316 214, 284 202 ' +
-                'C 268 196, 254 190, 252 172 ' +
-                'C 250 152, 238 138, 220 138 Z');
+                `M ${CX - 15} ${HEAD_Y - 20} L ${CX + 13} ${HEAD_Y - 24} ` +
+                `L ${CX + 19} ${HEAD_Y - 4} L ${CX + 14} ${HEAD_Y + 18} ` +
+                `L ${CX + 4} ${HEAD_Y + 30} L ${CX - 8} ${HEAD_Y + 26} ` +
+                `L ${CX - 17} ${HEAD_Y + 6} Z`);
 
-            // Shoulder ridge - a second hunched line above the mass.
-            add('ridge',
-                'M150 208 C 172 186, 200 178, 220 178 C 240 178, 268 186, 290 208');
+            // --- vertebrae: neck through to the pelvis, drawn as a stack ---
+            for (let i = 0; i < 15; i++) {
+                const t = i / 14;
+                const vy = HEAD_Y + 30 + t * (PELVIS_Y - HEAD_Y - 30);
+                const vx = CX + Math.sin(t * 2.4) * 5;
+                const half = 4.5 - t * 1.2 + rnd(-0.6, 0.6);
+                add('vert', `M ${(vx - half).toFixed(1)} ${vy.toFixed(1)} L ${(vx + half).toFixed(1)} ${vy.toFixed(1)}`);
+            }
 
-            // Four arms. The upper pair reaches wide, the lower pair hangs far
-            // past where anything's knees should be.
-            const arms = [
-                ['M120 244 C 78 272, 48 320, 38 378 C 32 414, 32 448, 40 478', 40, 478, -1, 5],
-                ['M320 244 C 362 272, 392 320, 402 378 C 408 414, 408 448, 400 478', 400, 478, 1, 5],
-                ['M136 288 C 104 330, 86 384, 84 440 C 83 470, 86 496, 92 518', 92, 518, -1, 4],
-                ['M304 288 C 336 330, 354 384, 356 440 C 357 470, 354 496, 348 518', 348, 518, 1, 4]
-            ];
-            arms.forEach((a) => {
-                add('limb', a[0]);
-                fingerSpray(a[1], a[2], a[3], a[4]).forEach((d) => add('claw', d));
-            });
+            // --- torso: narrow, starved, tapering to a shallow pelvis ---
+            add('mass',
+                `M ${CX - 26} ${SHOULDER_Y} C ${CX - 34} ${SHOULDER_Y + 46}, ${CX - 32} ${SHOULDER_Y + 96}, ${CX - 22} ${PELVIS_Y} ` +
+                `L ${CX + 22} ${PELVIS_Y} C ${CX + 32} ${SHOULDER_Y + 96}, ${CX + 34} ${SHOULDER_Y + 46}, ${CX + 26} ${SHOULDER_Y} ` +
+                `C ${CX + 14} ${SHOULDER_Y - 12}, ${CX - 14} ${SHOULDER_Y - 12}, ${CX - 26} ${SHOULDER_Y} Z`);
 
-            // The rack. Two beams per side, generated independently, so the two
-            // halves never mirror each other.
-            [[196, 128, -1], [244, 128, 1], [206, 142, -1], [234, 142, 1]].forEach((b, i) => {
-                const beam = antlerBeam(b[0], b[1], b[2]);
-                add('antler', beam.d);
-                const tines = i < 2 ? 2 + Math.floor(Math.random() * 3) : 1 + Math.floor(Math.random() * 2);
-                for (let t = 0; t < tines && beam.forks.length; t++) {
-                    add('antler tine', antlerTine(pick(beam.forks), b[2]));
+            // --- ribs you can count, uneven on each side ---
+            for (let i = 0; i < 8; i++) {
+                const ry = SHOULDER_Y + 16 + i * 15;
+                const w = 30 + Math.sin(i / 7 * Math.PI) * 12;
+                add('rib', `M ${CX - 3} ${ry} Q ${(CX - w * 0.8).toFixed(1)} ${(ry - rnd(2, 8)).toFixed(1)}, ${(CX - w).toFixed(1)} ${(ry + rnd(6, 14)).toFixed(1)}`);
+                add('rib', `M ${CX + 3} ${ry} Q ${(CX + w * 0.8).toFixed(1)} ${(ry - rnd(2, 8)).toFixed(1)}, ${(CX + w).toFixed(1)} ${(ry + rnd(6, 14)).toFixed(1)}`);
+            }
+
+            // --- clavicle / shoulder yoke ---
+            add('bone', `M ${CX - 44} ${SHOULDER_Y - 4} Q ${CX} ${SHOULDER_Y - 22}, ${CX + 44} ${SHOULDER_Y - 4}`);
+
+            // --- arms: hanging well past the knee, into long jointed claws ---
+            [[-1, CX - 30], [1, CX + 30]].forEach((side) => {
+                const dir = side[0];
+                const sx = side[1];
+                const ex = CX + dir * rnd(96, 118);
+                const ey = rnd(430, 468);
+                add('bone',
+                    `M ${sx} ${SHOULDER_Y - 2} C ${(sx + dir * 44).toFixed(1)} ${SHOULDER_Y + 62}, ` +
+                    `${(ex + dir * 10).toFixed(1)} ${(ey - 130).toFixed(1)}, ${ex.toFixed(1)} ${ey.toFixed(1)}`);
+                clawSpray(ex, ey, dir, 5).forEach((d) => add('claw', d));
+                for (let i = 0; i < 3; i++) {
+                    add('drip', dripPath(sx + dir * rnd(20, 90), rnd(SHOULDER_Y + 40, ey - 40)));
                 }
             });
 
-            // The faces under its skin.
-            for (let i = 0; i < 16; i++) {
+            // --- legs: long, thin, ending in feet that fade into the fog ---
+            [[-1, CX - 15], [1, CX + 15]].forEach((side) => {
+                const dir = side[0];
+                const hx = side[1];
+                const kx = hx + dir * rnd(4, 16);
+                const fy = rnd(578, 610);
+                add('bone',
+                    `M ${hx} ${PELVIS_Y} C ${kx.toFixed(1)} ${(PELVIS_Y + 70).toFixed(1)}, ` +
+                    `${(hx + dir * 2).toFixed(1)} ${(fy - 90).toFixed(1)}, ${(hx + dir * 6).toFixed(1)} ${fy.toFixed(1)}`);
+                add('bone', `M ${(hx + dir * 6).toFixed(1)} ${fy.toFixed(1)} L ${(hx + dir * 30).toFixed(1)} ${(fy + 12).toFixed(1)}`);
+            });
+
+            // --- the rack: two beams a side, generated independently ---
+            [[CX - 11, HEAD_Y - 18, -1], [CX + 9, HEAD_Y - 22, 1],
+             [CX - 6, HEAD_Y - 8, -1], [CX + 5, HEAD_Y - 10, 1]].forEach((b, i) => {
+                const beam = antlerBeam(b[0], b[1], b[2]);
+                add('antler', beam.d);
+                const tines = i < 2 ? 3 + Math.floor(Math.random() * 3) : 2 + Math.floor(Math.random() * 2);
+                for (let t = 0; t < tines && beam.forks.length; t++) {
+                    add('antler tine', antlerTine(pick(beam.forks), b[2]));
+                }
+                // strands shedding off the rack
+                for (let t = 0; t < 3 && beam.forks.length; t++) {
+                    const f = pick(beam.forks);
+                    add('drip', dripPath(f[0], f[1]));
+                }
+            });
+
+            // --- the faces under its skin ---
+            for (let i = 0; i < 12; i++) {
                 const g = document.createElementNS(SVG_NS, 'g');
-                const sx = rnd(130, 310);
-                const sy = rnd(228, 486);
-                const sc = rnd(0.38, 0.80);
+                const sx = CX + rnd(-30, 30);
+                const sy = rnd(SHOULDER_Y + 20, PELVIS_Y + 10);
+                const sc = rnd(0.30, 0.60);
                 g.setAttribute('transform',
                     `translate(${sx.toFixed(1)} ${sy.toFixed(1)}) rotate(${rnd(-26, 26).toFixed(1)}) scale(${sc.toFixed(2)}) translate(-30 -17)`);
                 const lens = document.createElementNS(SVG_NS, 'path');
@@ -5410,6 +5477,9 @@
                 // never far enough to be a picture of anything.
                 beast.style.setProperty('--b-blur', `${(28 - apex * 23).toFixed(1)}px`);
                 beast.style.setProperty('--b-scale', (1.30 - apex * 0.22).toFixed(3));
+                // The rim tightens as it resolves - a wide haze at first, a hard
+                // edge by the time it has hold of the ribbon.
+                beast.style.setProperty('--b-rim', `${(11 - apex * 6).toFixed(1)}px`);
             }
 
             runeRows.forEach((r) => {
