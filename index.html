@@ -157,6 +157,43 @@
             100% { filter: none; transform: translate(0,0); }
         }
 
+
+        @keyframes terminalBreath {
+            0%   { transform: scale(calc(0.82 + var(--final-apex) * 0.34)) translateY(-1.2%); }
+            100% { transform: scale(calc(0.86 + var(--final-apex) * 0.38)) translateY(1.4%); }
+        }
+
+        @keyframes terminalFaultBlink {
+            0%, 88%, 100% { opacity: 0.84; }
+            89% { opacity: 0.28; }
+            91% { opacity: 1; }
+            93% { opacity: 0.50; }
+        }
+
+        @keyframes terminalFaultJitter {
+            0%, 100% { transform: translate(0, 0); filter: none; }
+            32% { transform: translate(-1.4px, 0.5px); filter: hue-rotate(9deg); }
+            66% { transform: translate(1.2px, -0.5px); filter: hue-rotate(-12deg); }
+        }
+
+        @keyframes manyVoicePulse {
+            0% { opacity: 0.76; filter: blur(0); }
+            100% { opacity: 1; filter: blur(0.45px); }
+        }
+
+        @keyframes quietGlyphBlink {
+            0%, 78%, 100% { opacity: 0.70; }
+            79% { opacity: 0.12; }
+            81% { opacity: 0.92; }
+            83% { opacity: 0.48; }
+        }
+
+        @keyframes terminalSignalLoss {
+            0%, 85%, 100% { letter-spacing: 1.5px; opacity: 0.62; }
+            86% { letter-spacing: 3px; opacity: 0.28; }
+            88% { letter-spacing: 1px; opacity: 0.76; }
+        }
+
         @media (prefers-reduced-motion: reduce) {
             #master-wrapper { animation: none; }
             body::after { animation: none; }
@@ -1290,6 +1327,254 @@
             pointer-events: none;
         }
 
+
+        /* ================= TERMINAL FRAGMENT // final descent =================
+           Chapter III rides the existing corruption field instead of replacing it.
+           JS feeds --final-depth / --final-apex / --final-quiet and the same mist,
+           tendril, glyph and tear populations intensify until the coda forces them
+           into stillness. Text remains above every effect layer. */
+        .warp-finale {
+            --final-depth: 0;
+            --final-apex: 0;
+            --final-quiet: 0;
+            position: relative;
+            isolation: isolate;
+            margin-top: 34px;
+            padding-top: 12px;
+        }
+
+        .warp-finale::before {
+            content: "";
+            position: absolute;
+            z-index: -1;
+            inset: 2% -8% 18%;
+            pointer-events: none;
+            opacity: calc(var(--final-apex) * 0.72);
+            background:
+                radial-gradient(ellipse at 50% 42%, rgba(1, 3, 2, 0.92) 0%, rgba(4, 12, 7, 0.70) 18%, rgba(44, 8, 54, 0.24) 44%, transparent 70%),
+                radial-gradient(ellipse at 46% 52%, rgba(56, 188, 79, 0.17), transparent 58%);
+            filter: blur(calc(8px + var(--final-apex) * 16px));
+            transform: scale(calc(0.82 + var(--final-apex) * 0.34));
+            transition: opacity 0.8s ease, filter 0.8s ease, transform 1.1s ease;
+            animation: terminalBreath 6.8s ease-in-out infinite alternate;
+        }
+
+        .terminal-title {
+            margin-top: 4px;
+            border-color: rgba(117, 237, 128, 0.46);
+            box-shadow:
+                0 0 calc(8px + var(--final-apex) * 20px) rgba(72, 221, 95, calc(0.08 + var(--final-apex) * 0.20)),
+                inset 0 0 22px rgba(76, 18, 92, calc(var(--final-apex) * 0.14));
+        }
+
+        .terminal-break,
+        .stillness-marker,
+        .final-signal-loss {
+            margin: 13px 0 22px;
+            padding: 8px 12px;
+            border: 1px dashed rgba(98, 222, 112, 0.30);
+            background: rgba(3, 8, 5, 0.68);
+            color: rgba(134, 231, 144, 0.84);
+            font-family: 'VT323', monospace;
+            font-size: 1.02rem;
+            letter-spacing: 1.5px;
+            text-align: center;
+            text-transform: uppercase;
+            text-shadow: 0 0 8px rgba(75, 224, 98, 0.24);
+        }
+
+        .terminal-break {
+            animation: terminalFaultBlink 4.6s steps(1, end) infinite;
+        }
+
+        .warp-stage.terminal {
+            padding: 7px 4px 4px;
+        }
+
+        .warp-stage.terminal::before {
+            color: rgba(129, 242, 140, calc(0.16 + var(--final-depth) * 0.22));
+            text-shadow: 0 0 8px rgba(78, 230, 101, calc(var(--final-depth) * 0.30));
+        }
+
+        .warp-stage.terminal.aperture {
+            border-left: 1px solid rgba(93, 224, 110, calc(var(--final-apex) * 0.35));
+            border-right: 1px solid rgba(171, 77, 205, calc(var(--final-apex) * 0.28));
+            padding-left: 12px;
+            padding-right: 12px;
+            background:
+                linear-gradient(90deg,
+                    rgba(52, 176, 74, calc(var(--final-apex) * 0.04)),
+                    rgba(4, 8, 5, 0.02) 38%,
+                    rgba(91, 29, 111, calc(var(--final-apex) * 0.05)));
+            box-shadow:
+                inset 12px 0 24px rgba(57, 190, 77, calc(var(--final-apex) * 0.04)),
+                inset -12px 0 24px rgba(109, 38, 134, calc(var(--final-apex) * 0.05));
+        }
+
+        .predator-word,
+        .pack-word,
+        .many-voice,
+        .command-line,
+        .refusal-line,
+        .thousand-eyes-line {
+            font-family: 'VT323', monospace;
+            letter-spacing: 2px;
+        }
+
+        .predator-word,
+        .pack-word,
+        .many-voice {
+            text-align: center;
+            font-size: 1.28rem;
+        }
+
+        .predator-word { letter-spacing: 8px; }
+        .pack-word { letter-spacing: 6px; }
+
+        .command-line {
+            text-align: center;
+            font-size: 1.34rem;
+            color: rgba(171, 244, 178, 0.95);
+            text-shadow: 0 0 12px rgba(81, 238, 105, 0.50) !important;
+        }
+
+        .refusal-line {
+            color: rgba(229, 234, 222, 0.96);
+            text-align: center;
+            font-size: 1.20rem;
+            text-shadow:
+                0 0 9px rgba(221, 221, 210, 0.18),
+                -1px 0 rgba(70, 215, 93, calc(var(--final-apex) * 0.20)),
+                1px 0 rgba(174, 75, 207, calc(var(--final-apex) * 0.18)) !important;
+        }
+
+        .thousand-eyes-line {
+            text-align: center;
+            letter-spacing: calc(2px + var(--final-apex) * 5px);
+            text-shadow: 0 0 14px rgba(78, 231, 102, calc(0.20 + var(--final-apex) * 0.34)) !important;
+        }
+
+        .many-voice {
+            letter-spacing: calc(5px + var(--final-apex) * 9px);
+            text-shadow:
+                -2px 0 rgba(67, 230, 95, calc(var(--final-apex) * 0.42)),
+                2px 0 rgba(185, 76, 214, calc(var(--final-apex) * 0.38)),
+                0 0 17px rgba(93, 238, 111, calc(var(--final-apex) * 0.46)) !important;
+            animation: manyVoicePulse 2.6s ease-in-out infinite alternate;
+        }
+
+        .fault-stack {
+            position: relative;
+            margin: 16px auto 20px;
+            width: min(94%, 650px);
+            padding: 9px 12px;
+            overflow: hidden;
+            border: 1px solid rgba(101, 227, 116, calc(0.20 + var(--final-apex) * 0.35));
+            background: rgba(1, 4, 2, 0.82);
+            font-family: 'VT323', monospace;
+            text-align: center;
+            color: rgba(127, 233, 138, 0.82);
+            box-shadow: 0 0 18px rgba(57, 221, 84, calc(var(--final-apex) * 0.16));
+        }
+
+        .fault-stack span {
+            display: block;
+            min-height: 1.2em;
+            letter-spacing: 1.5px;
+            opacity: calc(0.58 + var(--final-apex) * 0.38);
+        }
+
+        .fault-stack span:nth-child(2n) {
+            color: rgba(191, 103, 220, calc(0.50 + var(--final-apex) * 0.38));
+            transform: translateX(calc(var(--final-apex) * 2px));
+        }
+
+        .fault-stack.severe {
+            animation: terminalFaultJitter 0.9s steps(3, end) infinite;
+        }
+
+        .apex-stage {
+            text-shadow: 0 0 calc(var(--final-apex) * 6px) rgba(102, 235, 117, 0.14);
+        }
+
+        /* When the coda comes into view, the corruption does not simply fade: it
+           freezes first. JS lowers the same field variables while this selector
+           stops drift/sway/turn animations, creating the sudden post-contact hush. */
+        #warrant-lore-section.warp-stilled .wf-mist,
+        #warrant-lore-section.warp-stilled .wf-tendril,
+        #warrant-lore-section.warp-stilled .wf-sigil,
+        #warrant-lore-section.warp-stilled .wf-glyph,
+        #warrant-lore-section.warp-stilled .wf-grain,
+        #warrant-lore-section.warp-stilled .warp-mist,
+        #warrant-lore-section.warp-stilled .warp-finale::before,
+        #warrant-lore-section.warp-stilled .many-voice,
+        #warrant-lore-section.warp-stilled .terminal-break,
+        #warrant-lore-section.warp-stilled .fault-stack {
+            animation-play-state: paused !important;
+        }
+
+        .warp-coda {
+            position: relative;
+            z-index: 4;
+            margin: 34px -2px 0;
+            padding: 24px 18px 22px;
+            border-top: 1px solid rgba(131, 205, 138, 0.28);
+            background:
+                linear-gradient(180deg, rgba(4, 9, 5, 0.82), rgba(5, 7, 5, 0.94));
+            box-shadow:
+                inset 0 22px 40px rgba(0, 0, 0, 0.22),
+                0 -10px 30px rgba(44, 166, 65, calc((1 - var(--final-quiet)) * 0.06));
+            transform: none !important;
+        }
+
+        .warp-coda p {
+            filter: none !important;
+            transform: none !important;
+            text-shadow: 0 0 calc((1 - var(--final-quiet)) * 3px) rgba(76, 211, 95, 0.09) !important;
+        }
+
+        .stillness-marker {
+            color: rgba(186, 206, 187, 0.70);
+            border-color: rgba(162, 190, 164, 0.18);
+            text-shadow: none;
+            letter-spacing: 1px;
+        }
+
+        .final-lie {
+            margin-top: 20px;
+            text-align: center;
+            color: rgba(230, 231, 220, 0.96);
+            font-family: 'VT323', monospace;
+            font-size: 1.28rem;
+            letter-spacing: 1.5px;
+        }
+
+        .quiet-glyph {
+            width: 2rem;
+            margin: 18px auto 16px;
+            color: rgba(92, 226, 108, 0.70);
+            font-family: 'VT323', monospace;
+            font-size: 1.72rem;
+            text-align: center;
+            opacity: calc(0.42 + var(--final-quiet) * 0.42);
+            text-shadow: 0 0 10px rgba(76, 229, 96, 0.40);
+            animation: quietGlyphBlink 5.8s steps(1, end) infinite;
+        }
+
+        .final-whisper {
+            color: rgba(150, 211, 155, 0.74) !important;
+            opacity: 0.72 !important;
+            text-shadow: 0 0 6px rgba(76, 216, 92, 0.16) !important;
+        }
+
+        .final-signal-loss {
+            margin-top: 30px;
+            color: rgba(155, 167, 155, 0.62);
+            border-color: rgba(144, 160, 145, 0.16);
+            text-shadow: none;
+            animation: terminalSignalLoss 3.8s steps(1, end) infinite;
+        }
+
         /* ---- keyframes --------------------------------------------------- */
         @keyframes wfMistDrift {
             0%   { transform: translate3d(-3%, -1.5%, 0) scale(calc(var(--m-scale, 1) * 0.96)); }
@@ -1369,6 +1654,18 @@
             .warrant-stratum p.wf-shiver,
             .warrant-stratum p.wf-drop,
             .warp-descent.wf-jolt {
+                animation: none !important;
+            }
+        }
+
+
+        @media (prefers-reduced-motion: reduce) {
+            .warp-finale::before,
+            .terminal-break,
+            .fault-stack.severe,
+            .many-voice,
+            .quiet-glyph,
+            .final-signal-loss {
                 animation: none !important;
             }
         }
@@ -2189,6 +2486,569 @@
 
                                 <p class="whisper-line">We do.</p>
                             </div>
+
+                            <div id="final-fragment" class="warp-finale">
+                                <div class="warp-continuation-title terminal-title">Recovered terminal continuation // What Watches Back</div>
+                                <div class="terminal-break">++ LOCAL CHRONOLOGY UNSTABLE // SOURCE MEMORY AND AETHERIC RESIDUE NO LONGER CLEANLY SEPARABLE ++</div>
+
+                                <div class="warp-stage deep terminal" data-sigil="TERMINAL FRAGMENT // 09 // PREDATOR">
+                                    <p>&ldquo;The fog came in before the withdrawal order reached our trench.&rdquo;</p>
+
+                                    <p>&ldquo;I know that because the wind was blowing east and the fog came west.&rdquo;</p>
+
+                                    <p>&ldquo;It did not roll across the ground the way mist should. It pushed. Slow at first, then in little breaths. Each one spilled another few metres over the wire and around the shell holes, stopped, and waited as if whatever made it was listening for the guns.&rdquo;</p>
+
+                                    <p>&ldquo;Nobody else cared. We were packing. Ammunition first. Dressings next. Burn the papers that could not travel. Leave the stretchers that had already broken. The officers were arguing about which company was supposed to cover the retreat and the wounded were arguing with anyone who tried to tell them they could not walk.&rdquo;</p>
+
+                                    <p>&ldquo;Then every rat in the trench began climbing out.&rdquo;</p>
+
+                                    <p>&ldquo;Not scattering. Not feeding. Leaving.&rdquo;</p>
+
+                                    <p>&ldquo;They came out of drainage cuts and corpse pits and gaps behind the revetment in a black-brown flood. Big ones. Small ones. One with only three legs. Another so fat it had to squeeze sideways beneath a duckboard. They ran over boots, ration tins, dead men, living men. They bit each other when one slowed the others down.&rdquo;</p>
+
+                                    <p>&ldquo;All of them were going the same direction.&rdquo;</p>
+
+                                    <p>&ldquo;Away from the fog.&rdquo;</p>
+
+                                    <p>&ldquo;I did not hear a word.&rdquo;</p>
+
+                                    <p>&ldquo;I felt one anyway.&rdquo;</p>
+
+                                    <p class="whisper-line predator-word">PREDATOR.</p>
+
+                                    <p>&ldquo;My hands went cold.&rdquo;</p>
+
+                                    <p>&ldquo;Then the eyes opened.&rdquo;</p>
+
+                                    <p>&ldquo;One was beneath a cart. One beneath a dead artilleryman. One in a drainage pipe. One was running along the parapet with a strip of somebody&rsquo;s sleeve in its mouth. They came so quickly I nearly fell over. Dozens of little lives, all trying to become distance.&rdquo;</p>
+
+                                    <p>&ldquo;And every one of them had seen something different.&rdquo;</p>
+
+                                    <p>&ldquo;Through one pair of eyes there were legs in the fog. Too tall. Too thin. They crossed a shell hole without stepping down into it.&rdquo;</p>
+
+                                    <p>&ldquo;Through another there was something crawling where the legs should have been.&rdquo;</p>
+
+                                    <p>&ldquo;Another saw Harl standing beyond the wire with his coat buttoned wrong.&rdquo;</p>
+
+                                    <p>&ldquo;Another saw Merek walking backwards.&rdquo;</p>
+
+                                    <p>&ldquo;Another saw nothing at all.&rdquo;</p>
+
+                                    <p>&ldquo;Nothing except footprints appearing in the mud one after another without anyone making them.&rdquo;</p>
+
+                                    <p>&ldquo;One rat stopped beneath a collapsed firing step and looked directly into the fog.&rdquo;</p>
+
+                                    <p>&ldquo;Its sight went black.&rdquo;</p>
+
+                                    <p>&ldquo;Not blood. Not pain. No teeth. No gunshot.&rdquo;</p>
+
+                                    <p>&ldquo;Just gone.&rdquo;</p>
+
+                                    <p>&ldquo;A second one did the same.&rdquo;</p>
+
+                                    <p>&ldquo;Then a third.&rdquo;</p>
+
+                                    <p>&ldquo;I tore myself out of them so hard I bit my tongue.&rdquo;</p>
+
+                                    <p>&ldquo;That was when I heard Harl say my name from beyond the wire.&rdquo;</p>
+                                </div>
+
+                                <div class="warp-stage deep terminal" data-sigil="TERMINAL FRAGMENT // 10 // BORROWED VOICES">
+                                    <p>&ldquo;Not loudly.&rdquo;</p>
+
+                                    <p>&ldquo;That would have been easier.&rdquo;</p>
+
+                                    <p>&ldquo;He said it the way he had in the crater. Quiet. Careful. Like my name was something fragile he was afraid of dropping.&rdquo;</p>
+
+                                    <p class="whisper-line">Anura.</p>
+
+                                    <p>&ldquo;I knew he was dead.&rdquo;</p>
+
+                                    <p>&ldquo;I knew exactly where I had put the bayonet.&rdquo;</p>
+
+                                    <p>&ldquo;I knew how long it had taken him to stop trying to push me away.&rdquo;</p>
+
+                                    <p>&ldquo;I still turned toward the sound.&rdquo;</p>
+
+                                    <p>&ldquo;Merek laughed next.&rdquo;</p>
+
+                                    <p>&ldquo;That laugh almost got me over the parapet.&rdquo;</p>
+
+                                    <p>&ldquo;It came from somewhere low in the fog, too low for a man standing, then again from somewhere behind me, then from the drainage ditch on my left. Same laugh. Same ugly little hitch in the middle when he ran out of breath.&rdquo;</p>
+
+                                    <p class="whisper-line">We found you.</p>
+
+                                    <p>&ldquo;I backed into the trench wall.&rdquo;</p>
+
+                                    <p class="whisper-line">You were frightened.</p>
+
+                                    <p class="whisper-line">We know.</p>
+
+                                    <p class="whisper-line">You wanted to live.</p>
+
+                                    <p>&ldquo;I put both hands over my ears.&rdquo;</p>
+
+                                    <p class="whisper-line">So did we.</p>
+
+                                    <p>&ldquo;That one hurt enough that my knees went out.&rdquo;</p>
+
+                                    <p>&ldquo;Mud soaked through my trousers. Somewhere behind me somebody shouted for another box of dressings. Somewhere ahead Harl was breathing in the fog even though I had felt his last breath against the palm of my hand.&rdquo;</p>
+
+                                    <p class="whisper-line">I forgive you.</p>
+
+                                    <p>&ldquo;I stopped breathing.&rdquo;</p>
+
+                                    <p>&ldquo;For one stupid second I wanted it.&rdquo;</p>
+
+                                    <p>&ldquo;Not belief. I knew better than that. I wanted permission. I wanted someone wearing Harl&rsquo;s voice to tell me the thing I could never make him say. I wanted the crater to close. I wanted Merek to laugh and call me an idiot and steal another ration bar. I wanted there to be a shape to all of this that ended somewhere other than my hands around a friend&rsquo;s throat.&rdquo;</p>
+
+                                    <p class="whisper-line">You did what you had to.</p>
+
+                                    <p class="whisper-line">You survived.</p>
+
+                                    <p class="whisper-line">There is no sin in surviving.</p>
+
+                                    <p>&ldquo;The voice was so gentle I hated it more than if it had screamed.&rdquo;</p>
+
+                                    <p>&ldquo;I remembered Harl trying to crawl away from me.&rdquo;</p>
+
+                                    <p>&ldquo;I remembered Merek reaching for the rifle.&rdquo;</p>
+
+                                    <p>&ldquo;I remembered that neither of them had forgiven me because I never gave them the chance.&rdquo;</p>
+
+                                    <p>&ldquo;So I said the only thing I had left that was mine.&rdquo;</p>
+
+                                    <p class="refusal-line">&ldquo;You don&rsquo;t get to forgive me for them.&rdquo;</p>
+
+                                    <p>&ldquo;The fog stopped moving.&rdquo;</p>
+
+                                    <p>&ldquo;Every rat I could still feel stopped with it.&rdquo;</p>
+
+                                    <p>&ldquo;Then something very far away, or very close, laughed without using Merek&rsquo;s voice.&rdquo;</p>
+                                </div>
+
+                                <div class="warp-stage deep terminal" data-sigil="TERMINAL FRAGMENT // 11 // THE EYES OPEN WILLINGLY">
+                                    <p>&ldquo;The first shell landed while everyone was still staring at the fog.&rdquo;</p>
+
+                                    <p>&ldquo;It hit the communication trench behind the aid station and folded half the revetment inward. The second struck the reserve traverse. The third did not explode. Nobody trusted that one.&rdquo;</p>
+
+                                    <p>&ldquo;Then the wounded started shouting.&rdquo;</p>
+
+                                    <p>&ldquo;A stretcher party had been caught on the wrong side of the collapse. Six men, maybe seven. Two could walk. One could crawl. The rest were whatever their bearers could drag.&rdquo;</p>
+
+                                    <p>&ldquo;The proper route back was gone. The open ground was disappearing under that fog. Someone yelled to leave them. Someone else yelled that the covering company was already moving. An officer shouted something about acceptable losses.&rdquo;</p>
+
+                                    <p>&ldquo;I looked at the fog.&rdquo;</p>
+
+                                    <p>&ldquo;I looked at the wounded.&rdquo;</p>
+
+                                    <p>&ldquo;And I thought about Harl saying my name.&rdquo;</p>
+
+                                    <p>&ldquo;The easy thing was to keep my head down.&rdquo;</p>
+
+                                    <p>&ldquo;The safe thing was to let the regiment do what it always did and turn people into arithmetic.&rdquo;</p>
+
+                                    <p>&ldquo;I had been very good at safe things lately.&rdquo;</p>
+
+                                    <p>&ldquo;I hated that too.&rdquo;</p>
+
+                                    <p>&ldquo;So I did something worse.&rdquo;</p>
+
+                                    <p>&ldquo;I opened my eyes.&rdquo;</p>
+
+                                    <p>&ldquo;Not these ones.&rdquo;</p>
+
+                                    <p>&ldquo;All of them.&rdquo;</p>
+
+                                    <p class="thousand-eyes-line">&ldquo;For the first time, I let the little black points come because I wanted them to.&rdquo;</p>
+
+                                    <p>&ldquo;It hurt.&rdquo;</p>
+
+                                    <p>&ldquo;Emperor, it hurt.&rdquo;</p>
+
+                                    <p>&ldquo;The world broke into pieces. Pipe. Mud. Boot. Corpse. Wire. Fog. Sandbag. Blood. A man dragging himself with one arm. A rat under his stretcher. Another beneath the broken traverse. Another already halfway to the fallback trench.&rdquo;</p>
+
+                                    <p>&ldquo;I could see paths.&rdquo;</p>
+
+                                    <p>&ldquo;Not a map. Nothing so clean. Just hundreds of small choices made by creatures that had survived artillery, poison, flame, boots, hunger and us.&rdquo;</p>
+
+                                    <p>&ldquo;Places they would not go.&rdquo;</p>
+
+                                    <p>&ldquo;Places they could.&rdquo;</p>
+
+                                    <p>&ldquo;One word came to me.&rdquo;</p>
+
+                                    <p>&ldquo;This time I knew it was mine.&rdquo;</p>
+
+                                    <p class="command-line">&ldquo;Run.&rdquo;</p>
+
+                                    <p>&ldquo;The rats moved.&rdquo;</p>
+
+                                    <p>&ldquo;Not all of them. Not neatly. But enough.&rdquo;</p>
+
+                                    <p>&ldquo;They poured through a drainage cut beneath the collapsed revetment, up an ammunition step, across a half-buried culvert and into a trench segment I had thought was sealed. I followed them with my eyes and then with my feet.&rdquo;</p>
+
+                                    <p>&ldquo;I screamed at the stretcher party to turn left where there was no sign of a left turn.&rdquo;</p>
+
+                                    <p>&ldquo;They did.&rdquo;</p>
+
+                                    <p>&ldquo;I told them where the ground would hold before I had stepped on it.&rdquo;</p>
+
+                                    <p>&ldquo;I told one man not to put his hand on a sandbag because there was an unexploded shell beneath it.&rdquo;</p>
+
+                                    <p>&ldquo;He asked how I knew.&rdquo;</p>
+
+                                    <p>&ldquo;I lied.&rdquo;</p>
+
+                                    <p>&ldquo;Later.&rdquo;</p>
+
+                                    <p>&ldquo;There was no time then.&rdquo;</p>
+                                </div>
+
+                                <div class="warp-stage deep terminal" data-sigil="TERMINAL FRAGMENT // 12 // PACK">
+                                    <p>&ldquo;We got four of them through before the fog reached the broken traverse.&rdquo;</p>
+
+                                    <p>&ldquo;The fifth was too heavy for one bearer and too hurt to move himself. The sixth had stopped making noise. I do not know if he was dead yet. I never learned his name.&rdquo;</p>
+
+                                    <p>&ldquo;The rats abandoned the opening.&rdquo;</p>
+
+                                    <p>&ldquo;Every rat except one.&rdquo;</p>
+
+                                    <p>&ldquo;Small. Missing the end of its tail.&rdquo;</p>
+
+                                    <p>&ldquo;I knew it before I saw it.&rdquo;</p>
+
+                                    <p>&ldquo;It climbed onto the toe of my boot while everything else ran.&rdquo;</p>
+
+                                    <p>&ldquo;I told it to go.&rdquo;</p>
+
+                                    <p>&ldquo;Nothing.&rdquo;</p>
+
+                                    <p>&ldquo;I tried again.&rdquo;</p>
+
+                                    <p class="command-line">&ldquo;Run.&rdquo;</p>
+
+                                    <p>&ldquo;It sat up and looked at me.&rdquo;</p>
+
+                                    <p>&ldquo;For once there was no voice.&rdquo;</p>
+
+                                    <p>&ldquo;No clever sentence. No Harl. No Merek. No thing pretending to know what I deserved.&rdquo;</p>
+
+                                    <p>&ldquo;Just hunger. Fear. Recognition.&rdquo;</p>
+
+                                    <p>&ldquo;And one certainty so simple I nearly mistook it for my own heartbeat.&rdquo;</p>
+
+                                    <p class="whisper-line pack-word">PACK.</p>
+
+                                    <p>&ldquo;I laughed once.&rdquo;</p>
+
+                                    <p>&ldquo;Not because it was funny.&rdquo;</p>
+
+                                    <p>&ldquo;Because if I did not, I think I would have screamed until the fog found me.&rdquo;</p>
+
+                                    <p>&ldquo;The rat turned its head.&rdquo;</p>
+
+                                    <p>&ldquo;So did I.&rdquo;</p>
+
+                                    <p>&ldquo;Something was standing on the other side of the broken traverse.&rdquo;</p>
+                                </div>
+
+                                <div class="warp-stage deep terminal aperture" data-sigil="TERMINAL FRAGMENT // 13 // IT LOOKS BACK">
+                                    <div class="fault-stack" aria-label="corrupted cogitator diagnostics">
+                                        <span>++ VISUAL CONTACT: NEGATIVE ++</span>
+                                        <span>++ VISUAL CONTACT: CONFIRMED ++</span>
+                                        <span>++ SUBJECT COUNT: ONE ++</span>
+                                        <span>++ SUBJECT COUNT: UNRESOLVED ++</span>
+                                    </div>
+
+                                    <p>&ldquo;I cannot describe it.&rdquo;</p>
+
+                                    <p>&ldquo;That is not me being dramatic. I have tried.&rdquo;</p>
+
+                                    <p>&ldquo;When I remember the legs, I cannot remember the body. When I remember the body, it is on all fours. When I remember the head, it is Harl&rsquo;s. When I remember Harl&rsquo;s face, something is wrong with the number of eyes.&rdquo;</p>
+
+                                    <p>&ldquo;The rat saw a man.&rdquo;</p>
+
+                                    <p>&ldquo;Another rat under the culvert saw a hole in the fog shaped like a man.&rdquo;</p>
+
+                                    <p>&ldquo;A third saw the trench continuing through it as if nothing was there.&rdquo;</p>
+
+                                    <p>&ldquo;I saw all three at once.&rdquo;</p>
+
+                                    <p class="whisper-line">Anura.</p>
+
+                                    <p>&ldquo;Harl again.&rdquo;</p>
+
+                                    <p class="whisper-line">You can stop now.</p>
+
+                                    <p>&ldquo;Merek&rsquo;s voice came from inside my own mouth.&rdquo;</p>
+
+                                    <p class="whisper-line">You saved them.</p>
+
+                                    <p class="whisper-line">That makes it better.</p>
+
+                                    <p>&ldquo;I spat blood into the mud.&rdquo;</p>
+
+                                    <p>&ldquo;Saving strangers did not unkill my friends.&rdquo;</p>
+
+                                    <p>&ldquo;The thing seemed disappointed by that answer.&rdquo;</p>
+
+                                    <p>&ldquo;I do not know how I knew.&rdquo;</p>
+
+                                    <p class="whisper-line">We could make it quiet.</p>
+
+                                    <p class="whisper-line">No dreams.</p>
+
+                                    <p class="whisper-line">No crater.</p>
+
+                                    <p class="whisper-line">No names.</p>
+
+                                    <p>&ldquo;That frightened me more than dying.&rdquo;</p>
+
+                                    <p>&ldquo;Because for half a heartbeat I wanted that too.&rdquo;</p>
+
+                                    <p>&ldquo;Then the little rat on my boot screamed.&rdquo;</p>
+
+                                    <p>&ldquo;Every borrowed viewpoint I still held turned toward the same point in the fog.&rdquo;</p>
+
+                                    <p>&ldquo;Different trenches. Different angles. Different distances.&rdquo;</p>
+
+                                    <p>&ldquo;All of them looked directly at me.&rdquo;</p>
+
+                                    <p>&ldquo;Not the thing.&rdquo;</p>
+
+                                    <p>&ldquo;Me.&rdquo;</p>
+
+                                    <p class="whisper-line many-voice">A THOUSAND EYES.</p>
+
+                                    <p>&ldquo;And for one heartbeat I understood that whatever I had been using to see it had been using the same road to see back.&rdquo;</p>
+                                </div>
+
+                                <div class="warp-stage deep terminal aperture apex-stage" data-sigil="TERMINAL FRAGMENT // 14 // FLENSING">
+                                    <div class="fault-stack severe" aria-label="corrupted cogitator diagnostics">
+                                        <span>++ RECORD TERMINATED ++</span>
+                                        <span>++ RECORD CONTINUES ++</span>
+                                        <span>++ SUBJECT ABSENT ++</span>
+                                        <span>++ SUBJECT OBSERVING ++</span>
+                                    </div>
+
+                                    <p>&ldquo;I had no lasgun.&rdquo;</p>
+
+                                    <p>&ldquo;Not a working one.&rdquo;</p>
+
+                                    <p>&ldquo;I had a bayonet, a medicae satchel, two wounded men behind me and the memory of green light taking a person apart.&rdquo;</p>
+
+                                    <p>&ldquo;I had spent days pretending that memory belonged to something else.&rdquo;</p>
+
+                                    <p>&ldquo;There was no room left for pretending.&rdquo;</p>
+
+                                    <p>&ldquo;I wanted it gone.&rdquo;</p>
+
+                                    <p>&ldquo;This time I knew exactly what I was asking for.&rdquo;</p>
+
+                                    <p>&ldquo;The green ribbons came.&rdquo;</p>
+
+                                    <p>&ldquo;Not from my hands.&rdquo;</p>
+
+                                    <p>&ldquo;Not from the ground.&rdquo;</p>
+
+                                    <p>&ldquo;They simply existed between one blink and the next, thin as wire and bright enough to turn every droplet of fog into an emerald star.&rdquo;</p>
+
+                                    <p>&ldquo;They struck the shape.&rdquo;</p>
+
+                                    <p>&ldquo;Nothing came off.&rdquo;</p>
+
+                                    <p>&ldquo;No skin. No blood. No bone.&rdquo;</p>
+
+                                    <p>&ldquo;The strands passed into it and kept going.&rdquo;</p>
+
+                                    <p>&ldquo;For an instant the thing opened.&rdquo;</p>
+
+                                    <p>&ldquo;There was more fog inside.&rdquo;</p>
+
+                                    <p>&ldquo;Then a trench I had never seen.&rdquo;</p>
+
+                                    <p>&ldquo;Then the underside of the duckboards beneath my own feet.&rdquo;</p>
+
+                                    <p>&ldquo;Then Harl&rsquo;s dead eye reflecting green light.&rdquo;</p>
+
+                                    <p>&ldquo;Then myself, seen from somewhere beyond the wire.&rdquo;</p>
+
+                                    <p>&ldquo;I was not shaped like myself from there.&rdquo;</p>
+
+                                    <p>&ldquo;I was a knot.&rdquo;</p>
+
+                                    <p>&ldquo;Green threads. Black eyes. Antlers. Hands. A hundred little points of sight bound together around something terrified enough to keep living.&rdquo;</p>
+
+                                    <p>&ldquo;The ribbons pulled.&rdquo;</p>
+
+                                    <p>&ldquo;The fog screamed.&rdquo;</p>
+
+                                    <p>&ldquo;Not the thing.&rdquo;</p>
+
+                                    <p>&ldquo;The fog.&rdquo;</p>
+
+                                    <p>&ldquo;Every rat screamed with it.&rdquo;</p>
+
+                                    <p>&ldquo;Every symbol on the inside of my skull became an eye.&rdquo;</p>
+
+                                    <p>&ldquo;Something touched the far end of the green strands.&rdquo;</p>
+
+                                    <p>&ldquo;And touched me back.&rdquo;</p>
+
+                                    <p class="whisper-line many-voice">FOUND YOU.</p>
+
+                                    <p>&ldquo;Then there was nothing.&rdquo;</p>
+
+                                    <p>&ldquo;No explosion. No corpse. No retreating footsteps.&rdquo;</p>
+
+                                    <p>&ldquo;The ribbons vanished.&rdquo;</p>
+
+                                    <p>&ldquo;The fog collapsed into ordinary mist and blew east with the wind.&rdquo;</p>
+
+                                    <p>&ldquo;There were no tracks beyond the broken traverse.&rdquo;</p>
+
+                                    <p>&ldquo;The little rat was still on my boot.&rdquo;</p>
+
+                                    <p>&ldquo;It was shaking.&rdquo;</p>
+
+                                    <p>&ldquo;So was I.&rdquo;</p>
+                                </div>
+
+                                <div class="warp-stage deep terminal" data-sigil="TERMINAL FRAGMENT // 15 // WHAT SURVIVES">
+                                    <p>&ldquo;We got the last living wounded man out.&rdquo;</p>
+
+                                    <p>&ldquo;I say we because one bearer came back for him after the fog broke. I do not remember that man&rsquo;s face either. I hope someone does.&rdquo;</p>
+
+                                    <p>&ldquo;A Fusilier with a bandage over one eye kept staring at me while we moved.&rdquo;</p>
+
+                                    <p>&ldquo;I waited for the word.&rdquo;</p>
+
+                                    <p>&ldquo;Witch.&rdquo;</p>
+
+                                    <p>&ldquo;It never came.&rdquo;</p>
+
+                                    <p>&ldquo;He asked what the green light had been.&rdquo;</p>
+
+                                    <p>&ldquo;I said a flare.&rdquo;</p>
+
+                                    <p>&ldquo;He said flares do not move like that.&rdquo;</p>
+
+                                    <p>&ldquo;I said maybe this one did.&rdquo;</p>
+
+                                    <p>&ldquo;He looked at the fog. Looked at me. Then looked at the wounded man between us.&rdquo;</p>
+
+                                    <p>&ldquo;He never asked again.&rdquo;</p>
+
+                                    <p>&ldquo;I do not know whether he believed me.&rdquo;</p>
+
+                                    <p>&ldquo;I do not know whether he decided he owed me silence.&rdquo;</p>
+
+                                    <p>&ldquo;I do know I spent the rest of the withdrawal waiting for a hand on my shoulder.&rdquo;</p>
+
+                                    <p>&ldquo;None came.&rdquo;</p>
+
+                                    <p>&ldquo;That should have felt like mercy.&rdquo;</p>
+
+                                    <p>&ldquo;Instead I kept thinking about the crater.&rdquo;</p>
+
+                                    <p>&ldquo;About how quickly I had decided Harl and Merek were a danger to me.&rdquo;</p>
+
+                                    <p>&ldquo;About how slowly I had decided strangers were worth becoming a danger to myself.&rdquo;</p>
+
+                                    <p>&ldquo;It did not balance anything.&rdquo;</p>
+
+                                    <p>&ldquo;I think that is important.&rdquo;</p>
+
+                                    <p>&ldquo;There are things you cannot repay because the people you owe are dead.&rdquo;</p>
+
+                                    <p>&ldquo;You can only decide what their absence makes of you next.&rdquo;</p>
+
+                                    <p class="whisper-line">We can still make it quiet.</p>
+
+                                    <p>&ldquo;I ignored that one.&rdquo;</p>
+
+                                    <p>&ldquo;It was easier now that I knew kindness could have teeth.&rdquo;</p>
+                                </div>
+
+                                <div id="finale-coda" class="warp-coda" data-sigil="TERMINAL FRAGMENT // 16 // AFTER">
+                                    <div class="stillness-marker">++ AETHERIC INTERFERENCE DROPS BELOW COGITATOR THRESHOLD ++</div>
+
+                                    <p>&ldquo;We left the line in the back of an ammunition carrier with benches welded into it.&rdquo;</p>
+
+                                    <p>&ldquo;Nobody spoke much. Everyone smelled like smoke and iodine and wet wool. One man slept sitting upright with his head against a crate. Another kept checking that both of his hands were still there.&rdquo;</p>
+
+                                    <p>&ldquo;I sat beside my medicae box and watched the battlefield get smaller through the rear slit.&rdquo;</p>
+
+                                    <p>&ldquo;I expected the fog to follow.&rdquo;</p>
+
+                                    <p>&ldquo;It did not.&rdquo;</p>
+
+                                    <p>&ldquo;I expected Harl to say my name.&rdquo;</p>
+
+                                    <p>&ldquo;He did not.&rdquo;</p>
+
+                                    <p>&ldquo;I expected Merek to laugh.&rdquo;</p>
+
+                                    <p>&ldquo;For a while, there was only the engine.&rdquo;</p>
+
+                                    <p>&ldquo;Then something scratched inside the crate.&rdquo;</p>
+
+                                    <p>&ldquo;I nearly threw it off the carrier.&rdquo;</p>
+
+                                    <p>&ldquo;The little rat with the broken tail pushed its head out beneath the lid.&rdquo;</p>
+
+                                    <p>&ldquo;There was something in its mouth.&rdquo;</p>
+
+                                    <p>&ldquo;A bent brass uniform button.&rdquo;</p>
+
+                                    <p>&ldquo;Red enamel around the rim.&rdquo;</p>
+
+                                    <p>&ldquo;Dried blood in the groove around the back.&rdquo;</p>
+
+                                    <p>&ldquo;I had buried it beneath the duckboards.&rdquo;</p>
+
+                                    <p>&ldquo;I know I had.&rdquo;</p>
+
+                                    <p>&ldquo;The rat dropped it into my palm.&rdquo;</p>
+
+                                    <p>&ldquo;I did not crush it this time.&rdquo;</p>
+
+                                    <p>&ldquo;I put it in my pocket.&rdquo;</p>
+
+                                    <p>&ldquo;The rat climbed into the folds of my coat and went to sleep.&rdquo;</p>
+
+                                    <p>&ldquo;I still heard things after we left.&rdquo;</p>
+
+                                    <p>&ldquo;Sometimes Harl.&rdquo;</p>
+
+                                    <p>&ldquo;Sometimes Merek.&rdquo;</p>
+
+                                    <p>&ldquo;Sometimes things clever enough not to use either voice.&rdquo;</p>
+
+                                    <p>&ldquo;I never answered when they forgave me.&rdquo;</p>
+
+                                    <p>&ldquo;I never answered when they told me I was a monster.&rdquo;</p>
+
+                                    <p>&ldquo;Both felt too much like invitations.&rdquo;</p>
+
+                                    <p>&ldquo;The rat came with me.&rdquo;</p>
+
+                                    <p>&ldquo;I told myself I never asked it to.&rdquo;</p>
+
+                                    <p class="final-lie">&ldquo;That was another lie.&rdquo;</p>
+
+                                    <div class="quiet-glyph" aria-hidden="true">⌾</div>
+
+                                    <p class="whisper-line final-whisper">Not alone.</p>
+
+                                    <p>&ldquo;I did not know whether that was a promise or a warning.&rdquo;</p>
+
+                                    <p>&ldquo;I still don&rsquo;t.&rdquo;</p>
+
+                                    <div class="final-signal-loss">++ END RECOVERABLE MEMORY // SIGNAL COLLAPSE // NO FURTHER CONTIGUOUS FRAGMENT ++</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -2913,6 +3773,8 @@
 
         const deepRoot = document.getElementById('wake-fragment');
         const deepAtmos = deepRoot ? deepRoot.querySelector('.warp-atmosphere') : null;
+        const finalRoot = document.getElementById('final-fragment');
+        const codaRoot = document.getElementById('finale-coda');
         const host = document.getElementById('document-container');
         const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -3221,6 +4083,8 @@
         // ---------- depth engine ------------------------------------------------
         let fieldDepth = 0;
         let deepDepth = 0;
+        let finalDepth = 0;
+        let codaDepth = 0;
 
         // Resolves the actual visible strip in viewport coordinates. Below 900px the
         // media query hands scrolling back to the window (#document-container goes
@@ -3253,6 +4117,8 @@
 
         let lastF = -1;
         let lastD = -1;
+        let lastX = -1;
+        let lastQ = -1;
         let armed = false;
 
         // The whole field is dormant until the PRIVATE MEMORY-LOG censor bar is
@@ -3264,20 +4130,31 @@
         }
 
         function disarm() {
-            field.classList.remove('warp-armed');
+            field.classList.remove('warp-armed', 'warp-finale-live', 'warp-stilled');
             clearTimeout(glitchTimer);
             fieldDepth = 0;
             deepDepth = 0;
+            finalDepth = 0;
+            codaDepth = 0;
             lastF = -1;
             lastD = -1;
+            lastX = -1;
+            lastQ = -1;
             ['--wf', '--wf-tint-green', '--wf-tint-purple', '--wf-grain', '--wf-vignette', '--wf-over']
                 .forEach((v) => field.style.setProperty(v, '0'));
+            if (finalRoot) {
+                finalRoot.style.setProperty('--final-depth', '0');
+                finalRoot.style.setProperty('--final-apex', '0');
+                finalRoot.style.setProperty('--final-quiet', '0');
+            }
         }
 
         function arm() {
             field.classList.add('warp-armed');
             lastF = -1;
             lastD = -1;
+            lastX = -1;
+            lastQ = -1;
             scheduleGlitch();
         }
 
@@ -3291,15 +4168,41 @@
 
             fieldDepth = progressThrough(field);
             deepDepth = deepRoot && deepRoot.offsetHeight ? progressThrough(deepRoot) : 0;
+            finalDepth = finalRoot && finalRoot.offsetHeight ? progressThrough(finalRoot) : 0;
+            codaDepth = codaRoot && codaRoot.offsetHeight ? progressThrough(codaRoot) : 0;
 
             // ~150 layer elements get inline styles below. Skipping sub-pixel deltas
             // keeps a fast scroll from thrashing style recalc on every frame.
-            if (!force && Math.abs(fieldDepth - lastF) < 0.0015 && Math.abs(deepDepth - lastD) < 0.0015) return;
+            if (!force &&
+                Math.abs(fieldDepth - lastF) < 0.0015 &&
+                Math.abs(deepDepth - lastD) < 0.0015 &&
+                Math.abs(finalDepth - lastX) < 0.0015 &&
+                Math.abs(codaDepth - lastQ) < 0.0015) return;
             lastF = fieldDepth;
             lastD = deepDepth;
+            lastX = finalDepth;
+            lastQ = codaDepth;
 
-            const f = fieldDepth;
-            const d = deepDepth;
+            const rawF = fieldDepth;
+            const rawD = deepDepth;
+            const x = finalDepth;
+            // The coda deliberately arrests the infestation. It begins by freezing
+            // motion and then strips most of the visual gain away while preserving
+            // just enough green residue for the final single glyph.
+            const quiet = clamp01(codaDepth * 2.55);
+            const rise = clamp01((x - 0.08) / 0.62);
+            const apex = Math.sin(rise * Math.PI * 0.5) * (1 - quiet * 0.96);
+            const f = rawF * (1 - quiet * 0.90);
+            const d = Math.max(rawD, x * 0.98) * (1 - quiet * 0.86);
+            const amp = 1 + apex * 0.62;
+
+            field.classList.toggle('warp-finale-live', x > 0.035 && quiet < 0.92);
+            field.classList.toggle('warp-stilled', quiet > 0.035);
+            if (finalRoot) {
+                finalRoot.style.setProperty('--final-depth', x.toFixed(3));
+                finalRoot.style.setProperty('--final-apex', apex.toFixed(3));
+                finalRoot.style.setProperty('--final-quiet', quiet.toFixed(3));
+            }
 
             // --- field tier ---
             field.style.setProperty('--wf', f.toFixed(3));
@@ -3312,21 +4215,21 @@
             // --- deep tier (preserves the original variable contract) ---
             if (deepRoot) {
                 deepRoot.style.setProperty('--warp-depth', d.toFixed(3));
-                deepRoot.style.setProperty('--warp-bg-green', (0.04 + d * 0.13).toFixed(3));
-                deepRoot.style.setProperty('--warp-bg-purple', (0.02 + d * d * 0.14).toFixed(3));
-                deepRoot.style.setProperty('--warp-box-purple', (d * 0.18).toFixed(3));
-                deepRoot.style.setProperty('--warp-title-sigil-opacity', (0.22 + d * 0.45).toFixed(3));
-                deepRoot.style.setProperty('--warp-glow', `${(d * 6).toFixed(2)}px`);
-                deepRoot.style.setProperty('--warp-side-shift', `${(d * 0.9).toFixed(2)}px`);
-                deepRoot.style.setProperty('--warp-whisper-opacity', (0.70 + d * 0.22).toFixed(3));
-                deepRoot.style.setProperty('--warp-whisper-green', (0.15 + d * 0.34).toFixed(3));
-                deepRoot.style.setProperty('--warp-whisper-purple', (d * 0.26).toFixed(3));
-                deepRoot.style.setProperty('--warp-stage-sigil-opacity', (d * 0.85).toFixed(3));
-                deepRoot.style.setProperty('--warp-stage-pattern-opacity', (0.08 + d * 0.34).toFixed(3));
-                deepRoot.style.setProperty('--warp-stage-spacing', `${(4 + d * 7).toFixed(2)}px`);
-                deepRoot.style.setProperty('--warp-mist-opacity', (0.04 + d * 0.42).toFixed(3));
+                deepRoot.style.setProperty('--warp-bg-green', (0.04 + d * 0.13 + apex * 0.045).toFixed(3));
+                deepRoot.style.setProperty('--warp-bg-purple', (0.02 + d * d * 0.14 + apex * 0.052).toFixed(3));
+                deepRoot.style.setProperty('--warp-box-purple', (d * 0.18 + apex * 0.08).toFixed(3));
+                deepRoot.style.setProperty('--warp-title-sigil-opacity', (0.22 + d * 0.45 + apex * 0.18).toFixed(3));
+                deepRoot.style.setProperty('--warp-glow', `${(d * 6 + apex * 4.2).toFixed(2)}px`);
+                deepRoot.style.setProperty('--warp-side-shift', `${(d * 0.9 + apex * 0.7).toFixed(2)}px`);
+                deepRoot.style.setProperty('--warp-whisper-opacity', Math.min(0.98, 0.70 + d * 0.22 + apex * 0.06).toFixed(3));
+                deepRoot.style.setProperty('--warp-whisper-green', Math.min(0.72, 0.15 + d * 0.34 + apex * 0.14).toFixed(3));
+                deepRoot.style.setProperty('--warp-whisper-purple', Math.min(0.52, d * 0.26 + apex * 0.16).toFixed(3));
+                deepRoot.style.setProperty('--warp-stage-sigil-opacity', Math.min(0.98, d * 0.85 + apex * 0.12).toFixed(3));
+                deepRoot.style.setProperty('--warp-stage-pattern-opacity', Math.min(0.58, 0.08 + d * 0.34 + apex * 0.12).toFixed(3));
+                deepRoot.style.setProperty('--warp-stage-spacing', `${(4 + d * 7 + apex * 5).toFixed(2)}px`);
+                deepRoot.style.setProperty('--warp-mist-opacity', Math.min(0.62, 0.04 + d * 0.42 + apex * 0.12).toFixed(3));
                 // Barely perceptible list, but it stops the later stages sitting square.
-                deepRoot.style.setProperty('--warp-lean', `${(d * 0.32).toFixed(3)}deg`);
+                deepRoot.style.setProperty('--warp-lean', `${(d * 0.32 + apex * 0.10).toFixed(3)}deg`);
             }
 
             // --- per-element reveals ---
@@ -3334,7 +4237,7 @@
                 const reveal = parseFloat(m.dataset.reveal || '0');
                 const peak = parseFloat(m.dataset.peak || '0.3');
                 const strength = clamp01((f - reveal) / 0.30);
-                m.style.opacity = (strength * peak).toFixed(3);
+                m.style.opacity = Math.min(0.72, strength * peak * amp).toFixed(3);
                 m.style.setProperty('--m-scale', (0.85 + strength * 0.55).toFixed(3));
             });
 
@@ -3342,7 +4245,7 @@
                 const reveal = parseFloat(t.dataset.reveal || '0');
                 const peak = parseFloat(t.dataset.peak || '0.5');
                 const strength = clamp01((f - reveal) / 0.34);
-                t.style.opacity = (strength * peak).toFixed(3);
+                t.style.opacity = Math.min(0.52, strength * peak * amp).toFixed(3);
                 t.style.setProperty('--t-scale', (0.40 + strength * 0.95).toFixed(3));
                 t.style.setProperty('--t-width', (0.45 + strength * 0.95).toFixed(2));
                 // The strand itself extends - this is the "creeping" motion.
@@ -3369,7 +4272,7 @@
                 const reveal = parseFloat(s.dataset.reveal || '0');
                 const peak = parseFloat(s.dataset.peak || '0.24');
                 const strength = clamp01((f - reveal) / 0.28);
-                s.style.opacity = (strength * peak).toFixed(3);
+                s.style.opacity = Math.min(0.52, strength * peak * amp).toFixed(3);
                 s.style.setProperty('--s-scale', (0.55 + strength * 0.75).toFixed(3));
             });
 
@@ -3377,7 +4280,7 @@
                 const reveal = parseFloat(g.dataset.reveal || '0');
                 const peak = parseFloat(g.dataset.peak || '0.32');
                 const strength = clamp01((f - reveal) / 0.24);
-                const alpha = strength * peak;
+                const alpha = Math.min(0.58, strength * peak * amp);
                 g.style.setProperty('--g-alpha', alpha.toFixed(3));
                 g.style.opacity = alpha.toFixed(3);
                 g.style.color = g.dataset.purple === 'true'
@@ -3389,15 +4292,15 @@
                 const reveal = parseFloat(r.dataset.reveal || '0');
                 const peak = parseFloat(r.dataset.peak || '0.15');
                 const strength = clamp01((f - reveal) / 0.26);
-                r.style.opacity = (strength * peak).toFixed(3);
+                r.style.opacity = Math.min(0.34, strength * peak * amp).toFixed(3);
                 r.style.setProperty('--r-space', `${(5 + strength * 16).toFixed(1)}px`);
             });
 
             whispers.forEach((w) => {
-                w.style.setProperty('--echo-alpha', (f * 0.34).toFixed(3));
-                w.style.setProperty('--echo-x', `${(f * 2.6).toFixed(2)}px`);
-                w.style.setProperty('--echo-y', `${(f * 1.4).toFixed(2)}px`);
-                w.style.setProperty('--echo-blur', `${(0.3 + f * 1.1).toFixed(2)}px`);
+                w.style.setProperty('--echo-alpha', Math.min(0.48, f * 0.34 + apex * 0.11).toFixed(3));
+                w.style.setProperty('--echo-x', `${(f * 2.6 + apex * 1.5).toFixed(2)}px`);
+                w.style.setProperty('--echo-y', `${(f * 1.4 + apex * 0.7).toFixed(2)}px`);
+                w.style.setProperty('--echo-blur', `${(0.3 + f * 1.1 + apex * 0.5).toFixed(2)}px`);
             });
         }
 
@@ -3472,13 +4375,18 @@
             g.style.setProperty('--g-rot', `${rnd(-50, 50)}deg`);
         }
 
+        function glitchDrive() {
+            const quiet = clamp01(codaDepth * 2.55);
+            return Math.max(fieldDepth, deepDepth, finalDepth * 1.18) * (1 - quiet * 0.98);
+        }
+
         function scheduleGlitch() {
             clearTimeout(glitchTimer);
-            const drive = Math.max(fieldDepth, deepDepth);
-            const delay = Math.max(650, 7200 - drive * 6000) + Math.random() * 2400;
+            const drive = glitchDrive();
+            const delay = Math.max(420, 7200 - drive * 6250) + Math.random() * Math.max(700, 2300 - drive * 900);
             glitchTimer = setTimeout(() => {
                 if (!armed) return;
-                const drv = Math.max(fieldDepth, deepDepth);
+                const drv = glitchDrive();
                 if (drv > 0.12 && !reduceMotion) {
                     const paras = visibleParagraphs();
                     const roll = Math.random();
@@ -3502,6 +4410,15 @@
                     if (drv > 0.55 && Math.random() < 0.22) flashClass(scan, 'fire', 340);
                     if (drv > 0.34 && Math.random() < 0.45) rerollGlyph();
                     if (deepRoot && deepDepth > 0.80 && Math.random() < 0.10) flashClass(deepRoot, 'wf-jolt', 360);
+
+                    // Terminal fragment: the same vocabulary of effects becomes more
+                    // insistent instead of introducing a visually unrelated system.
+                    if (finalDepth > 0.38 && codaDepth < 0.025) {
+                        if (Math.random() < 0.30) rerollGlyph();
+                        if (Math.random() < 0.18) fireTear();
+                        if (finalDepth > 0.62 && Math.random() < 0.15) flashClass(scan, 'fire', 430);
+                        if (finalDepth > 0.70 && deepRoot && Math.random() < 0.13) flashClass(deepRoot, 'wf-jolt', 430);
+                    }
                 }
                 scheduleGlitch();
             }, delay);
