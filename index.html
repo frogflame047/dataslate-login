@@ -1788,23 +1788,7 @@
             pointer-events: none;
         }
 
-        .wf-eye .sclera {
-            fill: rgba(3, 9, 5, 0.62);
-            stroke: var(--e-stroke, rgba(104, 236, 122, 0.55));
-            stroke-width: 1.3;
-            vector-effect: non-scaling-stroke;
-        }
-
-        .wf-eye .iris {
-            fill: var(--e-iris, rgba(86, 226, 106, 0.46));
-        }
-
-        .wf-eye .pupil { fill: rgba(1, 4, 2, 0.94); }
-
-        .wf-eye .glint { fill: rgba(210, 255, 220, 0.30); }
-
         .wf-eye .lid {
-            fill: rgba(2, 7, 3, 0.97);
             transform-box: fill-box;
             transform-origin: 50% 50%;
             transform: scaleY(1);
@@ -1819,7 +1803,7 @@
         }
 
         .wf-eye.staring .iris {
-            fill: rgba(126, 248, 146, 0.72);
+            fill: rgba(126, 248, 146, 0.58);
         }
 
         /* ================= THE SHAPE IN THE FOG =================
@@ -2021,6 +2005,179 @@
                 animation: none !important;
             }
             .wf-eye .lid { transform: scaleY(0.02); }
+        }
+
+        /* ================= EYE CLUSTERS // OPHANIM =================
+           Single eyes are now small and faint; the presence comes from wheels of
+           them turning together. Sclera fill is deliberately weak so an eye
+           sitting behind a paragraph darkens the page instead of punching a hole
+           in it. */
+        .wf-ophanim {
+            position: absolute;
+            opacity: 0;
+            overflow: visible;
+            pointer-events: none;
+            transform: translate(-50%, -50%) scale(var(--o-scale, 1));
+            transition: opacity 1.3s ease, transform 1.7s ease;
+            animation: wfOphanimTurn var(--o-speed, 70s) linear infinite;
+        }
+
+        .wf-ophanim .ring {
+            fill: none;
+            stroke: var(--o-stroke, rgba(96, 228, 114, 0.30));
+            stroke-width: 1;
+            vector-effect: non-scaling-stroke;
+        }
+
+        .wf-eye .sclera,
+        .wf-oeye .sclera {
+            fill: rgba(3, 9, 5, 0.30);
+            stroke: var(--e-stroke, rgba(104, 236, 122, 0.42));
+            stroke-width: 1.1;
+            vector-effect: non-scaling-stroke;
+        }
+
+        .wf-eye .iris,
+        .wf-oeye .iris {
+            fill: var(--e-iris, rgba(86, 226, 106, 0.34));
+        }
+
+        .wf-eye .pupil,
+        .wf-oeye .pupil { fill: rgba(1, 4, 2, 0.62); }
+
+        .wf-eye .glint,
+        .wf-oeye .glint { fill: rgba(210, 255, 220, 0.22); }
+
+        /* Every pupil drifts toward the direction of travel. Cheap - one inherited
+           pair of variables moves all of them at once. */
+        .wf-eye .iris, .wf-eye .pupil, .wf-eye .glint,
+        .wf-oeye .iris, .wf-oeye .pupil, .wf-oeye .glint {
+            transform: translate(var(--look-x, 0px), var(--look-y, 0px));
+            transition: transform 0.55s ease-out;
+        }
+
+        .wf-oeye .lid {
+            fill: rgba(2, 7, 3, 0.80);
+            transform-box: fill-box;
+            transform-origin: 50% 50%;
+            animation: wfEyeBlink var(--e-blink, 8s) ease-in-out infinite;
+            animation-delay: var(--e-delay, 0s);
+        }
+
+        .wf-ophanim.staring .lid { animation: none; transform: scaleY(0.02); }
+        .wf-ophanim.staring .iris { fill: rgba(126, 248, 146, 0.56); }
+
+        /* Weaker lid so a blink reads as a flicker, not a black bar. */
+        .wf-eye .lid { fill: rgba(2, 7, 3, 0.82); }
+
+        /* ================= VERMIN =================
+           The subject hears rats before she sees anything. They run behind the
+           page, never over it. */
+        .wf-rat {
+            position: absolute;
+            width: var(--rat-w, 24px);
+            height: calc(var(--rat-w, 24px) * 0.36);
+            opacity: 0;
+            pointer-events: none;
+            border-radius: 62% 38% 54% 46%;
+            background: radial-gradient(ellipse at 64% 50%,
+                rgba(2, 6, 3, 0.95) 0%, rgba(6, 14, 7, 0.72) 54%, transparent 80%);
+            filter: blur(1.1px);
+        }
+
+        .wf-rat::after {
+            content: "";
+            position: absolute;
+            right: 92%;
+            top: 46%;
+            width: 70%;
+            height: 1.4px;
+            border-radius: 2px;
+            background: linear-gradient(270deg, rgba(3, 9, 4, 0.85), transparent);
+        }
+
+        .wf-rat.run { animation: wfRatRun var(--rat-dur, 1.6s) linear 1; }
+
+        /* ================= MARGINALIA =================
+           Words that are not part of the record surface in the gutter and go away
+           again. Kept in the margins so they never sit on the prose. */
+        .wf-margin-word {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+            font-family: 'VT323', monospace;
+            font-size: var(--mw-size, 1.05rem);
+            letter-spacing: 3px;
+            white-space: nowrap;
+            writing-mode: vertical-rl;
+            color: rgba(126, 242, 146, 0.78);
+            text-shadow: 0 0 11px rgba(84, 226, 104, 0.45);
+        }
+
+        .wf-margin-word.purple {
+            color: rgba(196, 108, 226, 0.72);
+            text-shadow: 0 0 11px rgba(168, 78, 204, 0.45);
+        }
+
+        .wf-margin-word.show { animation: wfMarginWord 4.6s ease-in-out 1; }
+
+        /* ================= SOMETHING PASSES =================
+           A tall soft occlusion that crosses behind the page. Rare, deep only.
+           Sized to the viewport and dropped at the reader's position when fired. */
+        .wf-passing {
+            position: absolute;
+            left: 0;
+            width: 30%;
+            height: 165vh;
+            opacity: 0;
+            pointer-events: none;
+            background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(1, 3, 2, 0.55) 34%,
+                rgba(2, 5, 3, 0.74) 50%,
+                rgba(1, 3, 2, 0.55) 66%,
+                transparent 100%);
+            filter: blur(22px);
+        }
+
+        .wf-passing.sweep { animation: wfPassing var(--pass-dur, 6s) ease-in-out 1; }
+
+        /* ---- keyframes ---- */
+        @keyframes wfOphanimTurn {
+            0%   { transform: translate(-50%, -50%) scale(var(--o-scale, 1)) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) scale(var(--o-scale, 1)) rotate(360deg); }
+        }
+
+        @keyframes wfRatRun {
+            0%   { opacity: 0; transform: translateX(0) scaleX(var(--rat-dir, 1)); }
+            9%   { opacity: var(--rat-alpha, 0.5); }
+            86%  { opacity: var(--rat-alpha, 0.5); }
+            100% { opacity: 0; transform: translateX(var(--rat-travel, 700px)) scaleX(var(--rat-dir, 1)); }
+        }
+
+        @keyframes wfMarginWord {
+            0%   { opacity: 0; letter-spacing: 12px; }
+            16%  { opacity: 1; letter-spacing: 3px; }
+            72%  { opacity: 1; letter-spacing: 3px; }
+            100% { opacity: 0; letter-spacing: 9px; }
+        }
+
+        @keyframes wfPassing {
+            0%   { opacity: 0; transform: translateX(-42%); }
+            16%  { opacity: var(--pass-alpha, 0.5); }
+            80%  { opacity: var(--pass-alpha, 0.5); }
+            100% { opacity: 0; transform: translateX(348%); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .wf-ophanim,
+            .wf-oeye .lid,
+            .wf-rat,
+            .wf-margin-word,
+            .wf-passing {
+                animation: none !important;
+            }
+            .wf-oeye .lid { transform: scaleY(0.02); }
         }
 
         /* Scribe's transcription slip - the OOC block */
@@ -4203,6 +4360,23 @@
         const runeRows = [];
         const tears = [];
 
+        // Every positioned layer node also lands here so measureLayers() can cache
+        // its offset inside the field and the per-frame pass can skip anything
+        // nowhere near the reader. Without this, populations dense enough to feel
+        // present would mean ~450 style writes per scroll frame.
+        const layerNodes = [];
+
+        function registerNode(el) { el._y = 0; layerNodes.push(el); return el; }
+
+        // The appendix is ~25,000px tall. A uniform spread puts a tendril every
+        // 2,500px - roughly one per three screens, which is why the field read as
+        // empty. `bias` below 1 pushes placement toward the foot of the container,
+        // so density climbs as the reader descends.
+        function placeY(i, count, bias) {
+            const u = (i + rnd(0.04, 0.96)) / count;
+            return Math.pow(u, bias || 1) * 100;
+        }
+
         // ---------- mist banks ---------------------------------------------
         // Reveal thresholds are biased toward each bank's own vertical position,
         // so the fog genuinely gathers from the top down rather than all at once.
@@ -4210,7 +4384,7 @@
             for (let i = 0; i < count; i++) {
                 const m = document.createElement('div');
                 m.className = 'wf-mist';
-                const yPct = (i + rnd(0.05, 0.95)) / count * 100;
+                const yPct = placeY(i, count, opts.bias);
                 const w = rnd(opts.minW, opts.maxW);
                 const h = w * rnd(0.42, 0.78);
                 const purple = Math.random() < (opts.purpleChance || 0.35);
@@ -4232,15 +4406,15 @@
                 }
                 // Banks low on the page need barely any depth to show; banks high
                 // up stay hidden until the reader is well into the descent.
-                m.dataset.reveal = clamp01(0.06 + (1 - yPct / 100) * 0.55 + rnd(-0.08, 0.10)).toFixed(3);
+                m.dataset.reveal = clamp01(0.02 + (1 - yPct / 100) * 0.34 + rnd(-0.06, 0.08)).toFixed(3);
                 m.dataset.peak = (opts.peak || 0.34).toFixed(3);
                 target.appendChild(m);
-                mists.push(m);
+                mists.push(registerNode(m));
             }
         }
 
-        buildMist(under, 11, { minW: 340, maxW: 760, minBlur: 26, maxBlur: 52, peak: 0.30, purpleChance: 0.32 });
-        if (deepAtmos) buildMist(deepAtmos, 7, { minW: 300, maxW: 620, minBlur: 20, maxBlur: 42, peak: 0.46, purpleChance: 0.48 });
+        buildMist(under, 26, { minW: 300, maxW: 700, minBlur: 24, maxBlur: 46, peak: 0.30, purpleChance: 0.32, bias: 0.62 });
+        if (deepAtmos) buildMist(deepAtmos, 20, { minW: 280, maxW: 600, minBlur: 20, maxBlur: 40, peak: 0.46, purpleChance: 0.48, bias: 0.55 });
 
         // ---------- tendrils -------------------------------------------------
         // Organic beziers that crawl inward from the page edges. Growth is
@@ -4292,9 +4466,13 @@
                 svg.style.width = `${w.toFixed(0)}px`;
                 svg.style.height = `${h.toFixed(0)}px`;
 
-                const yPct = (i + rnd(0.05, 0.95)) / count * 100;
-                if (fromLeft) svg.style.left = `${rnd(-6, 4)}%`;
-                else svg.style.right = `${rnd(-6, 4)}%`;
+                // Tendrils arrive in thickets rather than evenly spaced singles, so
+                // they read as growth spreading from a point instead of stray lines.
+                const clump = Math.max(1, opts.cluster || 1);
+                const anchor = placeY(Math.floor(i / clump), Math.ceil(count / clump), opts.bias);
+                const yPct = clamp01((anchor + rnd(-4.5, 4.5)) / 100) * 100;
+                if (fromLeft) svg.style.left = `${rnd(-8, 8)}%`;
+                else svg.style.right = `${rnd(-8, 8)}%`;
                 svg.style.top = `calc(${yPct}% - ${h / 2}px)`;
                 svg.style.setProperty('--t-origin', fromLeft ? '0% 0%' : '100% 0%');
                 svg.style.setProperty('--t-rot', `${rnd(-14, 14)}deg`);
@@ -4331,15 +4509,15 @@
                     p.style.strokeDashoffset = len.toFixed(1);
                 });
 
-                svg.dataset.reveal = clamp01(0.10 + (1 - yPct / 100) * 0.50 + rnd(-0.08, 0.12)).toFixed(3);
+                svg.dataset.reveal = clamp01(0.03 + (1 - yPct / 100) * 0.30 + rnd(-0.05, 0.09)).toFixed(3);
                 svg.dataset.peak = (opts.peak || 0.50).toFixed(3);
                 svg._paths = paths;
-                tendrils.push(svg);
+                tendrils.push(registerNode(svg));
             }
         }
 
-        buildTendrils(under, 10, { minW: 220, maxW: 520, minH: 180, maxH: 460, peak: 0.22 });
-        if (deepAtmos) buildTendrils(deepAtmos, 6, { minW: 260, maxW: 600, minH: 200, maxH: 520, peak: 0.34 });
+        buildTendrils(under, 54, { minW: 200, maxW: 500, minH: 170, maxH: 440, peak: 0.24, bias: 0.58, cluster: 3 });
+        if (deepAtmos) buildTendrils(deepAtmos, 40, { minW: 240, maxW: 580, minH: 190, maxH: 500, peak: 0.36, bias: 0.50, cluster: 4 });
 
         // ---------- sigil rings ---------------------------------------------
         function buildSigils(target, count, opts) {
@@ -4352,7 +4530,7 @@
                 svg.style.width = `${size.toFixed(0)}px`;
                 svg.style.height = `${size.toFixed(0)}px`;
                 svg.style.left = `${rnd(6, 94)}%`;
-                const yPct = (i + rnd(0.1, 0.9)) / count * 100;
+                const yPct = placeY(i, count, opts.bias);
                 svg.style.top = `${yPct.toFixed(2)}%`;
                 svg.style.setProperty('--s-rot', `${rnd(0, 360)}deg`);
                 svg.style.setProperty('--s-speed', `${rnd(38, 90)}s`);
@@ -4395,15 +4573,15 @@
                 poly.setAttribute('d', dPoly);
                 svg.appendChild(poly);
 
-                svg.dataset.reveal = clamp01(0.22 + (1 - yPct / 100) * 0.45 + rnd(-0.06, 0.12)).toFixed(3);
+                svg.dataset.reveal = clamp01(0.10 + (1 - yPct / 100) * 0.32 + rnd(-0.05, 0.10)).toFixed(3);
                 svg.dataset.peak = (opts.peak || 0.26).toFixed(3);
                 target.appendChild(svg);
-                sigils.push(svg);
+                sigils.push(registerNode(svg));
             }
         }
 
-        buildSigils(under, 7, { min: 90, max: 260, peak: 0.15 });
-        if (deepAtmos) buildSigils(deepAtmos, 5, { min: 110, max: 300, peak: 0.22 });
+        buildSigils(under, 18, { min: 80, max: 240, peak: 0.15, bias: 0.60 });
+        if (deepAtmos) buildSigils(deepAtmos, 14, { min: 100, max: 280, peak: 0.22, bias: 0.52 });
 
         // ---------- glyph swarm ----------------------------------------------
         function buildGlyphs(target, count, opts) {
@@ -4412,22 +4590,22 @@
                 g.className = 'wf-glyph';
                 g.textContent = pick(GLYPHS);
                 g.style.left = `${rnd(2, 98)}%`;
-                const yPct = (i + rnd(0.05, 0.95)) / count * 100;
+                const yPct = placeY(i, count, opts.bias);
                 g.style.top = `${yPct.toFixed(2)}%`;
-                g.style.fontSize = `${rnd(0.7, 2.4).toFixed(2)}rem`;
+                g.style.fontSize = `${rnd(0.6, 2.1).toFixed(2)}rem`;
                 g.style.setProperty('--g-rot', `${rnd(-40, 40)}deg`);
                 g.style.setProperty('--g-speed', `${rnd(3.5, 9)}s`);
                 g.style.animationDelay = `${-rnd(0, 8)}s`;
                 if (Math.random() < 0.28) g.dataset.purple = 'true';
-                g.dataset.reveal = clamp01(0.05 + (1 - yPct / 100) * 0.60 + rnd(-0.10, 0.14)).toFixed(3);
+                g.dataset.reveal = clamp01(0.01 + (1 - yPct / 100) * 0.30 + rnd(-0.06, 0.10)).toFixed(3);
                 g.dataset.peak = (opts.peak || 0.34).toFixed(3);
                 target.appendChild(g);
-                glyphs.push(g);
+                glyphs.push(registerNode(g));
             }
         }
 
-        buildGlyphs(under, 40, { peak: 0.24 });
-        if (deepAtmos) buildGlyphs(deepAtmos, 28, { peak: 0.36 });
+        buildGlyphs(under, 130, { peak: 0.26, bias: 0.58 });
+        if (deepAtmos) buildGlyphs(deepAtmos, 100, { peak: 0.38, bias: 0.50 });
 
         // ---------- rune rows -------------------------------------------------
         function buildRunes(target, count, opts) {
@@ -4435,18 +4613,18 @@
                 const r = document.createElement('div');
                 r.className = 'wf-runes';
                 r.textContent = runeString(14 + Math.floor(Math.random() * 26));
-                const yPct = (i + rnd(0.1, 0.9)) / count * 100;
+                const yPct = placeY(i, count, opts.bias);
                 r.style.top = `${yPct.toFixed(2)}%`;
                 r.style.setProperty('--r-size', `${rnd(0.8, 1.5).toFixed(2)}rem`);
-                r.dataset.reveal = clamp01(0.28 + (1 - yPct / 100) * 0.42 + rnd(-0.06, 0.10)).toFixed(3);
+                r.dataset.reveal = clamp01(0.14 + (1 - yPct / 100) * 0.30 + rnd(-0.05, 0.09)).toFixed(3);
                 r.dataset.peak = (opts.peak || 0.16).toFixed(3);
                 target.appendChild(r);
-                runeRows.push(r);
+                runeRows.push(registerNode(r));
             }
         }
 
-        buildRunes(under, 8, { peak: 0.13 });
-        if (deepAtmos) buildRunes(deepAtmos, 6, { peak: 0.20 });
+        buildRunes(under, 20, { peak: 0.14, bias: 0.58 });
+        if (deepAtmos) buildRunes(deepAtmos, 16, { peak: 0.21, bias: 0.50 });
 
         // ---------- glitch tears ----------------------------------------------
         for (let i = 0; i < 6; i++) {
@@ -4456,6 +4634,7 @@
             t.style.setProperty('--tear-h', `${rnd(1, 3).toFixed(1)}px`);
             over.appendChild(t);
             tears.push(t);
+            registerNode(t);
         }
 
         // ---------- stage register (lean + sigil clamp targets) ----------------
@@ -4465,6 +4644,21 @@
         // Reading offsetHeight inside the scroll loop would force a synchronous
         // reflow per stage per frame. Heights only change on resize or reveal, so
         // they are measured in one batch and cached.
+        // Offsets are cached in field coordinates so the per-frame pass can reject
+        // anything far from the reader with a numeric compare instead of a style
+        // write. Measured in one batch: one forced layout, then cheap reads.
+        let cullTop = -1e9;
+        let cullBottom = 1e9;
+
+        function measureLayers() {
+            const fr = field.getBoundingClientRect();
+            if (!fr.height) return;
+            layerNodes.forEach((el) => {
+                const r = el.getBoundingClientRect();
+                el._y = (r.top - fr.top) + r.height * 0.5;
+            });
+        }
+
         function measureStages() {
             stages.forEach((st) => {
                 st._h = st.offsetHeight;
@@ -4488,7 +4682,7 @@
                 svg.style.width = `${w.toFixed(0)}px`;
                 svg.style.height = `${(w * 34 / 60).toFixed(0)}px`;
                 svg.style.left = `${rnd(4, 96).toFixed(2)}%`;
-                const yPct = (i + rnd(0.08, 0.92)) / count * 100;
+                const yPct = placeY(i, count, opts.bias);
                 svg.style.top = `${yPct.toFixed(2)}%`;
                 svg.style.setProperty('--e-rot', `${rnd(-26, 26).toFixed(1)}deg`);
                 svg.style.setProperty('--e-blink', `${rnd(5.5, 13).toFixed(2)}s`);
@@ -4527,15 +4721,15 @@
                 svg.appendChild(lid);
 
                 // Eyes are a Chapter II+ phenomenon - none of them open in the crater.
-                svg.dataset.reveal = clamp01(0.30 + (1 - yPct / 100) * 0.42 + rnd(-0.05, 0.10)).toFixed(3);
+                svg.dataset.reveal = clamp01(0.18 + (1 - yPct / 100) * 0.34 + rnd(-0.05, 0.09)).toFixed(3);
                 svg.dataset.peak = (opts.peak || 0.26).toFixed(3);
                 target.appendChild(svg);
-                eyes.push(svg);
+                eyes.push(registerNode(svg));
             }
         }
 
-        buildEyes(under, 14, { min: 26, max: 74, peak: 0.20 });
-        if (deepAtmos) buildEyes(deepAtmos, 12, { min: 30, max: 96, peak: 0.30 });
+        buildEyes(under, 46, { min: 13, max: 34, peak: 0.17, bias: 0.42 });
+        if (deepAtmos) buildEyes(deepAtmos, 60, { min: 14, max: 40, peak: 0.22, bias: 0.38 });
 
         // ---------- the shape in the fog --------------------------------------
         // Lives inside the flensing fragment only, behind the prose. Antlers, a
@@ -4615,13 +4809,180 @@
             apexEyeLayer.className = 'wf-beast-layer';
             apexEyeLayer.setAttribute('aria-hidden', 'true');
             apexStage.insertBefore(apexEyeLayer, apexStage.firstChild);
-            buildEyes(apexEyeLayer, 16, { min: 22, max: 68, peak: 0.34 });
+            buildEyes(apexEyeLayer, 34, { min: 12, max: 34, peak: 0.26, bias: 0.85 });
             // Ribbons that reach inward toward the reader rather than creeping
             // across the margins - the strands closing on the subject.
-            buildTendrils(apexEyeLayer, 8, { minW: 200, maxW: 420, minH: 170, maxH: 380, peak: 0.30 });
+            buildTendrils(apexEyeLayer, 18, { minW: 190, maxW: 420, minH: 160, maxH: 380, peak: 0.32, bias: 0.9, cluster: 3 });
         }
 
         buildBeast(apexStage);
+
+        // ---------- ophanim // wheels of eyes -----------------------------------
+        // Individual eyes are now small and faint. Presence comes from these:
+        // concentric dashed rings carrying 7-14 lenses that turn together, and
+        // blink out of phase with each other.
+        const ophanim = [];
+
+        function buildOphanim(target, count, opts) {
+            for (let i = 0; i < count; i++) {
+                const svg = document.createElementNS(SVG_NS, 'svg');
+                svg.setAttribute('class', 'wf-ophanim');
+                svg.setAttribute('viewBox', '0 0 200 200');
+                svg.setAttribute('aria-hidden', 'true');
+                const size = rnd(opts.min, opts.max);
+                svg.style.width = `${size.toFixed(0)}px`;
+                svg.style.height = `${size.toFixed(0)}px`;
+                svg.style.left = `${rnd(10, 90).toFixed(2)}%`;
+                const yPct = placeY(i, count, opts.bias);
+                svg.style.top = `${yPct.toFixed(2)}%`;
+                svg.style.setProperty('--o-speed', `${rnd(52, 120).toFixed(0)}s`);
+                if (Math.random() < 0.5) svg.style.animationDirection = 'reverse';
+                const purple = Math.random() < 0.28;
+                if (purple) svg.style.setProperty('--o-stroke', 'rgba(178, 92, 210, 0.28)');
+
+                // two or three wheels within wheels
+                const ringCount = 2 + Math.floor(Math.random() * 2);
+                const radii = [];
+                for (let r = 0; r < ringCount; r++) {
+                    const rad = 88 - r * rnd(24, 32);
+                    if (rad < 22) break;
+                    radii.push(rad);
+                    const c = document.createElementNS(SVG_NS, 'circle');
+                    c.setAttribute('class', 'ring');
+                    c.setAttribute('cx', '100');
+                    c.setAttribute('cy', '100');
+                    c.setAttribute('r', rad.toFixed(1));
+                    c.setAttribute('stroke-dasharray', `${rnd(2, 7).toFixed(1)} ${rnd(5, 13).toFixed(1)}`);
+                    svg.appendChild(c);
+                }
+
+                const total = 7 + Math.floor(Math.random() * 8);
+                for (let e = 0; e < total; e++) {
+                    const rad = pick(radii);
+                    const a = (e / total) * Math.PI * 2 + rnd(-0.16, 0.16);
+                    const cx = 100 + Math.cos(a) * rad;
+                    const cy = 100 + Math.sin(a) * rad;
+                    const sc = rnd(0.30, 0.52);
+                    const g = document.createElementNS(SVG_NS, 'g');
+                    g.setAttribute('class', 'wf-oeye');
+                    g.setAttribute('transform',
+                        `translate(${cx.toFixed(1)} ${cy.toFixed(1)}) rotate(${(a * 180 / Math.PI + 90).toFixed(1)}) scale(${sc.toFixed(2)}) translate(-30 -17)`);
+                    g.style.setProperty('--e-blink', `${rnd(4.5, 12).toFixed(2)}s`);
+                    g.style.setProperty('--e-delay', `${(-rnd(0, 11)).toFixed(2)}s`);
+                    if (purple) {
+                        g.style.setProperty('--e-stroke', 'rgba(186, 96, 220, 0.40)');
+                        g.style.setProperty('--e-iris', 'rgba(172, 84, 206, 0.32)');
+                    }
+
+                    const sc2 = document.createElementNS(SVG_NS, 'path');
+                    sc2.setAttribute('class', 'sclera');
+                    sc2.setAttribute('d', EYE_LENS);
+                    g.appendChild(sc2);
+                    const ir = document.createElementNS(SVG_NS, 'circle');
+                    ir.setAttribute('class', 'iris');
+                    ir.setAttribute('cx', '30'); ir.setAttribute('cy', '17');
+                    ir.setAttribute('r', rnd(6.5, 8.6).toFixed(1));
+                    g.appendChild(ir);
+                    const pu = document.createElementNS(SVG_NS, 'circle');
+                    pu.setAttribute('class', 'pupil');
+                    pu.setAttribute('cx', '30'); pu.setAttribute('cy', '17');
+                    pu.setAttribute('r', rnd(2.6, 4).toFixed(1));
+                    g.appendChild(pu);
+                    const li = document.createElementNS(SVG_NS, 'path');
+                    li.setAttribute('class', 'lid');
+                    li.setAttribute('d', EYE_LENS);
+                    g.appendChild(li);
+                    svg.appendChild(g);
+                }
+
+                svg.dataset.reveal = clamp01(0.26 + (1 - yPct / 100) * 0.34 + rnd(-0.05, 0.09)).toFixed(3);
+                svg.dataset.peak = (opts.peak || 0.20).toFixed(3);
+                target.appendChild(svg);
+                ophanim.push(registerNode(svg));
+            }
+        }
+
+        buildOphanim(under, 9, { min: 110, max: 260, peak: 0.16, bias: 0.36 });
+        if (deepAtmos) buildOphanim(deepAtmos, 12, { min: 120, max: 300, peak: 0.20, bias: 0.34 });
+
+        // ---------- vermin ------------------------------------------------------
+        // She hears them before anything else happens, and never stops hearing
+        // them. They run behind the page, never across it.
+        const rats = [];
+        for (let i = 0; i < 7; i++) {
+            const r = document.createElement('div');
+            r.className = 'wf-rat';
+            r.setAttribute('aria-hidden', 'true');
+            under.appendChild(r);
+            rats.push(r);
+        }
+
+        function scurry(intensity) {
+            const r = pick(rats);
+            const v = viewport();
+            const fr = field.getBoundingClientRect();
+            if (!fr.height) return;
+            const toRight = Math.random() > 0.5;
+            const travel = rnd(320, 900) * (toRight ? 1 : -1);
+            const yTop = (v.top - fr.top) + rnd(0.04, 0.96) * v.height;
+            r.style.top = `${yTop.toFixed(0)}px`;
+            r.style.left = toRight ? `${rnd(-12, 8).toFixed(0)}%` : `${rnd(84, 104).toFixed(0)}%`;
+            r.style.setProperty('--rat-w', `${rnd(15, 30).toFixed(0)}px`);
+            r.style.setProperty('--rat-dir', toRight ? '1' : '-1');
+            r.style.setProperty('--rat-travel', `${travel.toFixed(0)}px`);
+            r.style.setProperty('--rat-dur', `${rnd(0.75, 2.1).toFixed(2)}s`);
+            r.style.setProperty('--rat-alpha', (0.22 + intensity * 0.42).toFixed(3));
+            flashClass(r, 'run', 2300);
+        }
+
+        // ---------- marginalia --------------------------------------------------
+        // Words that are not in the record. Kept in the gutters, never on the prose.
+        const MARGIN_WORDS = [
+            'LOOK', 'COUNT THEM', 'STILL HERE', 'NOT ALONE', 'SHE SEES', 'MORE EYES',
+            'BENEATH THE BOARDS', 'IT REMEMBERS', 'HARL', 'MEREK', 'WITCH', 'OPEN',
+            'AGAIN', 'WE WERE THERE', 'YOU SAID NOTHING', 'THREE IN THE CRATER'
+        ];
+        const marginWords = [];
+        for (let i = 0; i < 4; i++) {
+            const w = document.createElement('div');
+            w.className = 'wf-margin-word';
+            w.setAttribute('aria-hidden', 'true');
+            under.appendChild(w);
+            marginWords.push(w);
+        }
+
+        function marginalia(intensity) {
+            const w = marginWords.find((n) => !n.classList.contains('show'));
+            if (!w) return;
+            const v = viewport();
+            const fr = field.getBoundingClientRect();
+            if (!fr.height) return;
+            w.textContent = pick(MARGIN_WORDS);
+            w.classList.toggle('purple', Math.random() < 0.3);
+            w.style.setProperty('--mw-size', `${rnd(0.85, 1.5).toFixed(2)}rem`);
+            w.style.top = `${((v.top - fr.top) + rnd(0.06, 0.6) * v.height).toFixed(0)}px`;
+            if (Math.random() > 0.5) { w.style.left = `${rnd(0.4, 2.4).toFixed(2)}%`; w.style.right = 'auto'; }
+            else { w.style.right = `${rnd(0.4, 2.4).toFixed(2)}%`; w.style.left = 'auto'; }
+            w.style.opacity = (0.30 + intensity * 0.55).toFixed(3);
+            flashClass(w, 'show', 4700);
+        }
+
+        // ---------- something passes --------------------------------------------
+        const passing = document.createElement('div');
+        passing.className = 'wf-passing';
+        passing.setAttribute('aria-hidden', 'true');
+        under.appendChild(passing);
+
+        function somethingPasses(intensity) {
+            if (passing.classList.contains('sweep')) return;
+            const v = viewport();
+            const fr = field.getBoundingClientRect();
+            if (!fr.height) return;
+            passing.style.top = `${((v.top - fr.top) - v.height * 0.35).toFixed(0)}px`;
+            passing.style.setProperty('--pass-dur', `${rnd(4.5, 9).toFixed(2)}s`);
+            passing.style.setProperty('--pass-alpha', (0.24 + intensity * 0.44).toFixed(3));
+            flashClass(passing, 'sweep', 9200);
+        }
 
         // ---------- whisper echoes ---------------------------------------------
         const whispers = Array.prototype.slice.call(field.querySelectorAll('.whisper-line'));
@@ -4704,6 +5065,10 @@
             lastD = -1;
             lastX = -1;
             lastQ = -1;
+            // First moment the layers have real geometry - nothing measured while
+            // the log was sealed is trustworthy.
+            measureStages();
+            measureLayers();
             scheduleGlitch();
         }
 
@@ -4756,6 +5121,14 @@
             const d = clamp01(chapterOne * 0.10 + chapterTwo * 0.90 + chapterThree * 0.50);
             const amp = 1 + chapterTwo * 0.10 + chapterThree * 0.58 + apex * 0.52;
 
+            // Live band: anything more than ~1.5 screens outside the viewport keeps
+            // whatever style it last had and is skipped entirely.
+            const fr0 = field.getBoundingClientRect();
+            const vp = viewport();
+            const rel = vp.top - fr0.top;
+            cullTop = rel - vp.height * 1.5;
+            cullBottom = rel + vp.height * 2.5;
+
             field.style.setProperty('--ch1', chapterOne.toFixed(3));
             field.style.setProperty('--ch2', chapterTwo.toFixed(3));
             field.style.setProperty('--ch3', chapterThree.toFixed(3));
@@ -4802,6 +5175,7 @@
 
             // --- per-element reveals ---
             mists.forEach((m) => {
+                if (m._y < cullTop || m._y > cullBottom) return;
                 const reveal = parseFloat(m.dataset.reveal || '0');
                 const peak = parseFloat(m.dataset.peak || '0.3');
                 const strength = clamp01((f - reveal) / 0.30);
@@ -4810,6 +5184,7 @@
             });
 
             tendrils.forEach((t) => {
+                if (t._y < cullTop || t._y > cullBottom) return;
                 const reveal = parseFloat(t.dataset.reveal || '0');
                 const peak = parseFloat(t.dataset.peak || '0.5');
                 const strength = clamp01((f - reveal) / 0.34);
@@ -4837,6 +5212,7 @@
             });
 
             sigils.forEach((s) => {
+                if (s._y < cullTop || s._y > cullBottom) return;
                 const reveal = parseFloat(s.dataset.reveal || '0');
                 const peak = parseFloat(s.dataset.peak || '0.24');
                 const strength = clamp01((f - reveal) / 0.28);
@@ -4845,6 +5221,7 @@
             });
 
             glyphs.forEach((g) => {
+                if (g._y < cullTop || g._y > cullBottom) return;
                 const reveal = parseFloat(g.dataset.reveal || '0');
                 const peak = parseFloat(g.dataset.peak || '0.32');
                 const strength = clamp01((f - reveal) / 0.24);
@@ -4857,6 +5234,7 @@
             });
 
             eyes.forEach((e) => {
+                if (e._y < cullTop || e._y > cullBottom) return;
                 const reveal = parseFloat(e.dataset.reveal || '0');
                 const peak = parseFloat(e.dataset.peak || '0.26');
                 const strength = clamp01((f - reveal) / 0.26);
@@ -4872,6 +5250,16 @@
                 eyes.forEach((e) => e.classList.toggle('staring', staring));
             }
 
+            ophanim.forEach((o) => {
+                if (o._y < cullTop || o._y > cullBottom) return;
+                const reveal = parseFloat(o.dataset.reveal || '0');
+                const peak = parseFloat(o.dataset.peak || '0.20');
+                const strength = clamp01((f - reveal) / 0.24);
+                o.style.opacity = Math.min(0.52, strength * peak * amp).toFixed(3);
+                o.style.setProperty('--o-scale', (0.50 + strength * 0.70 + apex * 0.20).toFixed(3));
+                o.classList.toggle('staring', staring);
+            });
+
             if (beast) {
                 // Resolves out of the fog: blur falls away and the mass settles as
                 // the apex climbs, but never gets sharp enough to be a picture.
@@ -4881,6 +5269,7 @@
             }
 
             runeRows.forEach((r) => {
+                if (r._y < cullTop || r._y > cullBottom) return;
                 const reveal = parseFloat(r.dataset.reveal || '0');
                 const peak = parseFloat(r.dataset.peak || '0.15');
                 const strength = clamp01((f - reveal) / 0.26);
@@ -5020,6 +5409,12 @@
                     if (drv > 0.30 && Math.random() < 0.35) fireTear();
                     if (drv > 0.55 && Math.random() < 0.22) flashClass(scan, 'fire', 340);
                     if (drv > 0.34 && Math.random() < 0.45) rerollGlyph();
+
+                    // Vermin arrive first and never leave - they are the one effect
+                    // that runs from the very top of the crater log onward.
+                    if (Math.random() < 0.20 + drv * 0.46) scurry(drv);
+                    if (drv > 0.22 && Math.random() < 0.10 + drv * 0.22) marginalia(drv);
+                    if (drv > 0.46 && Math.random() < 0.05 + drv * 0.09) somethingPasses(drv);
                     if (deepRoot && deepDepth > 0.58 && Math.random() < (0.07 + finalDepth * 0.12)) {
                         flashClass(deepRoot, 'wf-jolt', 390);
                     }
@@ -5030,6 +5425,8 @@
                     if (finalDepth > 0.30) {
                         if (Math.random() < 0.46) rerollGlyph();
                         if (Math.random() < 0.31) fireTear();
+                        if (Math.random() < 0.55) scurry(1);
+                        if (Math.random() < 0.34) marginalia(1);
                         if (finalDepth > 0.52 && Math.random() < 0.27) flashClass(scan, 'fire', 470);
                         if (finalDepth > 0.58 && deepRoot && Math.random() < 0.28) flashClass(deepRoot, 'wf-jolt', 470);
                         if (finalDepth > 0.80 && paras.length && Math.random() < 0.20) {
@@ -5093,8 +5490,12 @@
             setTimeout(() => flashClass(scan, 'fire', 340), 430);
             setTimeout(() => flashClass(scan, 'fire', 340), 940);
 
-            // 7. glyph storm
+            // 7. glyph storm, and everything under the boards moves at once
             for (let i = 0; i < 26; i++) setTimeout(rerollGlyph, i * 26);
+            for (let i = 0; i < 9; i++) setTimeout(() => scurry(1), 90 + i * 105);
+            setTimeout(() => marginalia(1), 220);
+            setTimeout(() => marginalia(1), 760);
+            setTimeout(() => somethingPasses(1), 1150);
 
             // 8. the paragraphs around the line recoil outward in sequence
             const stage = foundLine.closest('.warp-stage');
@@ -5148,6 +5549,28 @@
             } catch (e) { /* observer unavailable - the line simply reads plainly */ }
         }
 
+        // ---------- gaze ------------------------------------------------------------
+        // Every pupil drifts opposite the direction of travel, so the eyes appear
+        // to hold on the reader as the page moves under them. One inherited pair
+        // of variables moves all of them at once.
+        let lastScrollY = null;
+        let lookX = 0;
+        let lookY = 0;
+
+        function updateGaze() {
+            const v = viewport();
+            const fr = field.getBoundingClientRect();
+            const y = v.top - fr.top;
+            if (lastScrollY === null) { lastScrollY = y; return; }
+            const dv = y - lastScrollY;
+            lastScrollY = y;
+            const targetY = Math.max(-2.6, Math.min(2.6, -dv * 0.10));
+            lookY += (targetY - lookY) * 0.35;
+            lookX = Math.sin(y * 0.0016) * 1.9;
+            field.style.setProperty('--look-x', `${lookX.toFixed(2)}px`);
+            field.style.setProperty('--look-y', `${lookY.toFixed(2)}px`);
+        }
+
         // ---------- wiring ---------------------------------------------------------
         let ticking = false;
         const requestUpdate = () => {
@@ -5155,6 +5578,7 @@
             ticking = true;
             requestAnimationFrame(() => {
                 updateDepth();
+                if (armed && !reduceMotion) updateGaze();
                 ticking = false;
             });
         };
@@ -5167,7 +5591,10 @@
         // Sealed blocks expand the page by thousands of pixels when unsealed, so a
         // full re-measure is exposed for revealRedact() to call.
         window.warpRefresh = function() {
-            const full = () => { lastF = -1; lastD = -1; lastX = -1; lastQ = -1; measureStages(); requestUpdate(); };
+            const full = () => {
+                lastF = -1; lastD = -1; lastX = -1; lastQ = -1;
+                measureStages(); measureLayers(); requestUpdate();
+            };
             full();
             setTimeout(full, 60);
             setTimeout(full, 320);
@@ -5176,17 +5603,18 @@
 
         if (window.ResizeObserver) {
             try {
-                const ro = new ResizeObserver(() => { measureStages(); requestUpdate(); });
+                const ro = new ResizeObserver(() => { measureStages(); measureLayers(); requestUpdate(); });
                 ro.observe(field);
             } catch (e) { /* non-fatal */ }
         }
 
-        window.addEventListener('resize', () => { measureStages(); requestUpdate(); });
+        window.addEventListener('resize', () => { measureStages(); measureLayers(); requestUpdate(); });
 
         // Starts sealed. arm() fires the scheduler the first time updateDepth()
         // sees the log opened, which revealRedact() -> warpRefresh() triggers.
         disarm();
         measureStages();
+        measureLayers();
         updateDepth(true);
     }
 
