@@ -1673,6 +1673,356 @@
             }
         }
 
+        /* ================= CHAPTER GRADIENT =================
+           Contamination is now a three-stage climb rather than a single ramp.
+
+             Chapter I   (.vox-log)        - the crater. Almost clean. A stain
+                                             gathers at the foot of the page and
+                                             the first glyphs appear near its end.
+             Chapter II  (#wake-fragment)  - the somnial fragments. The field
+                                             proper wakes up.
+             Chapter III (#final-fragment) - What Watches Back. Steeper gain,
+                                             never calms down, and the apex adds
+                                             eyes, a shape in the fog, and impact.
+
+           JS writes --ch1/--ch2/--ch3 so any rule can key off the current
+           chapter without recomputing scroll position. */
+        #warrant-lore-section {
+            --ch1: 0;
+            --ch2: 0;
+            --ch3: 0;
+            --wf-pulse: 0;
+        }
+
+        /* Chapter I: the paper starts to rot from the bottom up. */
+        .vox-log {
+            --c1: 0;
+            position: relative;
+            isolation: isolate;
+            border-left-color: rgba(216, 163, 60, calc(0.4 - var(--c1) * 0.14));
+        }
+
+        #warrant-lore-section.warp-armed .vox-log::after {
+            content: "";
+            position: absolute;
+            z-index: -1;
+            inset: auto -20px -14px -24px;
+            height: calc(14% + var(--c1) * 66%);
+            pointer-events: none;
+            opacity: calc(var(--c1) * 0.62);
+            background:
+                linear-gradient(180deg,
+                    transparent 0%,
+                    rgba(22, 70, 32, 0.13) 46%,
+                    rgba(34, 9, 44, 0.20) 100%);
+            filter: blur(16px);
+            transition: opacity 1.1s ease, height 1.4s ease;
+        }
+
+        /* The vox-log's own left rule frays as chapter I closes. */
+        #warrant-lore-section.warp-armed .vox-log::before {
+            content: "";
+            position: absolute;
+            z-index: -1;
+            left: -2px;
+            top: 30%;
+            bottom: 0;
+            width: 2px;
+            pointer-events: none;
+            opacity: calc(var(--c1) * 0.85);
+            background: linear-gradient(180deg, transparent, rgba(84, 226, 104, 0.55) 40%, rgba(168, 82, 200, 0.5));
+            box-shadow: 0 0 8px rgba(84, 226, 104, 0.35);
+        }
+
+        /* The stratum's own frame degrades chapter by chapter, so the containing
+           document decays alongside the text inside it. */
+        #warrant-lore-section.warp-armed {
+            border-color: rgba(79, 224, 92, calc(0.55 - var(--ch3) * 0.28));
+            box-shadow:
+                inset 0 0 calc(22px + var(--ch2) * 44px) rgba(79, 224, 92, calc(0.08 + var(--ch2) * 0.10)),
+                inset 0 0 calc(var(--ch3) * 130px) rgba(112, 34, 140, calc(var(--ch3) * 0.22)),
+                0 0 calc(10px + var(--ch3) * 28px) rgba(140, 28, 19, calc(0.16 + var(--ch3) * 0.22));
+        }
+
+        /* Chapter I: the slug fades as the crater log stops being a clean record. */
+        #warrant-lore-section .vox-slug {
+            opacity: calc(0.7 - var(--ch1, 0) * 0.24);
+            color: rgba(196, 214, 190, calc(0.55 + var(--ch1, 0) * 0.30));
+        }
+
+        /* Stages need their own stacking context so the beast layer below can sit
+           behind the prose without escaping into the parent. */
+        .warp-stage { isolation: isolate; }
+
+        /* Long terminal sigils used to run past their own stage and collide with
+           the next one's label. JS sets --sigil-run to the stage's usable height,
+           and the label is clipped to it. */
+        .warp-stage::before {
+            width: var(--sigil-run, 300px);
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .warp-stage.terminal::before {
+            font-size: 0.88rem;
+            letter-spacing: 2.5px;
+        }
+
+        /* Letter-spacing adds a trailing gap after the final character, which
+           drags centred display lines visually left. Half-spacing indent re-centres. */
+        .predator-word { text-indent: 4px; }
+        .pack-word { text-indent: 3px; }
+        .thousand-eyes-line { text-indent: calc((2px + var(--final-apex) * 5px) * 0.5); }
+        .many-voice { text-indent: calc((5px + var(--final-apex) * 9px) * 0.5); }
+
+        /* ================= THE EYE FIELD =================
+           "A Thousand Eyes" is the appendix title, so the appendix grows them.
+           Lids are the same lens path as the sclera, scaled vertically - no
+           clip-path and no per-instance ids required. */
+        .wf-eye {
+            position: absolute;
+            opacity: 0;
+            overflow: visible;
+            transform: translate(-50%, -50%) rotate(var(--e-rot, 0deg)) scale(var(--e-scale, 1));
+            transition: opacity 1.2s ease, transform 1.5s ease;
+            pointer-events: none;
+        }
+
+        .wf-eye .sclera {
+            fill: rgba(3, 9, 5, 0.62);
+            stroke: var(--e-stroke, rgba(104, 236, 122, 0.55));
+            stroke-width: 1.3;
+            vector-effect: non-scaling-stroke;
+        }
+
+        .wf-eye .iris {
+            fill: var(--e-iris, rgba(86, 226, 106, 0.46));
+        }
+
+        .wf-eye .pupil { fill: rgba(1, 4, 2, 0.94); }
+
+        .wf-eye .glint { fill: rgba(210, 255, 220, 0.30); }
+
+        .wf-eye .lid {
+            fill: rgba(2, 7, 3, 0.97);
+            transform-box: fill-box;
+            transform-origin: 50% 50%;
+            transform: scaleY(1);
+            animation: wfEyeBlink var(--e-blink, 8s) ease-in-out infinite;
+            animation-delay: var(--e-delay, 0s);
+        }
+
+        /* At the apex every lid stops and holds open. */
+        .wf-eye.staring .lid {
+            animation: none;
+            transform: scaleY(0.02);
+        }
+
+        .wf-eye.staring .iris {
+            fill: rgba(126, 248, 146, 0.72);
+        }
+
+        /* ================= THE SHAPE IN THE FOG =================
+           Sits behind the flensing fragment only. Resolves out of the mist as the
+           apex rises: blur falls, scale settles, contrast climbs. Capped low
+           enough that it reads as something half-seen rather than an illustration. */
+        .wf-beast-layer {
+            position: absolute;
+            z-index: -1;
+            inset: -4% -6% -2%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .wf-beast {
+            position: absolute;
+            left: 50%;
+            top: 62%;
+            width: min(78%, 460px);
+            height: auto;
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(var(--b-scale, 1.24));
+            filter: blur(var(--b-blur, 26px));
+            transition: opacity 1.4s ease, filter 1.4s ease, transform 1.8s ease;
+            animation: wfBeastSway 13s ease-in-out infinite alternate;
+        }
+
+        .wf-beast .mass {
+            fill: rgba(2, 8, 4, 0.86);
+            stroke: rgba(74, 206, 92, 0.34);
+            stroke-width: 1.1;
+            vector-effect: non-scaling-stroke;
+        }
+
+        .wf-beast .limb {
+            fill: none;
+            stroke: rgba(66, 198, 84, 0.40);
+            stroke-width: 2.4;
+            stroke-linecap: round;
+            vector-effect: non-scaling-stroke;
+        }
+
+        .wf-beast .antler {
+            fill: none;
+            stroke: rgba(180, 92, 212, 0.40);
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            vector-effect: non-scaling-stroke;
+        }
+
+        .wf-beast .facet {
+            fill: rgba(92, 232, 112, 0.30);
+        }
+
+        /* ================= FOUND YOU // IMPACT =================
+           One-shot, fired by IntersectionObserver the first time the line is
+           actually read. Everything here is additive and self-clearing. */
+        .wf-detonation {
+            position: absolute;
+            left: 50%;
+            width: 190%;
+            height: 1500px;
+            margin: -750px 0 0 -95%;
+            z-index: 7;
+            opacity: 0;
+            pointer-events: none;
+            mix-blend-mode: screen;
+            background:
+                radial-gradient(ellipse at 50% 50%,
+                    rgba(150, 255, 172, 0.46) 0%,
+                    rgba(126, 42, 166, 0.24) 32%,
+                    transparent 66%);
+            animation: foundFlash 1.6s ease-out 1 forwards;
+        }
+
+        #found-you.found-impact {
+            animation: foundImpact 1.65s cubic-bezier(0.2, 0.9, 0.25, 1) 1;
+        }
+
+        #found-you.found-impact::before {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 14px;
+            height: 14px;
+            margin: -7px 0 0 -7px;
+            border-radius: 50%;
+            border: 2px solid rgba(150, 255, 172, 0.85);
+            box-shadow: 0 0 26px rgba(112, 244, 138, 0.65), inset 0 0 18px rgba(186, 96, 220, 0.55);
+            pointer-events: none;
+            animation: foundRing 1.5s cubic-bezier(0.15, 0.8, 0.3, 1) 1 forwards;
+        }
+
+        /* Paragraphs either side of the line recoil from it in sequence. */
+        .warrant-stratum p.wf-recoil {
+            animation: wfRecoil 0.62s cubic-bezier(0.3, 0.9, 0.2, 1) 1;
+        }
+
+        /* The fog behind the descent breathes harder the closer the apex gets.
+           Deliberately NOT a transform on #wake-fragment: scaling a 12,000px text
+           column by even 0.6% throws its foot ~70px out of place. */
+        #wake-fragment .warp-mist {
+            animation:
+                wfMistDrift 21s ease-in-out infinite alternate,
+                wfHeartbeat calc(4.4s - var(--wf-pulse, 0) * 2.2s) ease-in-out infinite;
+        }
+
+        /* ---- keyframes ---- */
+        @keyframes wfEyeBlink {
+            0%, 86%, 100% { transform: scaleY(0.02); }
+            90%, 94%      { transform: scaleY(1); }
+        }
+
+        @keyframes wfBeastSway {
+            0%   { transform: translate(-50%, -50%) scale(var(--b-scale, 1.24)) skewX(-0.5deg); }
+            100% { transform: translate(-51%, -49%) scale(calc(var(--b-scale, 1.24) * 1.04)) skewX(0.6deg); }
+        }
+
+        @keyframes foundFlash {
+            0%   { opacity: 0;    transform: scale(0.55); }
+            9%   { opacity: 1;    transform: scale(1.02); }
+            26%  { opacity: 0.42; transform: scale(1.0); }
+            48%  { opacity: 0.72; transform: scale(1.06); }
+            100% { opacity: 0;    transform: scale(1.16); }
+        }
+
+        @keyframes foundImpact {
+            0% {
+                transform: scale(1);
+                text-shadow: 0 0 0 rgba(150, 255, 172, 0);
+            }
+            8% {
+                transform: scale(1.19) translateX(-3px);
+                text-shadow:
+                    -16px 0 rgba(76, 240, 106, 0.90), 16px 0 rgba(196, 92, 228, 0.88),
+                    -34px 0 rgba(76, 240, 106, 0.52), 34px 0 rgba(196, 92, 228, 0.50),
+                    -56px 0 rgba(76, 240, 106, 0.24), 56px 0 rgba(196, 92, 228, 0.22),
+                    0 0 46px rgba(150, 255, 172, 0.95);
+            }
+            22% {
+                transform: scale(1.05) translateX(4px);
+                text-shadow:
+                    -8px 0 rgba(76, 240, 106, 0.70), 8px 0 rgba(196, 92, 228, 0.68),
+                    -20px 0 rgba(76, 240, 106, 0.34), 20px 0 rgba(196, 92, 228, 0.32),
+                    0 0 30px rgba(150, 255, 172, 0.70);
+            }
+            40% {
+                transform: scale(1.13) translateX(-2px);
+                text-shadow:
+                    -26px 0 rgba(76, 240, 106, 0.62), 26px 0 rgba(196, 92, 228, 0.60),
+                    -48px 0 rgba(76, 240, 106, 0.28), 48px 0 rgba(196, 92, 228, 0.26),
+                    0 0 38px rgba(150, 255, 172, 0.82);
+            }
+            68% {
+                transform: scale(1.03);
+                text-shadow:
+                    -6px 0 rgba(76, 240, 106, 0.42), 6px 0 rgba(196, 92, 228, 0.40),
+                    0 0 22px rgba(150, 255, 172, 0.48);
+            }
+            100% {
+                transform: scale(1);
+                text-shadow:
+                    -2px 0 rgba(67, 230, 95, 0.42), 2px 0 rgba(185, 76, 214, 0.38),
+                    0 0 17px rgba(93, 238, 111, 0.46);
+            }
+        }
+
+        @keyframes foundRing {
+            0%   { opacity: 0.95; width: 14px; height: 14px; margin: -7px 0 0 -7px; border-width: 2px; }
+            70%  { opacity: 0.30; }
+            100% { opacity: 0; width: 780px; height: 780px; margin: -390px 0 0 -390px; border-width: 0.5px; }
+        }
+
+        @keyframes wfRecoil {
+            0%   { transform: translateX(0)     skewX(0deg);    filter: none; }
+            18%  { transform: translateX(-7px)  skewX(-1.4deg); filter: hue-rotate(30deg) saturate(1.5); }
+            44%  { transform: translateX(6px)   skewX(1.1deg);  filter: hue-rotate(-28deg); }
+            72%  { transform: translateX(-2.5px) skewX(-0.4deg); filter: saturate(1.2); }
+            100% { transform: translateX(0)     skewX(0deg);    filter: none; }
+        }
+
+        @keyframes wfHeartbeat {
+            0%, 100% { filter: blur(20px) brightness(1); }
+            8%       { filter: blur(20px) brightness(calc(1 + var(--wf-pulse, 0) * 0.80)); }
+            17%      { filter: blur(20px) brightness(1); }
+            26%      { filter: blur(20px) brightness(calc(1 + var(--wf-pulse, 0) * 0.42)); }
+            38%      { filter: blur(20px) brightness(1); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .wf-eye .lid,
+            .wf-beast,
+            #wake-fragment .warp-mist,
+            .wf-detonation,
+            #found-you.found-impact,
+            #found-you.found-impact::before,
+            .warrant-stratum p.wf-recoil {
+                animation: none !important;
+            }
+            .wf-eye .lid { transform: scaleY(0.02); }
+        }
+
         /* Scribe's transcription slip - the OOC block */
         .scribe-slip {
             border: 1px solid rgba(216,163,60,0.5);
@@ -2902,7 +3252,7 @@
                                     <p>&ldquo;Then the borrowed face wearing mine smiled.&rdquo;</p>
                                     <p>&ldquo;Something touched the far end of the green strands.&rdquo;</p>
                                     <p>&ldquo;And touched me back.&rdquo;</p>
-                                    <p class="whisper-line many-voice">FOUND YOU.</p>
+                                    <p class="whisper-line many-voice" id="found-you">FOUND YOU.</p>
                                     <p>&ldquo;The page of the world seemed to shift sideways.&rdquo;</p>
                                     <p>&ldquo;The trench was there and not there.&rdquo;</p>
                                     <p>&ldquo;The creature was in front of me and behind my eyes.&rdquo;</p>
@@ -3800,7 +4150,10 @@
         }
         field.dataset.warpInit = 'true';
 
+        const voxRoot = field.querySelector('.vox-log');
         const deepRoot = document.getElementById('wake-fragment');
+        const apexStage = field.querySelector('.apex-stage');
+        const foundLine = document.getElementById('found-you');
         const deepAtmos = deepRoot ? deepRoot.querySelector('.warp-atmosphere') : null;
         const finalRoot = document.getElementById('final-fragment');
         const codaRoot = document.getElementById('finale-coda');
@@ -4105,6 +4458,171 @@
             tears.push(t);
         }
 
+        // ---------- stage register (lean + sigil clamp targets) ----------------
+        const stages = Array.prototype.slice.call(field.querySelectorAll('.warp-stage'));
+        stages.forEach((st, i) => { st.dataset.leanDir = (i % 2) ? '-' : '+'; st._h = 0; });
+
+        // Reading offsetHeight inside the scroll loop would force a synchronous
+        // reflow per stage per frame. Heights only change on resize or reveal, so
+        // they are measured in one batch and cached.
+        function measureStages() {
+            stages.forEach((st) => {
+                st._h = st.offsetHeight;
+                if (st._h) st.style.setProperty('--sigil-run', `${Math.max(70, st._h - 26).toFixed(0)}px`);
+            });
+        }
+
+        // ---------- the eye field ---------------------------------------------
+        // Lens geometry shared by sclera and lid, so a vertically scaled lid closes
+        // the eye exactly without needing a clip-path per instance.
+        const EYE_LENS = 'M2 17 C 14 3, 46 3, 58 17 C 46 31, 14 31, 2 17 Z';
+        const eyes = [];
+
+        function buildEyes(target, count, opts) {
+            for (let i = 0; i < count; i++) {
+                const svg = document.createElementNS(SVG_NS, 'svg');
+                svg.setAttribute('class', 'wf-eye');
+                svg.setAttribute('viewBox', '0 0 60 34');
+                svg.setAttribute('aria-hidden', 'true');
+                const w = rnd(opts.min, opts.max);
+                svg.style.width = `${w.toFixed(0)}px`;
+                svg.style.height = `${(w * 34 / 60).toFixed(0)}px`;
+                svg.style.left = `${rnd(4, 96).toFixed(2)}%`;
+                const yPct = (i + rnd(0.08, 0.92)) / count * 100;
+                svg.style.top = `${yPct.toFixed(2)}%`;
+                svg.style.setProperty('--e-rot', `${rnd(-26, 26).toFixed(1)}deg`);
+                svg.style.setProperty('--e-blink', `${rnd(5.5, 13).toFixed(2)}s`);
+                svg.style.setProperty('--e-delay', `${(-rnd(0, 12)).toFixed(2)}s`);
+                if (Math.random() < 0.26) {
+                    svg.style.setProperty('--e-stroke', 'rgba(186, 96, 220, 0.52)');
+                    svg.style.setProperty('--e-iris', 'rgba(172, 84, 206, 0.44)');
+                }
+
+                const sclera = document.createElementNS(SVG_NS, 'path');
+                sclera.setAttribute('class', 'sclera');
+                sclera.setAttribute('d', EYE_LENS);
+                svg.appendChild(sclera);
+
+                const iris = document.createElementNS(SVG_NS, 'circle');
+                iris.setAttribute('class', 'iris');
+                iris.setAttribute('cx', '30'); iris.setAttribute('cy', '17');
+                iris.setAttribute('r', rnd(6.5, 9).toFixed(1));
+                svg.appendChild(iris);
+
+                const pupil = document.createElementNS(SVG_NS, 'circle');
+                pupil.setAttribute('class', 'pupil');
+                pupil.setAttribute('cx', '30'); pupil.setAttribute('cy', '17');
+                pupil.setAttribute('r', rnd(2.6, 4.2).toFixed(1));
+                svg.appendChild(pupil);
+
+                const glint = document.createElementNS(SVG_NS, 'circle');
+                glint.setAttribute('class', 'glint');
+                glint.setAttribute('cx', '27'); glint.setAttribute('cy', '14');
+                glint.setAttribute('r', '1.3');
+                svg.appendChild(glint);
+
+                const lid = document.createElementNS(SVG_NS, 'path');
+                lid.setAttribute('class', 'lid');
+                lid.setAttribute('d', EYE_LENS);
+                svg.appendChild(lid);
+
+                // Eyes are a Chapter II+ phenomenon - none of them open in the crater.
+                svg.dataset.reveal = clamp01(0.30 + (1 - yPct / 100) * 0.42 + rnd(-0.05, 0.10)).toFixed(3);
+                svg.dataset.peak = (opts.peak || 0.26).toFixed(3);
+                target.appendChild(svg);
+                eyes.push(svg);
+            }
+        }
+
+        buildEyes(under, 14, { min: 26, max: 74, peak: 0.20 });
+        if (deepAtmos) buildEyes(deepAtmos, 12, { min: 30, max: 96, peak: 0.30 });
+
+        // ---------- the shape in the fog --------------------------------------
+        // Lives inside the flensing fragment only, behind the prose. Antlers, a
+        // hunched mass, arms too long for it, and faces pressed out from inside.
+        let beast = null;
+
+        function buildBeast(stage) {
+            if (!stage) return;
+            const layer = document.createElement('div');
+            layer.className = 'wf-beast-layer';
+            layer.setAttribute('aria-hidden', 'true');
+
+            const svg = document.createElementNS(SVG_NS, 'svg');
+            svg.setAttribute('class', 'wf-beast');
+            svg.setAttribute('viewBox', '0 0 320 470');
+            svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+
+            const mass = document.createElementNS(SVG_NS, 'path');
+            mass.setAttribute('class', 'mass');
+            mass.setAttribute('d',
+                'M160 96 C 141 96, 129 112, 127 132 C 125 152, 117 163, 109 179 ' +
+                'C 96 204, 90 238, 92 277 C 94 326, 105 372, 113 414 ' +
+                'L 207 414 C 215 372, 226 326, 228 277 C 230 238, 224 204, 211 179 ' +
+                'C 203 163, 195 152, 193 132 C 191 112, 179 96, 160 96 Z');
+            svg.appendChild(mass);
+
+            const limbs = [
+                'M113 200 C 84 222, 61 259, 51 305 C 45 334, 43 362, 47 387',
+                'M207 200 C 236 222, 259 259, 269 305 C 275 334, 277 362, 273 387',
+                'M47 387 L 38 434', 'M50 389 L 48 441', 'M55 387 L 66 436', 'M60 383 L 79 424',
+                'M273 387 L 282 434', 'M270 389 L 272 441', 'M265 387 L 254 436', 'M260 383 L 241 424'
+            ];
+            limbs.forEach((d) => {
+                const p = document.createElementNS(SVG_NS, 'path');
+                p.setAttribute('class', 'limb');
+                p.setAttribute('d', d);
+                svg.appendChild(p);
+            });
+
+            const antlers = [
+                'M143 98 C 136 74, 127 58, 109 44', 'M127 68 L 104 60', 'M117 54 L 100 34',
+                'M177 98 C 184 74, 193 58, 211 44', 'M193 68 L 216 60', 'M203 54 L 220 34',
+                'M133 84 L 112 78', 'M187 84 L 208 78'
+            ];
+            antlers.forEach((d) => {
+                const p = document.createElementNS(SVG_NS, 'path');
+                p.setAttribute('class', 'antler');
+                p.setAttribute('d', d);
+                svg.appendChild(p);
+            });
+
+            // The faces under its skin - rendered as the same lens shape, small.
+            for (let i = 0; i < 11; i++) {
+                const g = document.createElementNS(SVG_NS, 'g');
+                const sx = rnd(118, 202);
+                const sy = rnd(196, 396);
+                const sc = rnd(0.34, 0.68);
+                g.setAttribute('transform', `translate(${sx.toFixed(1)} ${sy.toFixed(1)}) scale(${sc.toFixed(2)}) rotate(${rnd(-20, 20).toFixed(1)} 30 17)`);
+                const lens = document.createElementNS(SVG_NS, 'path');
+                lens.setAttribute('class', 'facet');
+                lens.setAttribute('d', EYE_LENS);
+                g.appendChild(lens);
+                svg.appendChild(g);
+            }
+
+            layer.appendChild(svg);
+            stage.insertBefore(layer, stage.firstChild);
+            beast = svg;
+        }
+
+        // A denser knot of open eyes packed around the encounter itself. Built
+        // first so that the later buildBeast insert lands beneath it and the eyes
+        // read as opening in front of the shape rather than behind it.
+        let apexEyeLayer = null;
+        if (apexStage) {
+            apexEyeLayer = document.createElement('div');
+            apexEyeLayer.className = 'wf-beast-layer';
+            apexEyeLayer.setAttribute('aria-hidden', 'true');
+            apexStage.insertBefore(apexEyeLayer, apexStage.firstChild);
+            buildEyes(apexEyeLayer, 16, { min: 22, max: 68, peak: 0.34 });
+            // Ribbons that reach inward toward the reader rather than creeping
+            // across the margins - the strands closing on the subject.
+            buildTendrils(apexEyeLayer, 8, { minW: 200, maxW: 420, minH: 170, maxH: 380, peak: 0.30 });
+        }
+
+        buildBeast(apexStage);
+
         // ---------- whisper echoes ---------------------------------------------
         const whispers = Array.prototype.slice.call(field.querySelectorAll('.whisper-line'));
         whispers.forEach((w) => { w.dataset.echo = w.textContent; });
@@ -4149,6 +4667,8 @@
         let lastX = -1;
         let lastQ = -1;
         let armed = false;
+        let staring = false;
+        let staringLock = false;
 
         // The whole field is dormant until the PRIVATE MEMORY-LOG censor bar is
         // broken. #wake-fragment lives inside that block's .redact-hidden wrapper,
@@ -4220,15 +4740,27 @@
             // remains visually stable even after unsealing; the field wakes as the
             // reader descends into #wake-fragment. Chapter III then adds a second,
             // steeper gain curve and never fully calms down again.
+            // Chapter I used to contribute nothing, so the crater log read as
+            // completely clean paper. It now carries the first 20% of the climb:
+            // barely anything at the whistle, a definite stain by the third body.
+            const chapterOne = voxRoot && voxRoot.offsetHeight ? progressThrough(voxRoot) : 0;
             const chapterTwo = rawD;
             const chapterThree = clamp01((x - 0.015) / 0.82);
             const quiet = clamp01(codaDepth * 0.08); // residue only; no cleanup pass
             const rise = clamp01((x - 0.035) / 0.60);
             const apex = Math.sin(rise * Math.PI * 0.5);
 
-            const f = clamp01(chapterTwo * 0.82 + chapterThree * 0.46);
-            const d = clamp01(chapterTwo * 0.94 + chapterThree * 0.50);
-            const amp = 1 + chapterThree * 0.58 + apex * 0.52;
+            // Each term saturates before the next begins, so the composite climbs
+            // monotonically across the three chapters instead of resetting.
+            const f = clamp01(chapterOne * 0.20 + chapterTwo * 0.66 + chapterThree * 0.44);
+            const d = clamp01(chapterOne * 0.10 + chapterTwo * 0.90 + chapterThree * 0.50);
+            const amp = 1 + chapterTwo * 0.10 + chapterThree * 0.58 + apex * 0.52;
+
+            field.style.setProperty('--ch1', chapterOne.toFixed(3));
+            field.style.setProperty('--ch2', chapterTwo.toFixed(3));
+            field.style.setProperty('--ch3', chapterThree.toFixed(3));
+            field.style.setProperty('--wf-pulse', Math.max(chapterTwo * 0.45, chapterThree * 0.8, apex).toFixed(3));
+            if (voxRoot) voxRoot.style.setProperty('--c1', chapterOne.toFixed(3));
 
             field.classList.toggle('warp-finale-live', x > 0.025);
             field.classList.remove('warp-stilled');
@@ -4262,9 +4794,10 @@
                 deepRoot.style.setProperty('--warp-stage-pattern-opacity', Math.min(0.72, 0.08 + d * 0.41 + apex * 0.18).toFixed(3));
                 deepRoot.style.setProperty('--warp-stage-spacing', `${(4 + d * 8 + apex * 7).toFixed(2)}px`);
                 deepRoot.style.setProperty('--warp-mist-opacity', Math.min(0.74, 0.04 + d * 0.49 + apex * 0.18).toFixed(3));
-                // Later terminal fragments visibly lean out of alignment without
-                // ever rotating enough to make the prose hard to follow.
-                deepRoot.style.setProperty('--warp-lean', `${(d * 0.44 + apex * 0.18).toFixed(3)}deg`);
+                // Lean is applied per stage below, not here - a single shared angle
+                // displaced tall stages by 20px+ at their feet and pushed their last
+                // lines over the following stage's first ones.
+                deepRoot.style.setProperty('--warp-lean', '0deg');
             }
 
             // --- per-element reveals ---
@@ -4323,12 +4856,46 @@
                     : `rgba(96, 232, 114, ${(strength * 0.60).toFixed(3)})`;
             });
 
+            eyes.forEach((e) => {
+                const reveal = parseFloat(e.dataset.reveal || '0');
+                const peak = parseFloat(e.dataset.peak || '0.26');
+                const strength = clamp01((f - reveal) / 0.26);
+                e.style.opacity = Math.min(0.78, strength * peak * amp).toFixed(3);
+                e.style.setProperty('--e-scale', (0.62 + strength * 0.62 + apex * 0.22).toFixed(3));
+            });
+
+            // Past the flensing they stop blinking and simply watch. Toggled only
+            // on transition rather than every frame across 40+ nodes.
+            const wantStare = staringLock || apex > 0.62;
+            if (wantStare !== staring) {
+                staring = wantStare;
+                eyes.forEach((e) => e.classList.toggle('staring', staring));
+            }
+
+            if (beast) {
+                // Resolves out of the fog: blur falls away and the mass settles as
+                // the apex climbs, but never gets sharp enough to be a picture.
+                beast.style.opacity = Math.min(0.17, apex * 0.17).toFixed(3);
+                beast.style.setProperty('--b-blur', `${(30 - apex * 21).toFixed(1)}px`);
+                beast.style.setProperty('--b-scale', (1.32 - apex * 0.24).toFixed(3));
+            }
+
             runeRows.forEach((r) => {
                 const reveal = parseFloat(r.dataset.reveal || '0');
                 const peak = parseFloat(r.dataset.peak || '0.15');
                 const strength = clamp01((f - reveal) / 0.26);
                 r.style.opacity = Math.min(0.48, strength * peak * amp).toFixed(3);
                 r.style.setProperty('--r-space', `${(5 + strength * 16).toFixed(1)}px`);
+            });
+
+            // A fixed rotation angle displaces a tall block far more than a short
+            // one. Solving for a constant ~9px drift at the foot of each stage keeps
+            // every fragment visibly askew without any of them colliding.
+            const maxDrift = 6 + d * 3 + apex * 2.5;
+            stages.forEach((st) => {
+                if (!st._h) return;
+                const deg = Math.atan2(maxDrift, st._h) * (180 / Math.PI);
+                st.style.setProperty('--warp-lean', `${(deg * (st.dataset.leanDir === '-' ? -1 : 1)).toFixed(4)}deg`);
             });
 
             whispers.forEach((w) => {
@@ -4383,12 +4950,19 @@
         }
 
         function infest(p, intensity) {
-            p.dataset.infest = Math.random() < 0.4 ? runeString(2) : pick(GLYPHS);
-            p.style.setProperty('--inf-x', `${rnd(12, 88).toFixed(1)}%`);
-            p.style.setProperty('--inf-y', `${rnd(18, 82).toFixed(1)}%`);
-            p.style.setProperty('--inf-size', `${rnd(1.6, 4.4).toFixed(2)}rem`);
+            // Chapter III is mostly one-line paragraphs. A 4.4rem glyph dropped on
+            // a single line buries it, so the sigil is scaled to the block it lands
+            // on and faded further on short ones.
+            const h = p.getBoundingClientRect().height || 24;
+            const lines = Math.max(1, Math.round(h / 26));
+            const size = Math.max(1.15, Math.min(4.2, h / 26));
+            const shortFade = lines <= 2 ? 0.45 : 1;
+            p.dataset.infest = (lines > 2 && Math.random() < 0.4) ? runeString(2) : pick(GLYPHS);
+            p.style.setProperty('--inf-x', `${rnd(14, 86).toFixed(1)}%`);
+            p.style.setProperty('--inf-y', `${rnd(20, 80).toFixed(1)}%`);
+            p.style.setProperty('--inf-size', `${size.toFixed(2)}rem`);
             p.style.setProperty('--inf-rot', `${rnd(-45, 45).toFixed(1)}deg`);
-            p.style.setProperty('--inf-alpha', (0.08 + intensity * 0.20).toFixed(3));
+            p.style.setProperty('--inf-alpha', ((0.08 + intensity * 0.20) * shortFade).toFixed(3));
             p.classList.add('wf-infested');
             setTimeout(() => {
                 p.classList.remove('wf-infested');
@@ -4467,6 +5041,113 @@
             }, delay);
         }
 
+        // ---------- FOUND YOU // the contact event ---------------------------------
+        // A single scripted detonation, fired the first time the line is actually
+        // on screen. Everything it touches is additive and self-clearing, so the
+        // record is never left in a broken state if the reader scrolls away mid-way.
+        let foundFired = false;
+
+        function foundYouDetonation() {
+            if (foundFired || !foundLine || reduceMotion) return;
+            foundFired = true;
+
+            // 1. the line itself splits into voices and snaps back
+            flashClass(foundLine, 'found-impact', 1700);
+
+            // 2. white-out centred on the line itself, measured at fire time so it
+            //    lands on the reader's viewport rather than the midpoint of a
+            //    six-thousand-pixel container.
+            const fr = field.getBoundingClientRect();
+            const lr = foundLine.getBoundingClientRect();
+            if (fr.height) {
+                const flash = document.createElement('div');
+                flash.className = 'wf-detonation';
+                flash.setAttribute('aria-hidden', 'true');
+                flash.style.top = `${(((lr.top + lr.height / 2) - fr.top) / fr.height * 100).toFixed(3)}%`;
+                field.appendChild(flash);
+                setTimeout(() => flash.remove(), 1900);
+            }
+
+            // 3. the descent takes the hit
+            if (deepRoot) flashClass(deepRoot, 'wf-jolt', 620);
+
+            // 4. every eye in the appendix opens and holds
+            staringLock = true;
+            staring = true;
+            eyes.forEach((e) => e.classList.add('staring'));
+
+            // 5. tear cascade - two passes down the page
+            tears.forEach((t, i) => {
+                setTimeout(() => {
+                    t.style.top = `${(8 + (i / tears.length) * 84).toFixed(1)}%`;
+                    flashClass(t, 'fire', 470);
+                }, i * 55);
+                setTimeout(() => {
+                    t.style.top = `${rnd(6, 94).toFixed(1)}%`;
+                    flashClass(t, 'fire', 470);
+                }, 520 + i * 70);
+            });
+
+            // 6. scanline bursts
+            flashClass(scan, 'fire', 340);
+            setTimeout(() => flashClass(scan, 'fire', 340), 430);
+            setTimeout(() => flashClass(scan, 'fire', 340), 940);
+
+            // 7. glyph storm
+            for (let i = 0; i < 26; i++) setTimeout(rerollGlyph, i * 26);
+
+            // 8. the paragraphs around the line recoil outward in sequence
+            const stage = foundLine.closest('.warp-stage');
+            if (stage) {
+                const kin = Array.prototype.slice.call(stage.querySelectorAll('p'));
+                const idx = kin.indexOf(foundLine);
+                for (let step = 1; step <= 7; step++) {
+                    const before = kin[idx - step];
+                    const after = kin[idx + step];
+                    const delay = 70 + step * 62;
+                    if (before) setTimeout(() => flashClass(before, 'wf-recoil', 680), delay);
+                    if (after) setTimeout(() => flashClass(after, 'wf-recoil', 680), delay);
+                }
+                setTimeout(() => {
+                    const pool = kin.filter((n) => n !== foundLine && !n.querySelector('*'));
+                    for (let i = 0; i < 4 && pool.length; i++) {
+                        corruptText(pick(pool), 0.95);
+                    }
+                }, 260);
+            }
+
+            // 9. something answers on the vox horn
+            if (window.playTone) {
+                try {
+                    playTone(41, 'sine', 1.9, 0.16);
+                    playTone(62, 'triangle', 1.3, 0.09);
+                    setTimeout(() => playTone(33, 'sine', 2.4, 0.13), 180);
+                    setTimeout(() => playTone(97, 'sawtooth', 0.5, 0.05), 340);
+                } catch (e) { /* audio not unlocked yet - silent is fine */ }
+            }
+
+            // The eyes go back to blinking, but the field never returns to where
+            // it was: updateDepth keeps them staring while the apex stays high.
+            setTimeout(() => {
+                staringLock = false;
+                requestUpdate();
+            }, 5200);
+        }
+
+        if (foundLine && 'IntersectionObserver' in window) {
+            try {
+                const io2 = new IntersectionObserver((entries) => {
+                    entries.forEach((en) => {
+                        if (en.isIntersecting && armed) {
+                            foundYouDetonation();
+                            io2.disconnect();
+                        }
+                    });
+                }, { root: (host && host.scrollHeight > host.clientHeight + 2) ? host : null, threshold: 0.9 });
+                io2.observe(foundLine);
+            } catch (e) { /* observer unavailable - the line simply reads plainly */ }
+        }
+
         // ---------- wiring ---------------------------------------------------------
         let ticking = false;
         const requestUpdate = () => {
@@ -4482,12 +5163,11 @@
         // as a fallback for any other ancestor that ends up scrolling instead.
         if (host) host.addEventListener('scroll', requestUpdate, { passive: true });
         window.addEventListener('scroll', requestUpdate, { passive: true, capture: true });
-        window.addEventListener('resize', requestUpdate);
 
         // Sealed blocks expand the page by thousands of pixels when unsealed, so a
         // full re-measure is exposed for revealRedact() to call.
         window.warpRefresh = function() {
-            const full = () => { lastF = -1; lastD = -1; requestUpdate(); };
+            const full = () => { lastF = -1; lastD = -1; lastX = -1; lastQ = -1; measureStages(); requestUpdate(); };
             full();
             setTimeout(full, 60);
             setTimeout(full, 320);
@@ -4496,14 +5176,17 @@
 
         if (window.ResizeObserver) {
             try {
-                const ro = new ResizeObserver(requestUpdate);
+                const ro = new ResizeObserver(() => { measureStages(); requestUpdate(); });
                 ro.observe(field);
             } catch (e) { /* non-fatal */ }
         }
 
+        window.addEventListener('resize', () => { measureStages(); requestUpdate(); });
+
         // Starts sealed. arm() fires the scheduler the first time updateDepth()
         // sees the log opened, which revealRedact() -> warpRefresh() triggers.
         disarm();
+        measureStages();
         updateDepth(true);
     }
 
