@@ -1818,11 +1818,20 @@
             pointer-events: none;
         }
 
+        /* The plate is a flat black silhouette on transparency (304x625). The
+           element is shared by the artwork and the generated fallback, so both
+           are driven by the same --b-blur / --b-scale / --b-rim contract.
+
+           The plate is used exactly as drawn - alpha untouched, every tine, drip
+           and toe intact. Only the ink was changed, to a deep green-black that
+           sits in the dataslate's palette. It stays unknowable through the depth
+           driver instead: blur never resolves below 5px and opacity caps at 0.34,
+           so it is always something half-seen through fog. */
         .wf-beast {
             position: absolute;
             left: 50%;
             top: 62%;
-            width: min(66%, 400px);
+            width: min(52%, 312px);
             height: auto;
             opacity: 0;
             transform: translate(-50%, -50%) scale(var(--b-scale, 1.24));
@@ -1833,6 +1842,10 @@
             transition: opacity 1.4s ease, filter 1.4s ease, transform 1.8s ease;
             animation: wfBeastSway 13s ease-in-out infinite alternate;
         }
+
+        /* No brightness() here: the plate is already inked to the dataslate,
+           and forcing it to pure black would flatten out the green cast. */
+        img.wf-beast { display: block; }
 
         /* Black silhouette. On a near-black page a pure black fill reads as
            nothing, so the whole figure carries ONE root-level glow (see the
@@ -4859,12 +4872,8 @@
             return out;
         }
 
-        function buildBeast(stage) {
-            if (!stage) return;
-            const layer = document.createElement('div');
-            layer.className = 'wf-beast-layer';
-            layer.setAttribute('aria-hidden', 'true');
-
+        // Fallback only: used if fog_shape.png is not sitting beside index.html.
+        function buildBeastSvg(layer) {
             const svg = document.createElementNS(SVG_NS, 'svg');
             svg.setAttribute('class', 'wf-beast');
             svg.setAttribute('viewBox', `0 ${BEAST_TOP} ${BEAST_W} ${BEAST_H}`);
@@ -5009,8 +5018,30 @@
             }
 
             layer.appendChild(svg);
+            return svg;
+        }
+
+        function buildBeast(stage) {
+            if (!stage) return;
+            const layer = document.createElement('div');
+            layer.className = 'wf-beast-layer';
+            layer.setAttribute('aria-hidden', 'true');
             stage.insertBefore(layer, stage.firstChild);
-            beast = svg;
+
+            const img = document.createElement('img');
+            img.className = 'wf-beast';
+            img.src = 'fog_shape.png';
+            img.alt = '';
+            img.setAttribute('aria-hidden', 'true');
+            // If the plate was not copied across, drop back to the generated
+            // silhouette rather than leaving the flensing fragment empty.
+            img.addEventListener('error', () => {
+                img.remove();
+                beast = buildBeastSvg(layer);
+                requestUpdate();
+            }, { once: true });
+            layer.appendChild(img);
+            beast = img;
         }
 
         // A denser knot of open eyes packed around the encounter itself. Built
