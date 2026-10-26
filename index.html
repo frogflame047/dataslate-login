@@ -2316,6 +2316,38 @@
             .img-grid { --pict-width: min(300px, 82vw); }
         }
 
+        /* Fractured Corridor II — cryptographic routes, memory ledger, final reconstruction. */
+        .fracture-protocol{border:1px solid rgba(175,132,89,.47);margin:15px 0 8px;background:rgba(9,12,11,.72);padding:10px 12px;color:#bda48f}
+        .fracture-tool{font:1.04rem 'VT323',monospace;letter-spacing:1.2px;text-align:left;border:1px solid rgba(192,143,102,.45);color:#e4bea0;background:#1e1715;padding:8px 12px;cursor:pointer;min-height:38px}
+        .fracture-tool:hover,.fracture-tool:focus-visible{border-color:#edbb83; background:#503024;outline-offset:2px}
+        .fracture-protocol .fracture-tool{width:100%;display:flex;align-items:center;justify-content:space-between;background:transparent;border:0;padding:2px 0 9px;color:#e0bb91}
+        .fracture-protocol-body p{font:1.04rem/1.32 'VT323',monospace;letter-spacing:.55px;margin:8px 0!important;color:#b5a89b}
+        .fracture-protocol-body strong{color:#e0bf90;font-weight:normal}
+        .fracture-protocol-body .fracture-red-rule{color:#e1a096}
+        .fracture-ring{text-align:center;padding:10px 3px;font:clamp(1.07rem,2.3vw,1.43rem) 'VT323',monospace;letter-spacing:2px;color:#e6d2a9;border:1px dashed rgba(197,154,105,.4);overflow-wrap:anywhere}
+        .fracture-signal{display:flex;gap:9px;flex-wrap:wrap;padding:10px 0;font:1.09rem 'VT323',monospace;letter-spacing:.9px;color:#efc99f}
+        .fracture-signal span{border:1px solid rgba(190,118,95,.44);padding:7px 9px;flex:1;text-align:center;white-space:nowrap;min-width:110px;background:#1e1312}
+        #fracture-ledger-toggle{width:100%;display:flex;justify-content:space-between;margin:4px 0 9px}
+        .fracture-ledger{max-height:250px;overflow:auto;border:1px solid rgba(185,133,95,.44);padding:8px 12px;background:rgba(13,16,14,.9);margin-bottom:11px}
+        .fracture-ledger-entry{font:1.06rem/1.25 'VT323',monospace;color:#bcae97;padding:7px 0;border-bottom:1px dotted rgba(187,133,106,.2)}
+        .fracture-ledger-entry strong{color:#e6c3a0;font-weight:normal}
+        .fracture-ledger-empty{font:1.06rem 'VT323',monospace;color:#9c8a76}
+        .fracture-seal{border:1px solid #b86e55;background:repeating-linear-gradient(90deg,rgba(106,39,32,.13) 0 1px,transparent 1px 13px),rgba(28,10,11,.82);padding:17px 14px;margin-top:15px}
+        .fracture-seal[hidden],.fracture-ledger[hidden],.fracture-protocol-body[hidden],#loop-choices[hidden]{display:none!important}
+        .fracture-seal-heading{font:1.24rem 'VT323',monospace;letter-spacing:1.4px;color:#ecc3a1}
+        .fracture-seal p{font:1.09rem/1.32 'VT323',monospace;color:#d2b0a1}
+        .fracture-seal strong{color:#efd4a8}
+        .fracture-seal-input{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:14px 0}
+        .fracture-seal-input span{display:grid;place-items:center;min-height:49px;border:1px solid #995a4e;background:rgba(34,13,15,.7);font:1.9rem Georgia,serif;color:#f6dcba}
+        .fracture-seal-keys{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+        .fracture-seal-keys button{min-width:0;min-height:43px;cursor:pointer;border:1px solid #9c755d;color:#f0cbab;background:#362121;font:1.5rem Georgia,serif}
+        .fracture-seal-keys button:hover,.fracture-seal-keys button:focus-visible{background:#744232;border-color:#f2c69c}
+        .fracture-seal-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+        .fracture-seal-actions .fracture-tool{flex:1;text-align:center}
+        .fracture-seal .fracture-seal-hint{font-size:.99rem;color:#a58c82;margin-top:12px!important}
+        .fracture-stage-4 .fracture-view{filter:contrast(1.16) saturate(.73)}
+        #loop-lock .fracture-tile.true-threshold{border-color:#bf8a64 !important;background:rgba(132,92,73,.25)!important}
+        @media(max-width:590px){.fracture-ring{letter-spacing:0;font-size:1.05rem}.fracture-seal-keys{grid-template-columns:repeat(4,minmax(0,1fr))}.fracture-seal-keys button{min-height:47px}}
         /* Section VIII — Fractured Corridor. Independent of Warrant authorization. */
         .recursive-section {
             margin: 42px 0 38px; padding: 22px 22px 30px;
@@ -3731,11 +3763,11 @@
             <div id="loop-lock" class="loop-lock fracture-stage-0">
                 <div class="loop-lock-title">++ FRACTURED CORRIDOR // ITERATIVE MEMORY LOCK ++</div>
                 <p>The archive contains a passage that cannot hold its shape. Rooms remember different things; corridors refuse to stay put. Somewhere beyond the last threshold, the record is waiting.</p>
-                <p class="loop-directions">The walls may change. Their scars do not. Watch what stays the same before choosing a door.</p>
+                <p class="loop-directions">The walls bear the origin, never the answer. Decode each threshold with the seven-mark dial; the corridor reverses its rules halfway through. Preserve what you witness. The last door demands proof.</p>
                 <button id="loop-start" class="loop-action" type="button">[ CROSS THE FIRST THRESHOLD ]</button>
                 <div id="loop-game" class="loop-game" hidden>
                     <div class="loop-game-status" aria-live="polite">
-                        <span id="loop-position">MEMORY 01 / 07</span>
+                        <span id="loop-position">MEMORY 01 / 07 // PASS I</span>
                         <span id="loop-cycles">RETURNS: 0</span>
                     </div>
                     <div class="fracture-meter" aria-label="Corridor decay"><span>STRUCTURAL DECAY</span><i></i><i></i><i></i><i></i></div>
@@ -3756,8 +3788,27 @@
                             <div id="fracture-echo" class="fracture-echo" aria-live="polite"></div>
                         </div>
                     </div>
-                    <div class="fracture-instruction">++ THREE DOORS // THE SIGNS LIE // THE SCAR REMAINS ++</div>
+                    <div class="fracture-protocol">
+                        <button type="button" id="fracture-protocol-toggle" class="fracture-tool" aria-expanded="true">[ DECODER // SEVEN-MARK DIAL ] <span>▾</span></button>
+                        <div id="fracture-protocol-body" class="fracture-protocol-body">
+                            <div class="fracture-ring" id="fracture-ring" aria-label="Seven symbol dial, read in this order">◈ &rarr; ⌁ &rarr; ✚ &rarr; ◇ &rarr; ✶ &rarr; ⊗ &rarr; ○ &rarr; ◈</div>
+                            <p>Begin at the <strong>etched wall mark</strong>. Count one symbol per <strong>signal pulse</strong>; never count the starting mark. <strong>DIRECT</strong> means follow the dial left to right. <strong>REFLECTED</strong> means read it right to left. The dial wraps at either end.</p>
+                            <p class="fracture-red-rule">After the fourth memory, the corridor <strong>inverts both directions</strong>. Nothing else is trustworthy. Exit names and the schematic change; only the glyphs are real.</p>
+                        </div>
+                    </div>
+                    <div class="fracture-signal" aria-live="polite"><span id="fracture-phase">PASS I / NORMAL POLARITY</span><span id="fracture-pulses">PULSE: ∣ ∣</span><span id="fracture-polarity">DIRECT</span></div>
+                    <button id="fracture-ledger-toggle" class="fracture-tool" type="button" aria-expanded="false">[ OPEN SCRATCHED LEDGER // MEMORY TRACES ] <span>▸</span></button>
+                    <div id="fracture-ledger" class="fracture-ledger" hidden><div id="fracture-ledger-entries"></div></div>
+                    <div class="fracture-instruction">++ THREE DOORS // WALL SCAR IS THE ORIGIN, NOT THE EXIT ++</div>
                     <div id="loop-choices" class="loop-choices" role="group" aria-label="Choose one of three passageways"></div>
+                    <div id="fracture-seal" class="fracture-seal" hidden>
+                        <div class="fracture-seal-heading">++ THE CARTRIDGE HAS NO EXIT // RECONSTRUCT THE FOUR ANCHORS ++</div>
+                        <p>Four places have left impressions that the corridor cannot repaint. Enter their scars in this order: <strong>the wound that was once tended</strong>, <strong>the vow that was never yours</strong>, <strong>the person permitted to flee</strong>, <strong>the killing interrupted by an order</strong>.</p>
+                        <div id="fracture-seal-input" class="fracture-seal-input" aria-live="polite"></div>
+                        <div id="fracture-seal-keys" class="fracture-seal-keys" role="group" aria-label="Select four engraved symbols"></div>
+                        <div class="fracture-seal-actions"><button id="fracture-seal-clear" class="fracture-tool" type="button">[ ERASE THE LAST MARK ]</button><button id="fracture-seal-submit" class="fracture-tool" type="button">[ COMMIT THE MEMORY ]</button></div>
+                        <p class="fracture-seal-hint">The scratched ledger can be consulted. Another false reconstruction will fold the last chambers back over themselves.</p>
+                    </div>
                     <div id="loop-feedback" class="loop-feedback" role="status" aria-live="polite"></div>
                 </div>
             </div>
@@ -3887,189 +3938,156 @@
 
 <script>
 
-    // --- SECTION VIII / FRACTURED CORRIDOR ---
-    // Self-contained ordinary-login puzzle. Never reads or modifies Warrant access.
+    // --- SECTION VIII / FRACTURED CORRIDOR II ---
+    // Ordinary authenticated users, independent of warrant-only memory archive.
     (function setupFracturedCorridor(){
-        const rooms = [
-            { name:'THE RETURNING HALL', scar:'◈', label:'FRACTURED DIAMOND', scene:'A hallway of doors, each opening onto the back of someone wearing your coat. Antlers vanish around a turn before you reach it.', echo:'Footsteps approach from ahead. They have precisely your cadence.', repeat:'A voice behind the bulkhead says that if you keep walking, something will eventually change.' },
-            { name:'THE LOWER HAB', scar:'⌁', label:'DOUBLE SCAR', scene:'Water seeps through rusted decking. Small bodies move under the grates. You can hear a hundred hearts, but only one seems to be yours.', echo:'A child asks how far it is to the surface. Nobody answers.', repeat:'The hunger is gone. The instinct to keep running never left.' },
-            { name:'THE FIELD STATION', scar:'✚', label:'BROKEN SUTURE', scene:'A medic\'s table stands beneath a flickering lumen. The instruments have been sterilised; the stains beneath them have not.', echo:'The hands that learned to close wounds also learned where to open them.', repeat:'The patient has no face. Every time you look again, it has another.' },
-            { name:'THE UNRUNG BELL', scar:'◇', label:'HOLLOW VOW', scene:'A ceremonial aisle stretches through a military corridor. There is no ceremony here, yet a name you cannot bear to hear remains written on the wall.', echo:'You tell yourself that his happiness should be enough. It never is.', repeat:'A bell rings in the next room. The next room is empty. You still cannot make yourself leave.' },
-            { name:'THE RED PASSAGE', scar:'✶', label:'THORNED STAR', scene:'A hired gun is running away. A pale blade crosses the passage before he passes. The moment repeats; his last step never reaches the floor.', echo:'He was permitted to leave. Your hand decided otherwise.', repeat:'The blade remembers the movement. Each repetition grows easier.' },
-            { name:'THE KNEELING ROOM', scar:'⊗', label:'CLOSED CIRCLE', scene:'The mutant was a threat to the party, though scarcely to you. Its bones take a shape that serves no tactical purpose. Others recoil.', echo:'You were strong enough to end the fight. The cruelty came afterward.', repeat:'A second wounded gunman lies motionless nearby. You are stopped by an order before you can finish what you begin.' },
-            { name:'THE FALSE EXIT', scar:'○', label:'EMPTY RING', scene:'A door carries the word EXIT in peeling paint. Behind its small window you see yourself entering this very room.', echo:'The scythe is quiet. The thought of using it again is not.', repeat:'The door will not ask whether you have changed. It only asks whether you will keep the memory.' }
+        const rooms=[
+          {name:'THE RETURNING HALL',scar:'◈',label:'FRACTURED DIAMOND',pulse:2,mirror:false,scene:'A hallway bends until you see the back of your own coat. The doorway ahead opens behind you.',echo:'Her footsteps answer from somewhere in front. The marks on the doors change; the wound in the wall does not.',repeat:'The figure turns, too late. There is no face behind the antlers.'},
+          {name:'THE LOWER HAB',scar:'⌁',label:'DOUBLE SCAR',pulse:1,mirror:true,scene:'Water falls through grating. A hundred small heartbeats run underneath the floor. No one remembers the way up.',echo:'The hungry learned to run before they learned to speak.',repeat:'A child presses two palms to a closed hatch. The knocking has stopped.'},
+          {name:'THE FIELD STATION',scar:'✚',label:'BROKEN SUTURE',pulse:3,mirror:false,scene:'There is a medic’s table under the lumen. The instruments are sterile. The stains on the bedding are not.',echo:'The hands that learned to close wounds have discovered how to open them.',repeat:'A patient without a face waits beneath bloodied sheets. When you blink, it has yours.'},
+          {name:'THE UNRUNG BELL',scar:'◇',label:'HOLLOW VOW',pulse:2,mirror:true,scene:'The aisle is empty. You hear a ceremony behind the bulkhead, though no one has invited you inside.',echo:'You can say you are happy for him. You cannot persuade yourself to feel it.',repeat:'The bell keeps ringing. The words will not leave you, no matter which door you take.'},
+          {name:'THE RED PASSAGE',scar:'✶',label:'THORNED STAR',pulse:2,mirror:false,scene:'A hired gun runs past you after being granted leave to depart. The scythe moves; his running stops forever.',echo:'He had laid down the fight. You had not.',repeat:'Again the gunman rounds the corner. Again his last step never reaches the floor.'},
+          {name:'THE KNEELING ROOM',scar:'⊗',label:'CLOSED CIRCLE',pulse:3,mirror:true,scene:'The mutant had threatened the party. You hardly needed to exert yourself against it. Its remains bow in a shape no victory required.',echo:'Nearby, an unconscious attacker lies at your feet. Only another voice ordering you to stop prevents a second execution.',repeat:'The order sounds a heartbeat later each time. The weapon feels a little lighter.'},
+          {name:'THE FALSE EXIT',scar:'○',label:'EMPTY RING',pulse:1,mirror:false,scene:'The word EXIT hangs above a hatch. On the other side, another Anura is entering the same room.',echo:'You have escaped before. You have never managed to leave all of yourself behind.',repeat:'The corridor has gone silent. Whatever follows you needs no footsteps.'}
         ];
-        const lock = document.getElementById('loop-lock');
-        const start = document.getElementById('loop-start');
-        const game = document.getElementById('loop-game');
-        const manuscript = document.getElementById('loop-manuscript');
-        const choices = document.getElementById('loop-choices');
-        const feedback = document.getElementById('loop-feedback');
-        const traces = document.getElementById('fracture-traces');
-        const map = document.getElementById('fracture-map');
-        const meter = lock && lock.querySelectorAll('.fracture-meter i');
-        if (!lock || !start || !game || !manuscript || !choices || !feedback || !map || !traces) return;
-
-        const posLabel = document.getElementById('loop-position');
-        const cyclesLabel = document.getElementById('loop-cycles');
-        const roomLabel = document.getElementById('loop-ambient');
-        const clue = document.getElementById('loop-clue');
-        const echo = document.getElementById('fracture-echo');
-        const scarGlyph = document.getElementById('fracture-scar-glyph');
-        const scarLabel = document.getElementById('fracture-scar-label');
-        const directions = ['LEFT','STRAIGHT','RIGHT'];
-        const falseNames = ['EXIT','SAFE','HOME','WAKE','RETURN','FORGET'];
-        let position = 0, returns = 0, crossings = 0, unlocked = false;
-        let previousLayout = '', activeExits = [];
-        const visits = Array(rooms.length).fill(0);
-        const discovered = new Set();
-
-        // Uses shuffled exit locations. The etched glyph remains the only invariant.
-        function shuffled(arr) {
-            const copy = arr.slice();
-            for (let i=copy.length-1;i>0;i--) {
-                const j=Math.floor(Math.random()*(i+1));
-                [copy[i],copy[j]]=[copy[j],copy[i]];
-            }
-            return copy;
-        }
-        function exitsForRoom() {
-            const trueRoom=rooms[position];
-            const decoys=shuffled(rooms.filter((r,i)=>i!==position)).slice(0,2);
-            const exits=shuffled([{glyph:trueRoom.scar,label:trueRoom.label,correct:true},...decoys.map((r,i)=>({glyph:r.scar,label:r.label,correct:false,falseSign:false}))]);
-            const old=previousLayout;
-            if (old && exits.map(e=>e.glyph).join('')===old) exits.push(exits.shift());
-            previousLayout=exits.map(e=>e.glyph).join('');
-            if (crossings>=2) {
-                const fake=exits.find(e=>!e.correct);
-                if (fake) fake.falseSign = true;
-            }
-            return exits;
-        }
-        function decayStage(){ return Math.min(4,Math.floor((crossings+returns*2)/3)); }
-        function drawMap(exits) {
-            // Regenerate a schematic on EVERY crossing. Never trust its route geometry.
-            const w=9,h=7, path=new Set(['4,6']);
+        const glyphs=rooms.map(r=>r.scar), doors=['LEFT','STRAIGHT','RIGHT'];
+        const id=(name)=>document.getElementById(name);
+        const lock=id('loop-lock'), start=id('loop-start'), game=id('loop-game'), manuscript=id('loop-manuscript'),choices=id('loop-choices'),feedback=id('loop-feedback');
+        const traces=id('fracture-traces'),map=id('fracture-map'),ledger=id('fracture-ledger'),ledgerEntries=id('fracture-ledger-entries');
+        const meter=lock?lock.querySelectorAll('.fracture-meter i'):[];
+        const seal=id('fracture-seal'),sealInput=id('fracture-seal-input'),sealKeys=id('fracture-seal-keys');
+        if(!lock || !start || !game || !manuscript || !choices || !feedback || !map || !seal)return;
+        const signalPhase=id('fracture-phase'),signalPulse=id('fracture-pulses'),signalPolarity=id('fracture-polarity');
+        const glyphsToReconstruct=[rooms[2].scar,rooms[3].scar,rooms[4].scar,rooms[5].scar];
+        const scratchNotes=['A passage leading away returns behind you.','The underhive never offers the same staircase twice.','A broken suture was pressed into the station table.','The vow belongs to someone else. The bell rings regardless.','The hired gun had already been allowed to depart.','An order prevented another killing after the fighting stopped.','The word EXIT is painted on the inside of the door.'];
+        let position=0,returns=0,crossings=0,unlocked=false,layoutSerial=0,activeExits=[],lastLayout='',failedSeal=0;
+        let sealValues=[];
+        const visits=Array(rooms.length).fill(0),discovered=new Set();
+        function shuffle(arr){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+        function stage(){return Math.min(4,Math.floor((crossings+returns*2)/4));}
+        function actualTarget(){const r=rooms[position];const direction=(r.mirror?-1:1)*(position>=4?-1:1);const i=(position+direction*r.pulse+glyphs.length*10)%glyphs.length;return glyphs[i];}
+        function drawMap(){
+            // Every crossing reshuffles a purely schematic floor plan. No correct-route hints are written into the map.
+            const w=9,h=7, path=new Set(['4,6']), targets=[1,4,7];
             const add=(x,y)=>path.add(x+','+y);
-            const targets=[1,4,7];
-            for (let lane=0;lane<3;lane++) {
-                let oldX=4;
-                for(let y=5;y>=0;y--) {
-                    const t=targets[lane], fraction=(6-y)/6;
-                    let x=Math.round(4+(t-4)*fraction);
-                    if(y>0 && y<5 && Math.random()<.44) x+=Math.random()<.5?-1:1;
-                    x=Math.max(0,Math.min(8,x));
-                    for(let xx=Math.min(x,oldX);xx<=Math.max(x,oldX);xx++) add(xx,y);
-                    oldX=x;
+            for(let lane=0;lane<3;lane++){
+                let previousX=4;
+                for(let y=5;y>=0;y--){const t=targets[lane];let x=Math.round(4+(t-4)*(6-y)/6);
+                    if(y>0 && y<5 && Math.random()<.43) x+=Math.random()<.5?-1:1;
+                    x=Math.max(0,Math.min(8,x));for(let xx=Math.min(x,previousX);xx<=Math.max(x,previousX);xx++)add(xx,y);previousX=x;
                 }
-                for(let xx=Math.min(oldX,targets[lane]);xx<=Math.max(oldX,targets[lane]);xx++)add(xx,0);
+                for(let xx=Math.min(previousX,targets[lane]);xx<=Math.max(previousX,targets[lane]);xx++)add(xx,0);
             }
-            // Irrelevant dead ends alter each time the room reconfigures.
-            for (let i=0;i<7;i++) add(Math.floor(Math.random()*9),Math.floor(Math.random()*6));
+            for(let i=0;i<8;i++)add(Math.floor(Math.random()*9),Math.floor(Math.random()*6));
             const fragment=document.createDocumentFragment();
-            for(let y=0;y<h;y++) for(let x=0;x<w;x++){
-                const isDoor=y===0 && targets.includes(x);
-                const tile=document.createElement(isDoor?'button':'span');
-                tile.className='fracture-tile';
-                if(path.has(x+','+y)) tile.classList.add('hall');
-                if(y===0 && targets.includes(x)) {
-                    const door=targets.indexOf(x);
-                    tile.classList.add('threshold');
-                    if(exits[door].correct) tile.classList.add('true-threshold');
-                    tile.type='button';
-                    tile.textContent=String(door+1);
-                    tile.setAttribute('aria-label','Corridor '+(door+1)+', '+directions[door]+', '+exits[door].glyph);
-                    tile.addEventListener('click',()=>choose(door));
-                } else if(x===4 && y===6) tile.classList.add('player');
-                else if(returns>=2 && x===4 && y===3) tile.classList.add('ghost');
-                else if(crossings>=2 && path.has(x+','+y) && Math.random()<Math.min(.34,crossings*.03)) tile.classList.add('cracked');
+            for(let y=0;y<h;y++)for(let x=0;x<w;x++){
+                const atDoor=y===0&&targets.includes(x), tile=document.createElement(atDoor?'button':'span');tile.className='fracture-tile';
+                if(path.has(x+','+y))tile.classList.add('hall');
+                if(atDoor){const which=targets.indexOf(x);tile.classList.add('threshold');tile.type='button';tile.textContent=String(which+1);
+                    tile.setAttribute('aria-label','Passage '+(which+1)+' / '+doors[which]+' / '+activeExits[which].glyph);tile.addEventListener('click',()=>choose(which));}
+                else if(x===4 && y===6)tile.classList.add('player');
+                else if(returns>=2&&x===4&&y===3)tile.classList.add('ghost');
+                else if(crossings>=2&&path.has(x+','+y)&&Math.random()<Math.min(.4,crossings*.03))tile.classList.add('cracked');
                 fragment.appendChild(tile);
             }
-            map.replaceChildren(fragment);
-            document.getElementById('fracture-map-version').textContent='MAP '+String(crossings+1).padStart(3,'0');
+            map.replaceChildren(fragment);id('fracture-map-version').textContent='MAP '+String(layoutSerial).padStart(3,'0');
         }
-        function drawTraces(){
-            traces.replaceChildren();
+        function drawLedger(){
+            ledgerEntries.replaceChildren();
+            if(!discovered.size){const p=document.createElement('p');p.className='fracture-ledger-empty';p.textContent='NO RECOLLECTIONS STABLE.';ledgerEntries.appendChild(p);return;}
             rooms.forEach((r,i)=>{
-                const cell=document.createElement('span');
-                if(discovered.has(i)) cell.classList.add('seen');
-                if(i===position) cell.classList.add('active');
-                cell.textContent=discovered.has(i)?r.scar:'·';
-                cell.title=discovered.has(i)?r.name:'UNRECOVERED TRACE';
-                traces.appendChild(cell);
+                if(!discovered.has(i))return;
+                const div=document.createElement('div');div.className='fracture-ledger-entry';
+                const strong=document.createElement('strong');strong.textContent='['+String(i+1).padStart(2,'0')+'] '+r.scar+' // '+r.name+' — ';
+                div.append(strong,document.createTextNode(scratchNotes[i]));ledgerEntries.appendChild(div);
             });
         }
-        function render() {
-            const room=rooms[position];
-            const previouslyVisited=visits[position]>0;
-            visits[position]++;
-            discovered.add(position);
-            const stage=decayStage();
-            for(let i=0;i<=4;i++)lock.classList.toggle('fracture-stage-'+i,i===stage);
-            [...meter].forEach((segment,i)=>segment.classList.toggle('lit',i<stage));
-            posLabel.textContent='MEMORY '+String(position+1).padStart(2,'0')+' / '+String(rooms.length).padStart(2,'0');
-            cyclesLabel.textContent='RETURNS: '+returns+' // DISTORTION: '+stage+'/4';
-            roomLabel.textContent=room.name;
-            scarGlyph.textContent=room.scar;
-            scarLabel.textContent=room.label;
-            clue.textContent=room.scene;
-            echo.textContent=previouslyVisited || returns>=2 ? room.repeat : room.echo;
-            activeExits=exitsForRoom();
-            choices.replaceChildren();
-            activeExits.forEach((door,index)=>{
-                const btn=document.createElement('button');
-                btn.type='button'; btn.className='loop-choice';
-                btn.dataset.correct=door.correct?'true':'false';
-                const dir=document.createElement('span');dir.className='fracture-choice-dir';dir.textContent='['+(index+1)+'] '+directions[index];
-                const glyph=document.createElement('span');glyph.className='fracture-choice-mark';glyph.textContent=door.glyph;
-                const name=document.createElement('span');name.className='fracture-choice-name';name.textContent=door.falseSign?falseNames[(crossings+index)%falseNames.length]:door.label;
-                btn.append(dir,glyph,name);
-                btn.setAttribute('aria-label',directions[index]+', '+name.textContent+', mark '+door.glyph);
-                btn.addEventListener('click',()=>choose(index));
-                choices.appendChild(btn);
+        function drawTraces(){traces.replaceChildren();rooms.forEach((r,i)=>{const cell=document.createElement('span');
+            if(discovered.has(i))cell.classList.add('seen');if(i===position)cell.classList.add('active');
+            cell.textContent=discovered.has(i)?r.scar:'·';cell.title=discovered.has(i)?r.name:'UNRECOVERED TRACE';traces.appendChild(cell);
+        });}
+        function render(){
+            const r=rooms[position],visited=visits[position]>0;visits[position]++;discovered.add(position);layoutSerial++;
+            const decay=stage();for(let i=0;i<=4;i++)lock.classList.toggle('fracture-stage-'+i,i===decay);
+            [...meter].forEach((e,i)=>e.classList.toggle('lit',i<decay));
+            id('loop-position').textContent='MEMORY '+String(position+1).padStart(2,'0')+' / '+rooms.length+' // '+(position>=4?'PASS II':'PASS I');
+            id('loop-cycles').textContent='RETURNS: '+returns+' // DISTORTION: '+decay+'/4';
+            id('loop-ambient').textContent=r.name;id('fracture-scar-glyph').textContent=r.scar;id('fracture-scar-label').textContent=r.label;
+            id('loop-clue').textContent=r.scene;id('fracture-echo').textContent=visited?r.repeat:r.echo;
+            signalPhase.textContent=position>=4?'PASS II / INVERTED POLARITY':'PASS I / NORMAL POLARITY';
+            signalPulse.textContent='PULSE: '+Array(r.pulse).fill('│').join(' ');
+            signalPolarity.textContent=r.mirror?'REFLECTED':'DIRECT';
+            const target=actualTarget();const oppositeIndex=(position+(r.mirror?1:-1)*(position>=4?-1:1)*r.pulse+70)%7;
+            const decoys=shuffle(glyphs.filter(g=>g!==target));
+            // Counter-reading is a frequent deliberate false lead.
+            let wrong=[glyphs[oppositeIndex]];if(wrong[0]===target)wrong=[];
+            for(const x of decoys){if(wrong.length>=2)break;if(!wrong.includes(x))wrong.push(x);}
+            activeExits=shuffle([target,...wrong].map(g=>({glyph:g})));
+            const layout=activeExits.map(e=>e.glyph).join('');if(layout===lastLayout)activeExits.push(activeExits.shift());lastLayout=activeExits.map(e=>e.glyph).join('');
+            choices.replaceChildren();activeExits.forEach((door,i)=>{
+                const btn=document.createElement('button');btn.type='button';btn.className='loop-choice';
+                const d=document.createElement('span');d.className='fracture-choice-dir';d.textContent='['+(i+1)+'] '+doors[i];
+                const g=document.createElement('span');g.className='fracture-choice-mark';g.textContent=door.glyph;
+                const n=document.createElement('span');n.className='fracture-choice-name';n.textContent=['EXIT','HOME','REWIND','AWAKE','HERE','SAFE'][(crossings+i+position)%6];
+                btn.append(d,g,n);btn.setAttribute('aria-label',doors[i]+', engraving '+door.glyph+', '+n.textContent);btn.addEventListener('click',()=>choose(i));choices.appendChild(btn);
             });
-            drawMap(activeExits);drawTraces();
+            drawTraces();drawLedger();drawMap();
         }
-        function shudder(){
-            lock.classList.remove('is-looping');
-            void lock.offsetWidth;
-            lock.classList.add('is-looping');
-        }
+        function shudder(){lock.classList.remove('is-looping');void lock.offsetWidth;lock.classList.add('is-looping');}
         function complete(){
             unlocked=true;game.hidden=true;start.hidden=true;
             lock.querySelector('.loop-lock-title').textContent='++ MEMORY STRATUM RECONSTRUCTED // RECORD AVAILABLE ++';
-            lock.querySelector('.loop-directions').textContent='The corridor has not ended. The testimony is all that remains.';
-            feedback.textContent='';
-            manuscript.classList.add('is-unsealed');
-            manuscript.setAttribute('aria-hidden','false');
+            lock.querySelector('.loop-directions').textContent='The record can be recovered. The corridor is still here.';
+            feedback.textContent='';manuscript.classList.add('is-unsealed');manuscript.setAttribute('aria-hidden','false');
             if(typeof window.warpRefresh==='function')window.warpRefresh();
             manuscript.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
         }
+        function drawSeal(){
+            sealInput.replaceChildren();for(let i=0;i<4;i++){const v=document.createElement('span');v.textContent=sealValues[i]||'·';sealInput.appendChild(v);}
+            sealKeys.replaceChildren();shuffle(glyphs).forEach(g=>{const b=document.createElement('button');b.type='button';b.textContent=g;b.setAttribute('aria-label','Engrave '+g);
+                b.addEventListener('click',()=>{if(sealValues.length<4){sealValues.push(g);drawSeal();}});sealKeys.appendChild(b);});
+            id('fracture-seal-submit').disabled=sealValues.length!==4;
+        }
+        function showSeal(){
+            choices.hidden=true;seal.hidden=false;id('loop-position').textContent='MEMORY 07 / 07 // RECONSTRUCTION';
+            id('loop-ambient').textContent='THE FOURTH WALL';id('fracture-echo').textContent='All the doors open onto the same corridor. The cartridge requests four irreducible memories.';
+            id('fracture-scar-glyph').textContent='∴';id('fracture-scar-label').textContent='NO STABLE ENGRAVING';
+            id('loop-clue').textContent='You can recognize the shape of every threshold. Now reconstruct what you tried to leave behind.';
+            sealValues=[];drawSeal();feedback.textContent='++ NOTHING MAY BE ERASED FROM THE FIRST PASS ++';
+        }
         function choose(index){
-            if(unlocked || game.hidden || !activeExits[index])return;
-            const good=activeExits[index].correct;
+            if(unlocked||game.hidden||!seal.hidden||!activeExits[index])return;
             crossings++;
-            if(good){
-                if(position===rooms.length-1){complete();return;}
-                position++;
-                feedback.textContent='++ ONE MEMORY HOLDS // THE REST REARRANGE THEMSELVES ++';
+            if(activeExits[index].glyph===actualTarget()){
+                if(position===rooms.length-1){showSeal();return;}
+                position++;feedback.textContent='++ THIS PASSAGE HOLDS // THE FLOOR PLAN REWRITES ITSELF ++';
+                if(position===4)feedback.textContent='++ POLARITY FAILURE // BOTH DIRECTIONS HAVE INVERTED ++';
             } else {
-                returns++;
-                position=Math.max(0,position-(returns%3===0?2:1));
-                feedback.textContent=returns===1?'++ FALSE EXIT // AN OLD FOOTSTEP ANSWERS YOUR OWN ++':
-                    returns<4?'++ WRONG THRESHOLD // THE FLOOR PLAN HAS BEEN REWRITTEN ++':
-                    '++ YOU HAVE PASSED THIS WAY BEFORE // SOMETHING IS WAITING ++';
+                returns++;position=Math.max(0,position-(returns%4===0?3:2));
+                feedback.textContent=returns===1?'++ FALSE EXIT // YOU HEAR YOUR OWN STEPS RETURNING ++':
+                    returns<4?'++ THE ROOM HAS FOLDED OVER AN EARLIER MEMORY ++':'++ IT GETS EASIER TO MAKE THE SAME MISTAKE ++';
                 shudder();
             }
             render();
         }
+        id('fracture-seal-clear').addEventListener('click',()=>{sealValues.pop();drawSeal();});
+        id('fracture-seal-submit').addEventListener('click',()=>{
+            if(sealValues.length!==4)return;
+            if(sealValues.every((g,i)=>g===glyphsToReconstruct[i])){complete();return;}
+            failedSeal++;returns++;
+            if(failedSeal%2===0){position=4;seal.hidden=true;choices.hidden=false;
+                feedback.textContent='++ INVALID RECONSTRUCTION // THE LAST THREE ROOMS REOPEN ++';render();shudder();}
+            else{sealValues=[];drawSeal();feedback.textContent='++ NO // THESE SCARS DO NOT FOLLOW THAT ORDER ++';shudder();}
+        });
+        const protocolToggle=id('fracture-protocol-toggle'),protocolBody=id('fracture-protocol-body');
+        protocolToggle.addEventListener('click',()=>{protocolBody.hidden=!protocolBody.hidden;protocolToggle.setAttribute('aria-expanded',String(!protocolBody.hidden));});
+        id('fracture-ledger-toggle').addEventListener('click',()=>{ledger.hidden=!ledger.hidden;id('fracture-ledger-toggle').setAttribute('aria-expanded',String(!ledger.hidden));});
         start.addEventListener('click',()=>{
             if(unlocked)return;
-            start.hidden=true;game.hidden=false;
-            position=0;returns=0;crossings=0;visits.fill(0);discovered.clear();previousLayout='';
-            feedback.textContent='++ FIRST FOOTSTEP RECORDED // EXIT SIGNS ARE NOT EVIDENCE ++';
+            position=0;returns=0;crossings=0;failedSeal=0;sealValues=[];layoutSerial=0;unlocked=false;
+            visits.fill(0);discovered.clear();activeExits=[];lastLayout='';seal.hidden=true;choices.hidden=false;
+            start.hidden=true;game.hidden=false;feedback.textContent='++ CARTRIDGE INSERTED // THE WALL IS THE ORIGIN, NOT THE ANSWER ++';
             render();
-            const first=choices.querySelector('button');if(first)first.focus();
         });
     })();
 
