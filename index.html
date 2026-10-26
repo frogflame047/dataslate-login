@@ -2315,6 +2315,99 @@
         @media (max-width: 560px) {
             .img-grid { --pict-width: min(300px, 82vw); }
         }
+
+        /* Section VIII — Fractured Corridor. Independent of Warrant authorization. */
+        .recursive-section {
+            margin: 42px 0 38px; padding: 22px 22px 30px;
+            border: 1px solid rgba(179,111,75,.58);
+            background: repeating-linear-gradient(0deg, rgba(190,78,48,.025) 0px, rgba(190,78,48,.025) 1px, transparent 1px, transparent 5px), linear-gradient(180deg, rgba(27,11,10,.52), rgba(6,9,7,.8));
+            box-shadow: inset 0 0 36px rgba(55,10,8,.28);
+        }
+        .recursive-section .doc-section-title { color: #c9a08b; border-color: rgba(184,85,66,.48); }
+        .recursive-meta, .loop-overline, .loop-subtitle, .loop-end-mark, .loop-directions, .loop-game-status, .loop-feedback, .loop-ambient {
+            font-family: 'VT323', monospace; letter-spacing: 1.1px;
+        }
+        .recursive-meta { color:#bf8578; font-size:1.1rem; }
+        .recursive-intro { color:#cbb4a5; }
+        .loop-lock { --rot:#b59f77; --rot-soft:rgba(150,159,112,.22); border:1px solid rgba(166,79,63,.6); padding:16px; background:rgba(3,5,4,.63); transition:background .35s,border-color .35s; }
+        .loop-lock.fracture-stage-2 { --rot:#c69368; --rot-soft:rgba(184,109,73,.22); border-color:#926344; }
+        .loop-lock.fracture-stage-3, .loop-lock.fracture-stage-4 { --rot:#df806c; --rot-soft:rgba(195,57,51,.23); border-color:#ab3d34; background:linear-gradient(145deg,rgba(24,6,5,.85),rgba(4,8,7,.92)); }
+        .loop-lock-title { color:#db9582; font-family:'Cinzel',serif; letter-spacing:2px; font-size:.95rem; }
+        .loop-lock p { margin:.7rem 0 !important; }
+        .loop-directions { color:#b8ac90; font-size:1.12rem; }
+        .loop-action, .loop-choice {
+            border:1px solid #a76651; background:rgba(55,19,17,.72); color:#f2c3a6; font-family:'VT323',monospace;
+            font-size:1.15rem; letter-spacing:1px; cursor:pointer; padding:9px 12px; min-height:41px; transition:background .18s, box-shadow .18s, transform .18s;
+        }
+        .loop-action:hover, .loop-choice:hover { background:#733d2e; color:#fff; box-shadow:0 0 12px rgba(165,74,53,.28); }
+        .loop-action:focus-visible, .loop-choice:focus-visible { outline:2px solid #ecd49c; outline-offset:3px; }
+        .loop-game[hidden] { display:none !important; }
+        .loop-game { margin-top:18px; padding:14px 0 0; border-top:1px dashed rgba(189,110,90,.4); }
+        .loop-game-status { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; color:#dca78d; gap:10px; font-size:1.18rem; }
+        .fracture-meter { display:flex; gap:4px; align-items:center; margin:9px 0 12px; }
+        .fracture-meter span { font-family:'VT323',monospace; color:#bda994; padding-right:7px; white-space:nowrap; font-size:1rem; letter-spacing:1px; }
+        .fracture-meter i { display:block; flex:1; min-width:4px; height:5px; border:1px solid rgba(194,132,97,.35); background:rgba(105,71,59,.18); }
+        .fracture-meter i.lit { background:var(--rot); box-shadow:0 0 9px var(--rot-soft); }
+        .fracture-layout { display:grid; grid-template-columns:minmax(210px,.95fr) minmax(0,1.05fr); gap:18px; }
+        .fracture-view { min-width:0; border:1px solid rgba(153,115,86,.5); padding:12px; background:radial-gradient(ellipse at 50% 15%,rgba(66,87,64,.2),transparent 75%), #080b09; box-shadow: inset 0 0 32px rgba(0,0,0,.55); position:relative; overflow:hidden; }
+        .fracture-view:after { content:''; position:absolute; inset:0; background:repeating-linear-gradient(0deg,transparent 0px,transparent 3px,rgba(0,0,0,.18) 4px); pointer-events:none; }
+        .fracture-stage-3 .fracture-view:before, .fracture-stage-4 .fracture-view:before { content:'YOU WERE HERE'; position:absolute; z-index:2; top:46%; left:18%; transform:rotate(-12deg); font-family:'VT323',monospace; font-size:clamp(16px,2.4vw,33px); letter-spacing:5px; color:rgba(230,65,48,.21); pointer-events:none; }
+        .fracture-map-caption { display:flex; align-items:center; justify-content:space-between; font: 1rem 'VT323',monospace; color:#a68e77; letter-spacing:2px; margin-bottom:9px; }
+        .fracture-map { display:grid; grid-template-columns:repeat(9,minmax(0,1fr)); gap:2px; width:100%; aspect-ratio:9 / 7; }
+        .fracture-tile { min-width:0; min-height:0; background:rgba(32,34,27,.26); border:1px solid rgba(74,69,52,.1); position:relative; }
+        .fracture-tile.hall { background:linear-gradient(135deg,rgba(130,151,104,.25),rgba(71,76,57,.11)); border-color:rgba(127,149,107,.24); box-shadow:inset 0 0 6px rgba(126,140,96,.14); }
+        .fracture-stage-2 .fracture-tile.hall { background:rgba(141,107,77,.25); }
+        .fracture-stage-3 .fracture-tile.hall,.fracture-stage-4 .fracture-tile.hall { background:rgba(154,65,58,.32); border-color:rgba(196,73,61,.45); }
+        .fracture-tile.cracked:after { content:'╱'; position:absolute; inset:0; display:grid; place-items:center; color:rgba(223,99,76,.65); font: 1.2rem 'VT323',monospace; }
+        .fracture-tile.ghost:after { content:'♟'; position:absolute; inset:0; display:grid; place-items:center; color:rgba(221,79,70,.65); font-size:clamp(10px,1.8vw,21px); }
+        .fracture-tile.player { background:rgba(208,176,113,.28); box-shadow:0 0 12px rgba(213,179,111,.28); }
+        .fracture-tile.player:before { content:'◆'; position:absolute; inset:0; display:grid; place-items:center; color:#ead6a7; font-size:clamp(12px,2vw,24px); }
+        .fracture-tile.threshold { background:rgba(132,92,73,.25); border-color:#bf8a64; color:#e9c7a5; display:grid; place-items:center; font-family:'VT323',monospace; font-size:clamp(13px,1.8vw,20px); }
+        .fracture-tile.threshold { cursor:pointer; padding:0; }
+        .fracture-tile.threshold:hover { background:rgba(190,110,83,.54); box-shadow:0 0 12px rgba(190,110,83,.4); }
+        .fracture-tile.threshold:focus-visible { outline:2px solid #ecd49c; outline-offset:2px; z-index:3; }
+        .fracture-tile.threshold.true-threshold { border-color:#c3a87a; }
+        .fracture-console { min-width:0; display:flex; flex-direction:column; justify-content:center; }
+        .fracture-console-label { font:1rem 'VT323',monospace; letter-spacing:2px; color:#978f6a; margin-bottom:6px; }
+        .loop-ambient { font-size:1.5rem; padding:0 0 9px; color:#e5c9b5; line-height:1.2; border-bottom:1px solid rgba(182,121,94,.35); }
+        .fracture-scar { display:flex; gap:12px; align-items:center; margin:15px 0 4px; border:1px solid rgba(133,114,82,.35); padding:9px 12px; background:rgba(78,65,46,.12); }
+        .fracture-scar-glyph { font-size:2.15rem; width:48px; text-align:center; line-height:1; color:var(--rot); font-family:Georgia,serif; }
+        .fracture-scar-label { font:1.16rem 'VT323',monospace; color:#d0bea0; letter-spacing:1.6px; }
+        .fracture-scar small { display:block; font: .98rem 'VT323',monospace; color:#998c7e; letter-spacing:1px; }
+        #document-container .loop-clue { font-family:'Cormorant Garamond',serif; font-size:1.17rem; color:#d4b8a7; margin:13px 0 11px; line-height:1.45; }
+        .fracture-echo { font:1.08rem 'VT323',monospace; color:#b9947f; letter-spacing:.5px; border-left:2px solid rgba(182,84,70,.48); padding-left:10px; min-height:2.8rem; }
+        .fracture-instruction { font:1.08rem 'VT323',monospace; letter-spacing:1px; color:#ad9780; border-top:1px solid rgba(152,113,82,.25); margin:14px 0 8px; padding-top:11px; }
+        .loop-choices { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:9px; }
+        .loop-choice { overflow-wrap:anywhere; min-width:0; min-height:76px; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:5px; padding:8px; }
+        .fracture-choice-dir { font-size:.95rem; opacity:.72; }
+        .fracture-choice-mark { display:block; font-family:Georgia,serif; font-size:1.65rem; line-height:1.1; color:#d0bb91; }
+        .fracture-choice-name { font-size:1rem; }
+        .loop-feedback { min-height:2.5rem; padding-top:11px; color:#dc927e; font-size:1.08rem; }
+        .fracture-traces { display:flex; align-items:center; gap:7px; flex-wrap:wrap; margin:12px 0 0; }
+        .fracture-traces span { display:grid; place-items:center; border:1px solid rgba(141,110,81,.35); width:25px; height:25px; color:#665e51; font:1.1rem Georgia,serif; }
+        .fracture-traces span.seen { border-color:#b99a74; color:#d4bf98; background:rgba(130,112,78,.2); }
+        .fracture-traces span.active { box-shadow:0 0 12px rgba(205,127,88,.35); }
+        .loop-lock.is-looping { animation:loop-shudder .32s steps(3,end); }
+        @keyframes loop-shudder { 0%{transform:translateX(0)}25%{transform:translateX(3px)}50%{transform:translateX(-3px)}75%{transform:translateX(2px)}100%{transform:translateX(0)} }
+        #loop-manuscript { display:none !important; }
+        #loop-manuscript.is-unsealed { display:block !important; animation:memory-emerge .7s ease-out both; }
+        @keyframes memory-emerge { from{opacity:0;filter:blur(3px)}to{opacity:1;filter:none} }
+        .loop-document-header { text-align:center; margin:30px auto 25px; border-bottom:1px solid rgba(184,76,60,.45); padding-bottom:20px; }
+        .loop-overline { color:#ba6857; font-size:1.12rem; }
+        .loop-document-header h2 { font-family:'Cinzel',serif; color:#e3c3a8; font-size:1.4rem; letter-spacing:4px; line-height:1.35; }
+        .loop-subtitle { font-size:1.04rem; color:#ae9b8e; }
+        .loop-emphasis { padding:16px 18px; font-family:'Cormorant Garamond',serif; font-size:1.25rem; font-style:italic; text-align:center; color:#c9a99f; opacity:.85; }
+        .loop-chapter { border-left:1px solid rgba(159,83,74,.34); padding:2px 0 10px 17px; margin:27px 0 36px; }
+        .loop-chapter-title { font-family:'Cinzel',serif; font-weight:600; color:#cb9583; letter-spacing:2.2px; font-size:1.05rem; border-bottom:1px solid rgba(158,78,66,.32); padding-bottom:10px; }
+        #document-container .loop-chapter p { font-size:1.23rem; line-height:1.57; color:#dfcdc0; margin:.75rem 0; text-align:left; }
+        .loop-end-mark { text-align:center; border-top:1px dashed #805247; padding:20px 8px 6px; color:#c17f73; font-size:1.1rem; }
+        @media(max-width:720px) {
+            .fracture-layout { grid-template-columns:1fr; }
+            .fracture-view { max-width:500px; width:100%; margin:0 auto; box-sizing:border-box; }
+        }
+        @media(max-width:600px){ .recursive-section{padding:16px 12px 22px;} .loop-choices{gap:5px;} .loop-choice{min-height:86px;padding:5px 3px;} .fracture-choice-name{font-size:.9rem;} .loop-chapter{padding-left:12px;} .loop-document-header h2{font-size:1.15rem;} }
+        @media(prefers-reduced-motion:reduce) { .loop-lock.is-looping, #loop-manuscript.is-unsealed { animation:none; } .loop-action, .loop-choice { transition:none; } }
+
     </style>
 </head>
 <body>
@@ -3629,6 +3722,161 @@
             </div>
         </div>
 
+
+        <!-- SECTION VIII: Normal account + independent mnemonic loop. NOT warrant-only. -->
+        <section id="recursive-memory-section" class="recursive-section" aria-label="Restricted contemporary memory extension">
+            <div class="doc-section-title">VIII &mdash; Contemporary Memory // The Rooms We Return To</div>
+            <div class="recursive-meta">++ LOCAL MEMORY CACHE / RECENT MATERIAL / SUBJECT: ANURA CROIX ++</div>
+            <p class="recursive-intro">A secondary record is present beneath the archived testimony. Its access key is not the Warrant seal. The subject appears to have left an iterative mnemonic lock on the local copy.</p>
+            <div id="loop-lock" class="loop-lock fracture-stage-0">
+                <div class="loop-lock-title">++ FRACTURED CORRIDOR // ITERATIVE MEMORY LOCK ++</div>
+                <p>The archive contains a passage that cannot hold its shape. Rooms remember different things; corridors refuse to stay put. Somewhere beyond the last threshold, the record is waiting.</p>
+                <p class="loop-directions">The walls may change. Their scars do not. Watch what stays the same before choosing a door.</p>
+                <button id="loop-start" class="loop-action" type="button">[ CROSS THE FIRST THRESHOLD ]</button>
+                <div id="loop-game" class="loop-game" hidden>
+                    <div class="loop-game-status" aria-live="polite">
+                        <span id="loop-position">MEMORY 01 / 07</span>
+                        <span id="loop-cycles">RETURNS: 0</span>
+                    </div>
+                    <div class="fracture-meter" aria-label="Corridor decay"><span>STRUCTURAL DECAY</span><i></i><i></i><i></i><i></i></div>
+                    <div class="fracture-layout">
+                        <div class="fracture-view">
+                            <div class="fracture-map-caption"><span>LOCAL FLOOR TRACE</span><span id="fracture-map-version">MAP 001</span></div>
+                            <div id="fracture-map" class="fracture-map" role="group" aria-label="Changing schematic of three branching corridors; the numbered thresholds can also be selected here"></div>
+                            <div class="fracture-traces" id="fracture-traces" aria-label="Memory fragments recovered"></div>
+                        </div>
+                        <div class="fracture-console">
+                            <div class="fracture-console-label">++ CHAMBER TRANSCRIPT //</div>
+                            <div id="loop-ambient" class="loop-ambient" aria-live="polite"></div>
+                            <div class="fracture-scar" aria-label="Permanent mark on the chamber wall">
+                                <span id="fracture-scar-glyph" class="fracture-scar-glyph"></span>
+                                <div><small>ETCHED INTO THE WALL</small><span id="fracture-scar-label" class="fracture-scar-label"></span></div>
+                            </div>
+                            <div id="loop-clue" class="loop-clue"></div>
+                            <div id="fracture-echo" class="fracture-echo" aria-live="polite"></div>
+                        </div>
+                    </div>
+                    <div class="fracture-instruction">++ THREE DOORS // THE SIGNS LIE // THE SCAR REMAINS ++</div>
+                    <div id="loop-choices" class="loop-choices" role="group" aria-label="Choose one of three passageways"></div>
+                    <div id="loop-feedback" class="loop-feedback" role="status" aria-live="polite"></div>
+                </div>
+            </div>
+            <div id="loop-manuscript" class="loop-manuscript" aria-label="Recovered contemporary private memory" aria-hidden="true">
+                <div class="loop-document-header">
+                    <div class="loop-overline">++ ACCESS COMPLETED // NO WITNESS RECORDED ++</div>
+                    <h2>THE ROOMS WE RETURN TO</h2>
+                    <div class="loop-subtitle">Personal vox-memory // Contemporary continuation // Integrity uncertain</div>
+                </div>
+                <div class="loop-emphasis">&ldquo;It is possible to survive the same thing more than once. I am beginning to suspect I have been doing little else.&rdquo;</div>
+            <section class="loop-chapter" aria-label="I — A CARTRIDGE THAT DOES NOT EJECT">
+                <h3 class="loop-chapter-title">I — A CARTRIDGE THAT DOES NOT EJECT</h3>
+                <p>&ldquo;I am not hiding anymore. That's what people have taken to telling me, anyhow. As though announcing something dreadful in a room full of witnesses has the same effect as curing it.&rdquo;</p>
+                <p>&ldquo;They know I am an unsanctioned psyker. I am permitted to make myself useful, within whatever boundaries happen to be considered tolerable on a given day. I serve the Dynasty. Lady Acheron has accepted me as her Ward. I have been given instruments, instruction, and the sort of protection I once assumed belonged exclusively to people who had never been hungry.&rdquo;</p>
+                <p>&ldquo;I should be happy. There was a time when being discovered would have meant a rope or a bolt round. Now someone can ask me to move flesh, to mend it, or to use the vermin to find whatever has crawled into the walls, and I am expected to comply rather than burn.&rdquo;</p>
+                <p>&ldquo;Sometimes that feels like freedom. Sometimes I think the only thing that has changed is that the people holding the door open have decided I am worth more on this side of it.&rdquo;</p>
+                <p>&ldquo;I still wash my hands before treating a patient. I still arrange instruments in the same order. I still make certain the injured can see my face before I touch them, if they can bear to look at it.&rdquo;</p>
+                <p>&ldquo;Then I reach for something that cannot possibly be there. A pulse beneath an unbroken surface. A bone I can feel bending before it moves. An entire body answering a thought the way a hand answers a command.&rdquo;</p>
+                <p>&ldquo;There is no button I can press to return to not knowing.&rdquo;</p>
+            </section>
+            <section class="loop-chapter" aria-label="II — THE FIGURE BEYOND THE DOOR">
+                <h3 class="loop-chapter-title">II — THE FIGURE BEYOND THE DOOR</h3>
+                <p>&ldquo;The little things are easier. A rat beneath a grate. Another in a ventilation shaft. Their eyes don't ask questions, and their hearts keep a rhythm simple enough that I can almost lose myself listening to it.&rdquo;</p>
+                <p>&ldquo;I have looked down corridors from bodies that were not mine. I've watched myself walk from the other end of a room. I have seen the back of my own coat moving away, antlers passing beneath a bulkhead, and for an instant felt as though I might catch up with the woman who went around the corner before me.&rdquo;</p>
+                <p>&ldquo;She always keeps walking.&rdquo;</p>
+                <p>&ldquo;Biomancy has made that feeling worse. I'm able to account for every small mechanism of the body and yet have less certainty about the thing inhabiting mine. I used to place a hand against a wounded man's chest and ask whether I could keep his heart beating until help arrived. Now I know that with sufficient effort I could change the shape of his chest entirely.&rdquo;</p>
+                <p>&ldquo;It's impossible not to consider the other uses. That is the difficulty with learning something so thoroughly. You don't get to learn only the merciful half.&rdquo;</p>
+                <p>&ldquo;Verminspeaker. Biomancer. The names sound so orderly when someone else says them. They do not account for what passes through my mind while I use either gift.&rdquo;</p>
+                <p>&ldquo;I have been entrusted with a witchblade. A scythe, of all things. I was authorized to carry it and was expected to understand the responsibilities that came with it.&rdquo;</p>
+                <p>&ldquo;I wish the weapon felt like another instrument in the medicae crate. It doesn't.&rdquo;</p>
+                <p>&ldquo;I don't hear orders from it. That would be a comfort, almost. Something to argue with. Instead there are moments when disgust feels very far away, when a decision that ought to require consideration arrives complete and untroubled. I know the difference. I notice it happening.&rdquo;</p>
+                <p>&ldquo;I am becoming less certain I always want it to stop.&rdquo;</p>
+            </section>
+            <section class="loop-chapter" aria-label="III — A DOOR MARKED WITH HIS NAME">
+                <h3 class="loop-chapter-title">III — A DOOR MARKED WITH HIS NAME</h3>
+                <p>&ldquo;Horrigan is to marry Evodia.&rdquo;</p>
+                <p>&ldquo;I have written the words several times now. They don't become any more agreeable.&rdquo;</p>
+                <p>&ldquo;He did not betray me. We had made no promises of the kind that could be broken. It would be easier if he had. Easier to point to an offence, assign blame, take the familiar route through anger and find myself entitled to stand at the other end.&rdquo;</p>
+                <p>&ldquo;Instead, he is happy. Or ought to be. I should be pleased for him, and I can usually manage a convincing approximation when people are watching.&rdquo;</p>
+                <p>&ldquo;I have been trying to persuade myself that what I feel is merely fear of losing a friend. That explanation is tidy, charitable, and entirely insufficient.&rdquo;</p>
+                <p>&ldquo;I am jealous. I resent the news. I resent that I resent it. I find myself measuring the warmth of his voice, the occasions on which he seeks my company, and every kindness he offers, as though any of it were a promise he failed to realize he made.&rdquo;</p>
+                <p>&ldquo;He owes me nothing. Knowing that hasn't helped.&rdquo;</p>
+                <p>&ldquo;There are times when I imagine saying something unforgivable simply to stop having to carry it quietly. At others I want to withdraw before anyone notices. Neither thought survives a chance encounter with him.&rdquo;</p>
+                <p>&ldquo;I cannot find a door that leads around this. The corridor always seems to bring me back to his name.&rdquo;</p>
+            </section>
+            <section class="loop-chapter" aria-label="IV — THE AIR TASTED OF IRON">
+                <h3 class="loop-chapter-title">IV — THE AIR TASTED OF IRON</h3>
+                <p>&ldquo;The mutant threatened the entire party. That is important to record, because otherwise I know what this will sound like. It was hostile and dangerous, and we were right to put it down.&rdquo;</p>
+                <p>&ldquo;It simply wasn't much of a danger to me.&rdquo;</p>
+                <p>&ldquo;I could have ended the engagement quickly. I could have assisted someone else in doing so. I have done both on occasions more desperate than this one.&rdquo;</p>
+                <p>&ldquo;But I had learned of the engagement, and the ugly little thoughts I carried into that fight had not become any quieter. I wanted to exert myself. I wanted something to yield. In truth I wanted to feel that, for one moment, something in front of me had to do precisely what I demanded of it.&rdquo;</p>
+                <p>&ldquo;I placed two fingers against the mutant's sternum.&rdquo;</p>
+                <p>&ldquo;I felt the bones rearrange before I heard them break. Its knees folded down. Its arms were drawn backward into a position no living body could sustain. The ribs contracted, and the creature's attempts to breathe ended somewhere inside the collapse.&rdquo;</p>
+                <p>&ldquo;It was still a threat when I touched it. It wasn't by the time I finished.&rdquo;</p>
+                <p>&ldquo;I kept going. I made it kneel.&rdquo;</p>
+                <p>&ldquo;There was a moment when the entire thing seemed terribly easy, and I mistook that ease for control. The body was dead before I properly noticed that the others had stopped fighting to watch me.&rdquo;</p>
+                <p>&ldquo;Some were shocked. Horrigan looked as though the person standing before him had become something he couldn't reconcile with the one he knew. It is a look I remember far more clearly than the face of the mutant.&rdquo;</p>
+                <p>&ldquo;I told myself the party was safer. It was true, in the narrowest possible sense. I had killed our enemy.&rdquo;</p>
+                <p>&ldquo;That does not explain the arrangement I left its remains in. It does not explain why I wanted it to be seen.&rdquo;</p>
+                <p>&ldquo;And the worst part is that I cannot tell whether I regret the act, or merely regret that Horrigan watched me do it.&rdquo;</p>
+            </section>
+            <section class="loop-chapter" aria-label="V — THE MAN WHO WAS ALLOWED TO LEAVE">
+                <h3 class="loop-chapter-title">V — THE MAN WHO WAS ALLOWED TO LEAVE</h3>
+                <p>&ldquo;There was a hired gun at the beginning of the raid.&rdquo;</p>
+                <p>&ldquo;He had been persuaded to leave peacefully. The matter was settled. He was running out of the fighting and past our position. He was doing precisely what had been asked of him.&rdquo;</p>
+                <p>&ldquo;I was holding the scythe.&rdquo;</p>
+                <p>&ldquo;I remember the movement with an unpleasant clarity. The angle of his approach, the turn of his shoulders, his attention fixed on getting away. I knew which way he was going. I had more than enough time to let him pass.&rdquo;</p>
+                <p>&ldquo;I stepped into it instead.&rdquo;</p>
+                <p>&ldquo;One sweep, and his head was gone. The rest of him kept its momentum for an instant, as though the body hadn't yet been informed that the bargain was over.&rdquo;</p>
+                <p>&ldquo;There was no tactical necessity. No sudden reversal on his part. He had accepted the chance to live.&rdquo;</p>
+                <p>&ldquo;I took it away.&rdquo;</p>
+                <p>&ldquo;I have tried to blame the witchblade. It is certainly doing something to me. My temper has become sharper, and I find that the suffering of people I would once have pitied produces an increasingly distant response. I cannot always find the feeling that ought to be there. Sometimes I don't even look for it.&rdquo;</p>
+                <p>&ldquo;But the blade was in my hands. I moved it. I could have left it still.&rdquo;</p>
+                <p>&ldquo;It is one thing to be frightened of the thoughts that arrive uninvited. It is another to discover that carrying them out requires so little effort.&rdquo;</p>
+                <p>&ldquo;I remember looking at the path he'd been running toward.&rdquo;</p>
+                <p>&ldquo;For a ridiculous moment I thought of the underhive, of all those times I would have given anything for someone to tell me I was free to go.&rdquo;</p>
+                <p>&ldquo;I knew what I had stolen from him.&rdquo;</p>
+                <p>&ldquo;I kept walking.&rdquo;</p>
+            </section>
+            <section class="loop-chapter" aria-label="VI — AN ORDER FROM THE OTHER SIDE">
+                <h3 class="loop-chapter-title">VI — AN ORDER FROM THE OTHER SIDE</h3>
+                <p>&ldquo;Another hired gun had fired at me. By the time I reached him, the fight was already decided. He lay unconscious, disarmed and no longer capable of making a choice that mattered to our safety.&rdquo;</p>
+                <p>&ldquo;I intended to kill him anyway.&rdquo;</p>
+                <p>&ldquo;I had my reasons ready. He'd shot at me. He was an enemy. We were in a raid, not a hospitaller's ward. I could arrange them into something approaching a justification before anyone had even thought to ask.&rdquo;</p>
+                <p>&ldquo;I was stopped by an order.&rdquo;</p>
+                <p>&ldquo;Not by revulsion. Not by remembering the oath of care I'd never formally taken but had spent years acting upon. Someone told me to stop, and I obeyed because the instruction was clear and the person giving it had the right to command me.&rdquo;</p>
+                <p>&ldquo;I ought to have felt relieved.&rdquo;</p>
+                <p>&ldquo;I felt interrupted.&rdquo;</p>
+                <p>&ldquo;Later I remembered kneeling beside wounded soldiers while officers argued that supplies were being wasted. I remembered the ones who couldn't speak, and how carefully I would reposition their heads so they could breathe. I used to despise the sort of person who looked at an injured body and saw only an inconvenience.&rdquo;</p>
+                <p>&ldquo;I can still recite all the reasons that person is contemptible.&rdquo;</p>
+                <p>&ldquo;I am beginning to resemble her.&rdquo;</p>
+                <p>&ldquo;The witchblade was quiet after that. If it was pleased or disappointed, it made no distinction I could feel.&rdquo;</p>
+                <p>&ldquo;I kept waiting for the familiar disgust to arrive. It came late, and faintly, like a vox transmission received at the edge of its range.&rdquo;</p>
+                <p>&ldquo;I do not know which frightens me more: that I was stopped, or that I needed to be.&rdquo;</p>
+            </section>
+            <section class="loop-chapter" aria-label="VII — THE SIGNAL THAT NEVER ARRIVED">
+                <h3 class="loop-chapter-title">VII — THE SIGNAL THAT NEVER ARRIVED</h3>
+                <p>&ldquo;Some nights the passages of this vessel seem to shift after the watch changes. I walk past a damaged lumen, a rivet stained red with old sealant, and a door whose activation plate hesitates before recognizing a hand.&rdquo;</p>
+                <p>&ldquo;Then the next corridor offers the same three things.&rdquo;</p>
+                <p>&ldquo;I turn back. Sometimes I see my own retreat in a rat's eyes, a glimpse of my coat going around a corner I have not reached. Sometimes I hear boots where there should be hooves. Sometimes I don't need any unnatural assistance at all. Memory is quite capable of misleading me by itself.&rdquo;</p>
+                <p>&ldquo;I think of the first crater. Harl and Merek. The men whose cries I heard while I waited for there to be no witnesses. I used to console myself that I was young and ignorant. I had never known what my powers could do.&rdquo;</p>
+                <p>&ldquo;I cannot use that explanation now.&rdquo;</p>
+                <p>&ldquo;Every room has acquired another version of the same question. What would I have done if nobody were looking? If no one had ordered me to stop? If Horrigan had been facing the other way?&rdquo;</p>
+                <p>&ldquo;I have tried to send these questions somewhere useful, to turn them into a warning I might leave for myself. The words sit in my throat like a failed distress call. I can compose it. I can imagine someone receiving it. Then I go about my duties without saying a thing.&rdquo;</p>
+                <p>&ldquo;I'm not ready to ask Horrigan what he thinks of me. I am even less ready to hear him answer. I cannot bear to think of his marriage without feeling the same cruel, unreasonable tightening in my chest, and I don't know what part of that feeling belongs to me and what part the weapon has made easier to indulge.&rdquo;</p>
+                <p>&ldquo;I tell myself I will put the scythe away after the next engagement. That I will avoid the next argument. That I will be kinder to the next prisoner. The next wounded man. The next person who gives me an opportunity to prove that I can still decide.&rdquo;</p>
+                <p>&ldquo;Next. Always next.&rdquo;</p>
+                <p>&ldquo;I know exactly how that sounds. The corridor offers me another door, and I decide I will change on the far side of it.&rdquo;</p>
+                <p>&ldquo;I open it.&rdquo;</p>
+                <p>&ldquo;The damaged lumen is there. The red stain. The reluctant activation plate.&rdquo;</p>
+                <p>&ldquo;I am back where I began.&rdquo;</p>
+                <p>&ldquo;I can hear someone moving in the passage ahead. I try to catch sight of them before they turn the corner.&rdquo;</p>
+                <p>&ldquo;For a moment I see the back of my own coat.&rdquo;</p>
+                <p>&ldquo;And then I follow.&rdquo;</p>
+            </section>
+                <div class="loop-end-mark">++ RECORD ENDS MID-TRANSIT // NEITHER ABSOLUTION NOR EXIT LOCATED ++</div>
+            </div>
+        </section>
+
         <br>
         <div style="text-align: center; font-family: 'Cinzel', serif; letter-spacing: 6px; font-size: 0.9rem;">++ END OF RECORD ++</div>
         <br><br>
@@ -3638,6 +3886,193 @@
 </div>
 
 <script>
+
+    // --- SECTION VIII / FRACTURED CORRIDOR ---
+    // Self-contained ordinary-login puzzle. Never reads or modifies Warrant access.
+    (function setupFracturedCorridor(){
+        const rooms = [
+            { name:'THE RETURNING HALL', scar:'◈', label:'FRACTURED DIAMOND', scene:'A hallway of doors, each opening onto the back of someone wearing your coat. Antlers vanish around a turn before you reach it.', echo:'Footsteps approach from ahead. They have precisely your cadence.', repeat:'A voice behind the bulkhead says that if you keep walking, something will eventually change.' },
+            { name:'THE LOWER HAB', scar:'⌁', label:'DOUBLE SCAR', scene:'Water seeps through rusted decking. Small bodies move under the grates. You can hear a hundred hearts, but only one seems to be yours.', echo:'A child asks how far it is to the surface. Nobody answers.', repeat:'The hunger is gone. The instinct to keep running never left.' },
+            { name:'THE FIELD STATION', scar:'✚', label:'BROKEN SUTURE', scene:'A medic\'s table stands beneath a flickering lumen. The instruments have been sterilised; the stains beneath them have not.', echo:'The hands that learned to close wounds also learned where to open them.', repeat:'The patient has no face. Every time you look again, it has another.' },
+            { name:'THE UNRUNG BELL', scar:'◇', label:'HOLLOW VOW', scene:'A ceremonial aisle stretches through a military corridor. There is no ceremony here, yet a name you cannot bear to hear remains written on the wall.', echo:'You tell yourself that his happiness should be enough. It never is.', repeat:'A bell rings in the next room. The next room is empty. You still cannot make yourself leave.' },
+            { name:'THE RED PASSAGE', scar:'✶', label:'THORNED STAR', scene:'A hired gun is running away. A pale blade crosses the passage before he passes. The moment repeats; his last step never reaches the floor.', echo:'He was permitted to leave. Your hand decided otherwise.', repeat:'The blade remembers the movement. Each repetition grows easier.' },
+            { name:'THE KNEELING ROOM', scar:'⊗', label:'CLOSED CIRCLE', scene:'The mutant was a threat to the party, though scarcely to you. Its bones take a shape that serves no tactical purpose. Others recoil.', echo:'You were strong enough to end the fight. The cruelty came afterward.', repeat:'A second wounded gunman lies motionless nearby. You are stopped by an order before you can finish what you begin.' },
+            { name:'THE FALSE EXIT', scar:'○', label:'EMPTY RING', scene:'A door carries the word EXIT in peeling paint. Behind its small window you see yourself entering this very room.', echo:'The scythe is quiet. The thought of using it again is not.', repeat:'The door will not ask whether you have changed. It only asks whether you will keep the memory.' }
+        ];
+        const lock = document.getElementById('loop-lock');
+        const start = document.getElementById('loop-start');
+        const game = document.getElementById('loop-game');
+        const manuscript = document.getElementById('loop-manuscript');
+        const choices = document.getElementById('loop-choices');
+        const feedback = document.getElementById('loop-feedback');
+        const traces = document.getElementById('fracture-traces');
+        const map = document.getElementById('fracture-map');
+        const meter = lock && lock.querySelectorAll('.fracture-meter i');
+        if (!lock || !start || !game || !manuscript || !choices || !feedback || !map || !traces) return;
+
+        const posLabel = document.getElementById('loop-position');
+        const cyclesLabel = document.getElementById('loop-cycles');
+        const roomLabel = document.getElementById('loop-ambient');
+        const clue = document.getElementById('loop-clue');
+        const echo = document.getElementById('fracture-echo');
+        const scarGlyph = document.getElementById('fracture-scar-glyph');
+        const scarLabel = document.getElementById('fracture-scar-label');
+        const directions = ['LEFT','STRAIGHT','RIGHT'];
+        const falseNames = ['EXIT','SAFE','HOME','WAKE','RETURN','FORGET'];
+        let position = 0, returns = 0, crossings = 0, unlocked = false;
+        let previousLayout = '', activeExits = [];
+        const visits = Array(rooms.length).fill(0);
+        const discovered = new Set();
+
+        // Uses shuffled exit locations. The etched glyph remains the only invariant.
+        function shuffled(arr) {
+            const copy = arr.slice();
+            for (let i=copy.length-1;i>0;i--) {
+                const j=Math.floor(Math.random()*(i+1));
+                [copy[i],copy[j]]=[copy[j],copy[i]];
+            }
+            return copy;
+        }
+        function exitsForRoom() {
+            const trueRoom=rooms[position];
+            const decoys=shuffled(rooms.filter((r,i)=>i!==position)).slice(0,2);
+            const exits=shuffled([{glyph:trueRoom.scar,label:trueRoom.label,correct:true},...decoys.map((r,i)=>({glyph:r.scar,label:r.label,correct:false,falseSign:false}))]);
+            const old=previousLayout;
+            if (old && exits.map(e=>e.glyph).join('')===old) exits.push(exits.shift());
+            previousLayout=exits.map(e=>e.glyph).join('');
+            if (crossings>=2) {
+                const fake=exits.find(e=>!e.correct);
+                if (fake) fake.falseSign = true;
+            }
+            return exits;
+        }
+        function decayStage(){ return Math.min(4,Math.floor((crossings+returns*2)/3)); }
+        function drawMap(exits) {
+            // Regenerate a schematic on EVERY crossing. Never trust its route geometry.
+            const w=9,h=7, path=new Set(['4,6']);
+            const add=(x,y)=>path.add(x+','+y);
+            const targets=[1,4,7];
+            for (let lane=0;lane<3;lane++) {
+                let oldX=4;
+                for(let y=5;y>=0;y--) {
+                    const t=targets[lane], fraction=(6-y)/6;
+                    let x=Math.round(4+(t-4)*fraction);
+                    if(y>0 && y<5 && Math.random()<.44) x+=Math.random()<.5?-1:1;
+                    x=Math.max(0,Math.min(8,x));
+                    for(let xx=Math.min(x,oldX);xx<=Math.max(x,oldX);xx++) add(xx,y);
+                    oldX=x;
+                }
+                for(let xx=Math.min(oldX,targets[lane]);xx<=Math.max(oldX,targets[lane]);xx++)add(xx,0);
+            }
+            // Irrelevant dead ends alter each time the room reconfigures.
+            for (let i=0;i<7;i++) add(Math.floor(Math.random()*9),Math.floor(Math.random()*6));
+            const fragment=document.createDocumentFragment();
+            for(let y=0;y<h;y++) for(let x=0;x<w;x++){
+                const isDoor=y===0 && targets.includes(x);
+                const tile=document.createElement(isDoor?'button':'span');
+                tile.className='fracture-tile';
+                if(path.has(x+','+y)) tile.classList.add('hall');
+                if(y===0 && targets.includes(x)) {
+                    const door=targets.indexOf(x);
+                    tile.classList.add('threshold');
+                    if(exits[door].correct) tile.classList.add('true-threshold');
+                    tile.type='button';
+                    tile.textContent=String(door+1);
+                    tile.setAttribute('aria-label','Corridor '+(door+1)+', '+directions[door]+', '+exits[door].glyph);
+                    tile.addEventListener('click',()=>choose(door));
+                } else if(x===4 && y===6) tile.classList.add('player');
+                else if(returns>=2 && x===4 && y===3) tile.classList.add('ghost');
+                else if(crossings>=2 && path.has(x+','+y) && Math.random()<Math.min(.34,crossings*.03)) tile.classList.add('cracked');
+                fragment.appendChild(tile);
+            }
+            map.replaceChildren(fragment);
+            document.getElementById('fracture-map-version').textContent='MAP '+String(crossings+1).padStart(3,'0');
+        }
+        function drawTraces(){
+            traces.replaceChildren();
+            rooms.forEach((r,i)=>{
+                const cell=document.createElement('span');
+                if(discovered.has(i)) cell.classList.add('seen');
+                if(i===position) cell.classList.add('active');
+                cell.textContent=discovered.has(i)?r.scar:'·';
+                cell.title=discovered.has(i)?r.name:'UNRECOVERED TRACE';
+                traces.appendChild(cell);
+            });
+        }
+        function render() {
+            const room=rooms[position];
+            const previouslyVisited=visits[position]>0;
+            visits[position]++;
+            discovered.add(position);
+            const stage=decayStage();
+            for(let i=0;i<=4;i++)lock.classList.toggle('fracture-stage-'+i,i===stage);
+            [...meter].forEach((segment,i)=>segment.classList.toggle('lit',i<stage));
+            posLabel.textContent='MEMORY '+String(position+1).padStart(2,'0')+' / '+String(rooms.length).padStart(2,'0');
+            cyclesLabel.textContent='RETURNS: '+returns+' // DISTORTION: '+stage+'/4';
+            roomLabel.textContent=room.name;
+            scarGlyph.textContent=room.scar;
+            scarLabel.textContent=room.label;
+            clue.textContent=room.scene;
+            echo.textContent=previouslyVisited || returns>=2 ? room.repeat : room.echo;
+            activeExits=exitsForRoom();
+            choices.replaceChildren();
+            activeExits.forEach((door,index)=>{
+                const btn=document.createElement('button');
+                btn.type='button'; btn.className='loop-choice';
+                btn.dataset.correct=door.correct?'true':'false';
+                const dir=document.createElement('span');dir.className='fracture-choice-dir';dir.textContent='['+(index+1)+'] '+directions[index];
+                const glyph=document.createElement('span');glyph.className='fracture-choice-mark';glyph.textContent=door.glyph;
+                const name=document.createElement('span');name.className='fracture-choice-name';name.textContent=door.falseSign?falseNames[(crossings+index)%falseNames.length]:door.label;
+                btn.append(dir,glyph,name);
+                btn.setAttribute('aria-label',directions[index]+', '+name.textContent+', mark '+door.glyph);
+                btn.addEventListener('click',()=>choose(index));
+                choices.appendChild(btn);
+            });
+            drawMap(activeExits);drawTraces();
+        }
+        function shudder(){
+            lock.classList.remove('is-looping');
+            void lock.offsetWidth;
+            lock.classList.add('is-looping');
+        }
+        function complete(){
+            unlocked=true;game.hidden=true;start.hidden=true;
+            lock.querySelector('.loop-lock-title').textContent='++ MEMORY STRATUM RECONSTRUCTED // RECORD AVAILABLE ++';
+            lock.querySelector('.loop-directions').textContent='The corridor has not ended. The testimony is all that remains.';
+            feedback.textContent='';
+            manuscript.classList.add('is-unsealed');
+            manuscript.setAttribute('aria-hidden','false');
+            if(typeof window.warpRefresh==='function')window.warpRefresh();
+            manuscript.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
+        }
+        function choose(index){
+            if(unlocked || game.hidden || !activeExits[index])return;
+            const good=activeExits[index].correct;
+            crossings++;
+            if(good){
+                if(position===rooms.length-1){complete();return;}
+                position++;
+                feedback.textContent='++ ONE MEMORY HOLDS // THE REST REARRANGE THEMSELVES ++';
+            } else {
+                returns++;
+                position=Math.max(0,position-(returns%3===0?2:1));
+                feedback.textContent=returns===1?'++ FALSE EXIT // AN OLD FOOTSTEP ANSWERS YOUR OWN ++':
+                    returns<4?'++ WRONG THRESHOLD // THE FLOOR PLAN HAS BEEN REWRITTEN ++':
+                    '++ YOU HAVE PASSED THIS WAY BEFORE // SOMETHING IS WAITING ++';
+                shudder();
+            }
+            render();
+        }
+        start.addEventListener('click',()=>{
+            if(unlocked)return;
+            start.hidden=true;game.hidden=false;
+            position=0;returns=0;crossings=0;visits.fill(0);discovered.clear();previousLayout='';
+            feedback.textContent='++ FIRST FOOTSTEP RECORDED // EXIT SIGNS ARE NOT EVIDENCE ++';
+            render();
+            const first=choices.querySelector('button');if(first)first.focus();
+        });
+    })();
+
     // --- FIREBASE SETUP ---
     const firebaseConfig = {
         apiKey: "AIzaSyDmUZ5mw9QPZFjlgujcJF8lK0Hg5lxeDKg",
